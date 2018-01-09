@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-//7:45 1/8/2018 Branden Amstutz
+//7:48 1/8/2018 Branden Amstutz
 public class Robot extends IterativeRobot {
 	RobotDrive myRobot = new RobotDrive(0, 1);
 	Joystick stick = new Joystick(0);
