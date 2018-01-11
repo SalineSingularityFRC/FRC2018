@@ -13,12 +13,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-//7:48 1/8/2018 Branden Amstutz
-//Alex MAh says Hiye
+
 public class Robot extends IterativeRobot {
-	RobotDrive myRobot = new RobotDrive(0, 1);
-	Joystick stick = new Joystick(0);
-	Timer timer = new Timer();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,8 +29,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		timer.reset();
-		timer.start();
 	}
 
 	/**
@@ -42,14 +36,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// Drive for 2 seconds
-		if (timer.get() < 2.0) {
-			myRobot.drive(-0.5, 0.0); // drive forwards half speed
-		} else {
-			myRobot.drive(0.0, 0.0); // stop robot
-		}
+		
 	}
-
 	/**
 	 * This function is called once each time the robot enters tele-operated
 	 * mode
@@ -63,7 +51,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		myRobot.arcadeDrive(stick);
+	
 	}
 
 	/**
@@ -71,6 +59,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
+	
 	}
 }
