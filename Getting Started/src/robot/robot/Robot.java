@@ -13,7 +13,10 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
 	
-	int frontRightMotor;
+	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
+	
+	SingularityDrive drive;
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -21,6 +24,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		drive = new SingularityDrive(frontLeftMotor, backLeftMotor,
+				frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
 	}
 
 	/**
