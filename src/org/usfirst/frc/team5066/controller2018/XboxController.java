@@ -1,3 +1,5 @@
+package org.usfirst.frc.team5066.controller2018;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 public class XboxController extends Joystick{

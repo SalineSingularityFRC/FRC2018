@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5066.robot;
 
+import org.usfirst.frc.team5066.library.SingularityDrive;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 

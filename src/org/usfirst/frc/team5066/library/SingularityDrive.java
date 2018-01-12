@@ -241,14 +241,14 @@ public class SingularityDrive {
 		
 		// Guard against illegal values
 		double mainWheelMaximum = Math.max(1, Math.abs(vertical) + Math.abs(rotation));
-		double hWheelMaximum = Math.max(1, Math.abs(horizontal));
+		//double hWheelMaximum = Math.max(1, Math.abs(horizontal));
 		
 		//if (buttonPressed) {
 			//mainWheelMaximum *= 1 / reducedVelocity;
 			//hWheelMaximum *= 1  / reducedVelocity;
 		//}
 		
-		horizontal = threshold(horizontal);
+		//horizontal = threshold(horizontal);
 		rotation = threshold(rotation);
 		
 		m_frontLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
@@ -306,7 +306,7 @@ public class SingularityDrive {
 		
 		switch(speedMode) {
 		case SLOW:
-			velocitMultiplier = this.slowSpeedConstant;
+			//velocitMultiplier = this.slowSpeedConstant;
 			SmartDashboard.putString("Db/String 8",  "Using slow speed constant");
 			break;
 		case NORMAL:
@@ -333,7 +333,7 @@ public class SingularityDrive {
 	public void arcade(double translation, double rotation) {
 		// Just do the arcade without squared inputs at normal speed mode,
 		//and without reverse
-		this.arcade(translation, rotation, false, SpeedMode.NORMAL);
+		//this.arcade(translation, rotation, false, SpeedMode.NORMAL);
 	}
 
 	/**
