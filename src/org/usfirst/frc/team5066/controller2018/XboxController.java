@@ -2,8 +2,27 @@ package org.usfirst.frc.team5066.controller2018;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class XboxController extends Joystick{
+/**
+ * This class is a subclass of Joystick where the methods
+ * are conveniently named. For example, instead of remembering
+ * the port number of the B button on the Xbox controller,
+ * one can simply use the method getBButton() through this class.
+ * 
+ * @author camtr
+ *
+ */
 
+public class XboxController extends Joystick{
+	
+	/**
+	 * Constructor for XboxController
+	 * 
+	 * @param port is the port number needed to 
+	 * communicate with the xbox controller. In the past,
+	 * this number has been 0 by default.
+	 * 
+	 */
+	
 	public XboxController(int port) {
 		super(port);
 	}
