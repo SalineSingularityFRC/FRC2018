@@ -40,7 +40,7 @@ public class SingularityDrive {
 	public static final int TALON_SR_DRIVE = 1;
 
 	private static final int DEFAULT_TALON_TYPE = CANTALON_DRIVE;
-	private final static double DEFAULT_SLOW_SPEED_CONSTANT = 0.4;
+	//private final static double DEFAULT_SLOW_SPEED_CONSTANT = 0.4;
 	private final static double DEFAULT_NORMAL_SPEED_CONSTANT = 0.8;
 	private final static double DEFAULT_FAST_SPEED_CONSTANT = 1.0;
 
@@ -64,7 +64,7 @@ public class SingularityDrive {
 			int midLeftMotor) {
 		this(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor,
 				midLeftMotor, DEFAULT_TALON_TYPE,
-				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
+				DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
 	}
 
 	/**
@@ -154,17 +154,6 @@ public class SingularityDrive {
 		return (((CANTalon) m_leftMiddleMotor).getPosition());
 	}
 
-	
-	
-	private double clamp(double velocityMultiplier) {
-		if (velocityMultiplier > 1.0) {
-			return 1.0;
-		} else if (velocityMultiplier < -1.0) {
-			return -1.0;
-		} else {
-			return velocityMultiplier;
-		}
-	}
 
 	public void setVelocityMultiplier(double velocityMultiplier) {
 		this.velocityMultiplier = this.clamp(velocityMultiplier);
@@ -231,7 +220,7 @@ public class SingularityDrive {
 	 *            and 0 = forward
 	 */
 	
-	public void hDrive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode) {
+	public void hDrive(double vertical, double rotation, boolean squaredInputs, SpeedMode speedMode) {
 		
 		setVelocityMultiplierBasedOnSpeedMode(speedMode);
 		
@@ -239,7 +228,6 @@ public class SingularityDrive {
 		if (squaredInputs) {
 			vertical *= Math.abs(vertical);
 			rotation *= Math.abs(rotation);
-			horizontal *= Math.abs(horizontal);
 		}
 		
 		// Guard against illegal values
@@ -251,16 +239,15 @@ public class SingularityDrive {
 			//hWheelMaximum *= 1  / reducedVelocity;
 		//}
 		
-		vertical = threshold(vertical);
 		horizontal = threshold(horizontal);
 		rotation = threshold(rotation);
 		
 		m_frontLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
 		m_rearLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
+		m_leftMiddleMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
 		m_frontRightMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
 		m_rearRightMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
+		m_rightMiddleMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));		
 		
 		//for testing purposes only
 		/*SmartDashboard.putString("DB/String 0", "Front Left Motor " + m_frontLeftMotor.get());
@@ -273,20 +260,19 @@ public class SingularityDrive {
 		
 	}
 	
-	public void hDriveTank(double left, double right, double horizontal, boolean squaredInputs, SpeedMode speedMode) {
+	public void hDriveTank(double left, double right, boolean squaredInputs, SpeedMode speedMode) {
 		setVelocityMultiplierBasedOnSpeedMode(speedMode);
 		
 		// Do squared inputs if necessary
 		if (squaredInputs) {
 			left *= Math.abs(left);
 			right *= Math.abs(right);
-			horizontal *= Math.abs(horizontal);
+		
 		}
 		
 		// Guard against illegal values
 		double rightWheelMaximum = Math.max(1, Math.abs(right));
 		double leftWheelMaximum = Math.max(1,  Math.abs(left));
-		double hWheelMaximum = Math.max(1, Math.abs(horizontal));
 	
 		//if (buttonPressed) {
 			//rightWheelMaximum *= 1 / reducedVelocity;
@@ -295,90 +281,33 @@ public class SingularityDrive {
 		//}
 				
 		left = threshold(left);
-		right = threshold(right);
-		horizontal = threshold(horizontal);
+		right = threshold(right);		
 		
 		m_frontLeftMotor.set(this.velocityMultiplier * (-left /leftWheelMaximum));
 		m_rearLeftMotor.set(this.velocityMultiplier * (-left / leftWheelMaximum));
+		m_leftMiddleMotor.set(this.velocityMultiplier * (-left / leftWheelMaximum));
 		m_frontRightMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
 		m_rearRightMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * (horizontal / hWheelMaximum));
+		m_rightMiddleMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
+		
 				
-	}
-	
-	public void arcade(double translation, double rotation, boolean squaredInputs, SpeedMode speedMode) {
-		double translationVelocity = translation, rotationVelocity = rotation;
-		
-		setVelocityMultiplierBasedOnSpeedMode(speedMode);
-		
-		// Do squared inputs if necessary
-		if (squaredInputs) {
-			translationVelocity *= Math.abs(translation);
-			rotationVelocity *= Math.abs(rotation);
-		}
-		
-		// Do reverse drive when necessary. There are methods above for different inputs.
-		/*if (reverse) {
-			translationVelocity = -translationVelocity;
-			rotationVelocity = -rotationVelocity;
-		}
-		*/
-		// Guard against illegal values
-		double maximum = Math.max(1, Math.abs(translationVelocity) + Math.abs(rotationVelocity));
-
-		if (velocityReduceActivated) {
-			maximum *= 1 / reducedVelocity;
-		}
-
-		translationVelocity = threshold(translationVelocity);
-		rotationVelocity = threshold(rotationVelocity);
-
-		// Set the motors
-		m_frontLeftMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_frontRightMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_rearRightMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-	}
-
-	public void arcade(double translation, double rotation, boolean squaredInputs) {
-		this.arcade(translation, rotation, squaredInputs, SpeedMode.NORMAL);
 	}
 	
 	private void setVelocityMultiplierBasedOnSpeedMode(SpeedMode speedMode) {
 		
 		switch(speedMode) {
-		case SLOW:
-			velocityMultiplier = this.slowSpeedConstant;
-			SmartDashboard.putString("DB/String 8", "Using slow speed constant");
-			break;
-		case NORMAL:
-			velocityMultiplier = this.normalSpeedConstant;
-			SmartDashboard.putString("DB/String 8", "Using normal speed constant");
-			break;
-		case FAST:
-			velocityMultiplier = this.fastSpeedConstant;
-			SmartDashboard.putString("DB/String 8", "Using fast speed constant");
-			break;
+			case NORMAL:
+				velocityMultiplier = this.normalSpeedConstant;
+				SmartDashboard.putString("DB/String 8", "Using normal speed constant");
+				break;
+			case FAST:
+				velocityMultiplier = this.fastSpeedConstant;
+				SmartDashboard.putString("DB/String 8", "Using fast speed constant");
+				break;
 		}
 	}
 
-	/**
-	 * So called "arcade drive" method for driving a robot around. Drives much
-	 * like one would expect a vehicle to move with a joy stick. This method
-	 * does not assume squared inputs.
-	 * 
-	 * @param translation
-	 *            Speed and direction at which to translate forwards
-	 * @param rotation
-	 *            Speed and direction at which to rotate clockwise
-	 */
-	public void arcade(double translation, double rotation) {
-		// Just do the arcade without squared inputs at normal speed mode,
-		//and without reverse
-		this.arcade(translation, rotation, false, SpeedMode.NORMAL);
-	}
-
+	
 	/**
 	 * A method for driving a robot with Mecanum wheels (allowing full
 	 * translation and rotation). This function uses the algorithm found on
