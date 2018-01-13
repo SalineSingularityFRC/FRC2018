@@ -3,9 +3,12 @@ package org.usfirst.frc.team5066.robot;
 import org.usfirst.frc.team5066.controller2018.ControlScheme;
 import org.usfirst.frc.team5066.controller2018.controlSchemes.BasicDrive;
 import org.usfirst.frc.team5066.library.SingularityDrive;
+import org.usfirst.frc.team5066.library.SingularityProperties;
+import org.usfirst.frc.team5066.library.SingularityPropertyNotFoundException;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 
@@ -18,12 +21,20 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  */
 
 public class Robot extends IterativeRobot {
-	//comment
+	
 	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
+	int drivePneuForward, drivePneuReverse;
 	
 	SingDrive drive;
+	DrivePneumatics dPneumatics;
+	
+	SingularityProperties properties;
 	
 	ControlScheme currentScheme;
+	
+	final int XBOX_PORT = 0;
+	final int BIG_JOYSTICK_PORT = 1;
+	final int SMALL_JOYSTICK_PORT = 2;
 	
 
 	/**
@@ -34,14 +45,21 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		try {
-			
+			properties = new SingularityProperties("/home/lvuser/robot.properties");
 		} catch (Exception e){
+			setDefaultProperties();
 			
+			properties = new SingularityProperties();
+			DriverStation.reportError("error in properties", true);
 		} finally {
+			
+			loadProperties();
 		
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
-			currentScheme = new BasicDrive();
+			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
+			
+			currentScheme = new BasicDrive(XBOX_PORT);
 		}
 	}
 
@@ -73,7 +91,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		currentScheme.drive(drive);
+		currentScheme.drive(drive, dPneumatics);
 	
 	}
 
@@ -83,5 +101,45 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	
+	}
+	
+	@Override
+	public void disabledPeriodic() {
+		dPneumatics.setOff();
+	}
+	
+	private void loadProperties() {
+		
+		try {
+			frontRightMotor = properties.getInt("frontRightMotor");
+			frontLeftMotor = properties.getInt("frontLeftMotor");
+			backRightMotor = properties.getInt("backRightMotor");
+			backLeftMotor = properties.getInt("backLeftMotor");
+			frontRightMotor = properties.getInt("middleRightMotor");
+			frontLeftMotor = properties.getInt("middleLeftMotor");
+			
+			drivePneuForward = properties.getInt("drivePneuForward");
+			drivePneuReverse = properties.getInt("drivePneuReverse");
+			
+		} catch (SingularityPropertyNotFoundException e) {
+			DriverStation.reportError("The property \"" + e.getPropertyName()
+				+ "was not found --> CODE SPLINTERED(CRASHED)!!!!!! \n _POSSIBLE CAUSES:\n - Property missing in file and defaults"
+				+ "\n - Typo in property name in code or file/n - using a different properties file than the one that actually contains the property you are looking for",
+				false);
+			e.printStackTrace();
+		}
+	}
+	
+	private void setDefaultProperties() {
+		
+		properties.addDefaultProp("frontRightMotor", 2);
+		properties.addDefaultProp("frontLeftMotor", 3);
+		properties.addDefaultProp("backRightMotor", 4);
+		properties.addDefaultProp("backLeftMotor", 5);
+		properties.addDefaultProp("middleRightMotor", 6);
+		properties.addDefaultProp("middleLeftMotor", 7);
+		
+		properties.addDefaultProp("drivePneuForward", 1);
+		properties.addDefaultProp("drivePneuReverse", 2);
 	}
 }
