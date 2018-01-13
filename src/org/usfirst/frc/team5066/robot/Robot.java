@@ -1,6 +1,10 @@
 package org.usfirst.frc.team5066.robot;
 
+import org.usfirst.frc.team5066.controller2018.ControlScheme;
+import org.usfirst.frc.team5066.controller2018.controlSchemes.BasicDrive;
 import org.usfirst.frc.team5066.library.SingularityDrive;
+import org.usfirst.frc.team5066.singularityDrive.SingDrive;
+import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
@@ -17,7 +21,9 @@ public class Robot extends IterativeRobot {
 	//comment
 	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
 	
-	SingularityDrive drive;
+	SingDrive drive;
+	
+	ControlScheme currentScheme;
 	
 
 	/**
@@ -26,8 +32,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		drive = new SingularityDrive(frontLeftMotor, backLeftMotor,
-				frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
+		
+		try {
+			
+		} catch (Exception e){
+			
+		} finally {
+		
+			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
+					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
+			currentScheme = new BasicDrive();
+		}
 	}
 
 	/**
@@ -57,6 +72,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		
+		currentScheme.drive(drive);
 	
 	}
 

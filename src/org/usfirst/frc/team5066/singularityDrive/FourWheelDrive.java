@@ -2,15 +2,14 @@ package org.usfirst.frc.team5066.singularityDrive;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
 
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FourWheelDrive extends SingDrive {
 
-	public FourWheelDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
-			double driveStraight, AHRS gyro, int mode) {
-		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, driveStraight, gyro);
+	public FourWheelDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int mode) {
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 		this.mode = mode;
 	}
 

@@ -3,7 +3,7 @@ package org.usfirst.frc.team5066.singularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
 
 import com.ctre.CANTalon;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -48,7 +48,7 @@ public abstract class SingDrive {
 	private static final double strafeTime = 0.05;
 	Timer timer;
 	
-	AHRS gyro;
+	//AHRS gyro;
 
 
 	/**
@@ -65,17 +65,15 @@ public abstract class SingDrive {
 	 *            Channel for rear right motor
 	 */
 	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,int midRightMotor,
-			int midLeftMotor, double driveStraight, AHRS gyro) {
+			int midLeftMotor) {
 		this(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor,
 				midLeftMotor, DEFAULT_TALON_TYPE,
-				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT,
-				driveStraight, gyro);
+				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
 	}
 	
-	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, double driveStraight, AHRS gyro) {
+	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor) {
 		this(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor,  DEFAULT_TALON_TYPE,
-				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT,
-				driveStraight, gyro);
+				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
 	}
 
 	/**
@@ -117,7 +115,7 @@ public abstract class SingDrive {
 	 */
 	
 	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int leftMiddleMotor, int rightMiddleMotor,
-			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant, double driveStraight, AHRS gyro) {//Six wheel constructor
+			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) {//Six wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {
 			m_frontLeftMotor = new CANTalon(frontLeftMotor);
@@ -145,13 +143,13 @@ public abstract class SingDrive {
 		this.fastSpeedConstant = fastSpeedConstant;
 		this.driveStraight = driveStraight;
 		timer = new Timer();
-		this.gyro = gyro;
+		//this.gyro = gyro;
 		
 		((CANTalon) m_leftMiddleMotor).setEncPosition(0);
 	}
 	
 	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
-			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant, double driveStraight, AHRS gyro) { //Four wheel constructor
+			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) { //Four wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {
 			m_frontLeftMotor = new CANTalon(frontLeftMotor);
@@ -175,7 +173,7 @@ public abstract class SingDrive {
 		this.fastSpeedConstant = fastSpeedConstant;
 		this.driveStraight = driveStraight;
 		timer = new Timer();
-		this.gyro = gyro;
+		//this.gyro = gyro;
 	}
 	
 	
@@ -298,7 +296,7 @@ public abstract class SingDrive {
 	 * @param gyroRotationConstant a constant for rotating with the gyro. 0.05 is a good value
 	 * @param maxTime the maxTime <b> in seconds </b> to run before exiting from the loop and moving on
 	 */
-	
+	/*
 	public void driveStraight(double distance, double speed, double gyroRotationConstant, double maxTime) {
 		double origAngle = gyro.getAngle();
 		distance = Math.abs(distance);
@@ -347,7 +345,7 @@ public abstract class SingDrive {
 	 * and actual degrees by.
 	 * @param maxTime Half maximum amount of time the method can take to run.
 	 */
-	
+	/*
 	public void rotateTo(double degrees, double maxTime) {
 		double origAngle = gyro.getAngle();
 		Timer t = new Timer();
@@ -370,7 +368,7 @@ public abstract class SingDrive {
 		
 		Timer.delay(0.2);
 	}
-	
+	*/
 	protected void setVelocityMultiplierBasedOnSpeedMode(SpeedMode speedMode) {
 		
 		switch(speedMode) {

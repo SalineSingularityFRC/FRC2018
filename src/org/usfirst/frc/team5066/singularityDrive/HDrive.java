@@ -2,16 +2,15 @@ package org.usfirst.frc.team5066.singularityDrive;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
 
-import com.kauailabs.navx.frc.AHRS;
+//Simport com.kauailabs.navx.frc.AHRS;
 
 public class HDrive extends SingDrive {
 
 	// mode 0 for not tank; 1 for tank
 
 	public HDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int midRightMotor,
-			int midLeftMotor, double driveStraight, AHRS gyro, int mode) {
-		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor,
-				driveStraight, gyro);
+			int midLeftMotor, int mode) {
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor);
 		this.mode=mode;
 		// TODO Auto-generated constructor stub
 	}

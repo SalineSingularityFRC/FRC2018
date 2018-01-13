@@ -8,10 +8,9 @@ public class MecanumDrive extends SingDrive{
 	
 	public double rotationMultiplier=1.0; //Good Luck
 	
-	public MecanumDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
-			double driveStraight, AHRS gyro, double rotationMultiplier) {
-		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, driveStraight, gyro);
-		this.rotationMultiplier=rotationMultiplier;
+	public MecanumDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, double rotationMultiplier) {
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+		this.rotationMultiplier = rotationMultiplier;
 	}
 
 	@Override

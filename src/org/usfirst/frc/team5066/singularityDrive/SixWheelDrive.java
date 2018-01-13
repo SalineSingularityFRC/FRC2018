@@ -3,15 +3,15 @@ package org.usfirst.frc.team5066.singularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
 
 import com.ctre.CANTalon;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SixWheelDrive extends SingDrive{
 	
 	public SixWheelDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
-			int midRightMotor, int midLeftMotor, double driveStraight, AHRS gyro) {
-		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor, driveStraight, gyro);
+			int midRightMotor, int midLeftMotor) {
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor);
 		// TODO Auto-generated constructor stub
 	}
 
