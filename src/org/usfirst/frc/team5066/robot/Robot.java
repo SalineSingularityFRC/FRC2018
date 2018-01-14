@@ -1,18 +1,17 @@
 package org.usfirst.frc.team5066.robot;
 
-import org.usfirst.frc.team5066.controller2018.ControlScheme;
-import org.usfirst.frc.team5066.controller2018.XboxController;
-import org.usfirst.frc.team5066.controller2018.controlSchemes.BasicDrive;
-import org.usfirst.frc.team5066.library.SingularityDrive;
-import org.usfirst.frc.team5066.library.SingularityProperties;
-import org.usfirst.frc.team5066.library.SingularityPropertyNotFoundException;
-import org.usfirst.frc.team5066.singularityDrive.SingDrive;
-import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
+import org.usfirst.frc.team5066.controller2018.*;
+import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
+import org.usfirst.frc.team5066.library.*;
+import org.usfirst.frc.team5066.singularityDrive.*;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -31,6 +30,7 @@ public class Robot extends IterativeRobot {
 	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
+	Compressor compressor;
 	
 	SingularityProperties properties;
 	
@@ -42,11 +42,23 @@ public class Robot extends IterativeRobot {
 	
 	
 	//testing variables
+	
+	public enum TestMode {
+		CANTALON, PNEUMATIC
+	}
+	TestMode testMode;
+	
 	XboxController xbox;
+	boolean currentRb, currentLb, prevRb, prevLb;
+	int port;
+	
+	//cantalons
 	CANTalon cantalon;
 	double speed;
-	int port;
-	boolean currentRb, currentLb, prevRb, prevLb;
+	
+	//pneumatics
+	Solenoid solenoid;
+	
 	
 
 	/**
@@ -72,6 +84,7 @@ public class Robot extends IterativeRobot {
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
+			compressor = new Compressor();
 			
 			currentScheme = new BasicDrive(XBOX_PORT);
 		}
@@ -114,14 +127,16 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		
-		speed = 0;
-		port = 0;
+		testMode = TestMode.CANTALON;
 		
+		port = 0;
 		prevRb = false;
 		prevLb = false;
-		
 		xbox = new XboxController(XBOX_PORT);
+		
 		cantalon = new CANTalon(port);
+		
+		solenoid = new Solenoid(port);
 	}
 
 	/**
@@ -130,41 +145,88 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		
+		//press right on the d-pad to switch to cantalon
+		if (xbox.getPOV() == 90) {
+			testMode = TestMode.CANTALON;
+		}
+		
+		//press left on the d-pad to switch to pneumatic
+		else if (xbox.getPOV() == 270) {
+			testMode = TestMode.PNEUMATIC;
+		}
+
 		/*
 		 * Code to test the port numbers of cantalons
 		 */
-		
-		currentRb = xbox.getRB();
-		currentLb = xbox.getLB();
-		
-		//use Right Bumper to toggle up a cantalon port
-		//use Left Bumper to toggle down a cantalon port
-		if (currentRb && !prevRb) {
-			cantalon.set(0.0);
-			port++;
-			cantalon = new CANTalon(port);
-		} else if (currentLb && !prevLb) {
-			cantalon.set(0.0);
-			port--;
-			cantalon = new CANTalon(port);
+		if (testMode == TestMode.CANTALON) {
+
+			currentRb = xbox.getRB();
+			currentLb = xbox.getLB();
+
+			// use Right Bumper to toggle up a cantalon port
+			// use Left Bumper to toggle down a cantalon port
+			if (currentRb && !prevRb) {
+				cantalon.set(0.0);
+				port++;
+				cantalon = new CANTalon(port);
+			} else if (currentLb && !prevLb) {
+				cantalon.set(0.0);
+				port--;
+				cantalon = new CANTalon(port);
+			}
+
+			prevRb = currentRb;
+			prevLb = currentLb;
+
+			if (xbox.getAButton())
+				speed = 0.5;
+			else if (xbox.getBButton())
+				speed = 1.0;
+			else if (xbox.getYButton())
+				speed = -0.5;
+			else if (xbox.getXButton())
+				speed = -1.0;
+			// if no buttons pressed, get speed from the left stick y axis
+			else if (xbox.getLS_Y() > .09)
+				speed = xbox.getLS_Y();
+			else
+				speed = 0.0;
+
+			cantalon.set(speed);
+
+			// log information to keep track of port number and speed
+			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
+			SmartDashboard.putString("DB/String 1", "Current speed: " + speed);
 		}
 		
-		prevRb = currentRb;
-		prevLb = currentLb;
-		
-		if (xbox.getAButton()) speed = 0.5;
-		else if (xbox.getBButton()) speed = 1.0;
-		else if (xbox.getYButton()) speed = -0.5;
-		else if (xbox.getXButton()) speed = -1.0;
-		//if no buttons pressed, get speed from the left stick y axis
-		else if (xbox.getLS_Y() > .09) speed = xbox.getLS_Y();
-		else speed = 0.0;
-		
-		cantalon.set(speed);
-		
-		//log information to keep track of port number and speed
-		SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
-		SmartDashboard.putString("DB/String 1", "Current speed: " + speed);
+		else if (testMode == TestMode.PNEUMATIC) {
+			
+			currentRb = xbox.getRB();
+			currentLb = xbox.getLB();
+
+			// use Right Bumper to toggle up a cantalon port
+			// use Left Bumper to toggle down a cantalon port
+			if (currentRb && !prevRb) {
+				solenoid.set(false);
+				port++;
+				solenoid = new Solenoid(port);
+			} else if (currentLb && !prevLb) {
+				solenoid.set(false);
+				port--;
+				solenoid = new Solenoid(port);
+			}
+
+			prevRb = currentRb;
+			prevLb = currentLb;
+			
+			if (xbox.getAButton()) solenoid.set(true);
+			else solenoid.set(false);
+			
+			// log information to keep track of port number
+			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
+			SmartDashboard.putString("DB/String 1", "solenoid value: " + solenoid.get());
+			
+		}
 	}
 	
 	@Override

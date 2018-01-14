@@ -89,8 +89,4 @@ public class XboxController extends Joystick{
 	public double getTriggerLeft() {
 		return this.getRawAxis(2);
 	}
-	
-	
-	
-	
 }
