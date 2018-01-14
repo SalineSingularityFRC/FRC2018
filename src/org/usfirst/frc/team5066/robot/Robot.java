@@ -8,7 +8,6 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -146,12 +145,12 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		
 		//press right on the d-pad to switch to cantalon
-		if (xbox.getPOV() == 90) {
+		if (xbox.getPOVRight()) {
 			testMode = TestMode.CANTALON;
 		}
 		
 		//press left on the d-pad to switch to pneumatic
-		else if (xbox.getPOV() == 270) {
+		else if (xbox.getPOVLeft()) {
 			testMode = TestMode.PNEUMATIC;
 		}
 
@@ -198,6 +197,12 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
 			SmartDashboard.putString("DB/String 1", "Current speed: " + speed);
 		}
+		
+		/*
+		 * Code to Test the Pneumatics
+		 * This currently tests with SingleSolenoids,
+		 * which will probably still work for testing DoubleSolenoids
+		 */
 		
 		else if (testMode == TestMode.PNEUMATIC) {
 			

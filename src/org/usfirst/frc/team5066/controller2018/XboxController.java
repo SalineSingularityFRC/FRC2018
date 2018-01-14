@@ -89,4 +89,32 @@ public class XboxController extends Joystick{
 	public double getTriggerLeft() {
 		return this.getRawAxis(2);
 	}
+	
+	public boolean getPOVUp() {
+		return (super.getPOV() == 0);
+	}
+	public boolean getPOVUpRight() {
+		return (super.getPOV() == 45);
+	}
+	public boolean getPOVRight() {
+		return (super.getPOV() == 90);
+	}
+	public boolean getPOVDownRight() {
+		return (super.getPOV() == 135);
+	}
+	public boolean getPOVDown() {
+		return (super.getPOV() == 180);
+	}
+	public boolean getPOVDownLeft() {
+		return (super.getPOV() == 225);
+	}
+	public boolean getPOVLeft() {
+		return (super.getPOV() == 270);
+	}
+	public boolean getPOVUpLeft() {
+		return (super.getPOV() == 315);
+	}
+	public boolean getPOVOff() {
+		return (super.getPOV() == -1);
+	}
 }
