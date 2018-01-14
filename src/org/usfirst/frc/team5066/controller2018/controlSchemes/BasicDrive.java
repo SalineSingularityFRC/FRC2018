@@ -42,7 +42,7 @@ public class BasicDrive implements ControlScheme {
 	
 	public BasicDrive(int xboxPort) {
 		xbox = new XboxController(xboxPort);
-		speed = false;
+		speed = true;
 		
 		/*
 		rBCurrent = false;
