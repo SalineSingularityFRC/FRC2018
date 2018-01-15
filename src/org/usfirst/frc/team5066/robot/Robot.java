@@ -84,6 +84,7 @@ public class Robot extends IterativeRobot {
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			compressor = new Compressor();
+			compressor.start();
 			
 			currentScheme = new BasicDrive(XBOX_PORT);
 		}
