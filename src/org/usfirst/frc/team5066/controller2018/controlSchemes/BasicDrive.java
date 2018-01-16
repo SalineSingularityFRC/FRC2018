@@ -92,6 +92,8 @@ public class BasicDrive implements ControlScheme {
 	public void controlLifts(Lift lift) {
 		
 		lift.releaseLiftLeft(logitech.getBaseFrontLeft());
+		lift.releaseLiftRight(logitech.getBaseFrontRight());
+		
 		
 	}
 }

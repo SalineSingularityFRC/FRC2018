@@ -9,18 +9,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Lift {
 	
 	//TODO:
-	//work off singularity 
-	//limit switches
-	//create method
-	//run motor until limit switch
-	//create method
-	//run until other limit switch
-	//don't do while loop
-	//be running continously
-	//unlock button
-	//button to raise
-	//button to unlock
-	//do javabat when done
+	//only activate-able in end game
+	//notification for driver station
+	//do javabat when done (WHO DONE THIS LMFAOOOOO)
 	
 	
 	private CANTalon right1, right2, left1, left2;
@@ -76,7 +67,41 @@ public class Lift {
 		
 	}
 	
-	public void raiseLifts(boolean rButton, boolean lButton) {
+	public void controlRightLift (boolean rightLiftUp, boolean rightLiftDown){
+		
+		if (rightLiftUp){
+			right1.set(speed);
+			right2.set(speed);
+		}
+		else if (rightLiftDown) {
+			right1.set(-speed);
+			right2.set(-speed);
+		}
+		else {
+			right1.set(0);
+			right2.set(0);
+		}
+		
+	}
+	
+	public void controlLeftLift (boolean leftLiftUp, boolean leftLiftDown) {
+		
+		if (leftLiftUp){
+			left1.set(speed);
+			left2.set(speed);
+		}
+		else if (leftLiftDown) {
+			left1.set(-speed);
+			left2.set(-speed);
+		}
+		else {
+			left1.set(0);
+			left2.set(0);
+		}
+		
+	}
+	
+	/*public void raiseLifts(boolean rButton, boolean lButton) {
 		
 		nowButL = lButton;
 		nowButR = rButton;
@@ -122,6 +147,6 @@ public class Lift {
 		previousButR = nowButR;
 		previousButL = nowButL;
 			
-	}
+	}*/
 
 }
