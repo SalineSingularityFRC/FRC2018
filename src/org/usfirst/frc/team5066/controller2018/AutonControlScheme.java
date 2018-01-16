@@ -7,6 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI.Port;
 
 public abstract class AutonControlScheme {
 
@@ -16,26 +17,32 @@ public abstract class AutonControlScheme {
 	public static final double CenterRobotLength = 13.0;
 	
 	//gyro
-	AHRS gyro;
-	PIDController turnController;
-	//TODO Test
+	protected AHRS gyro;
+	
+	//PIDController turnController;
+	/*TODO Add PID Controller
 	static final double kP = 0.03;
 	static final double kI = 0.00;
 	static final double kD = 0.00;
 	static final double kF = 0.00;
+	*/
 	
 	private static SingDrive drive;
 
 	
-	public AutonControlScheme (SingDrive drive) {
+	public AutonControlScheme (SingDrive drive, Port gyroPort) {
+		
 		this.drive = drive;
 		
+		//creates new AHRS gyro object that takes the port located on the roborio
+		gyro = new AHRS(gyroPort);
+		gyro.reset();
 	}
 	
 	public abstract void MoveAuton();
 	
 	//if ur code isn't working for reverse, set vertspeed to negative
-public static void vertical(double verticalSpeed, double distance) {
+	public static void vertical(double verticalSpeed, double distance) {
 	
 		//int distanceAccelerated = 0;
 		
@@ -79,7 +86,7 @@ public static void vertical(double verticalSpeed, double distance) {
 		if(counterClockwise) rotationSpeed*= -1;
 		
 		drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
-		//todo make this work with encoders
+		//TODO get this working using gyro
 	}
 	
 }
