@@ -1,0 +1,85 @@
+package org.usfirst.frc.team5066.controller2018;
+
+import org.usfirst.frc.team5066.library.SpeedMode;
+import org.usfirst.frc.team5066.singularityDrive.SingDrive;
+
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+
+public abstract class AutonControlScheme {
+
+	//Todo change later
+	public static final double DistancePerRevolution = 12.56;
+	public static final double CenterRobotWidth = 15.0;
+	public static final double CenterRobotLength = 13.0;
+	
+	//gyro
+	AHRS gyro;
+	PIDController turnController;
+	//TODO Test
+	static final double kP = 0.03;
+	static final double kI = 0.00;
+	static final double kD = 0.00;
+	static final double kF = 0.00;
+	
+	private static SingDrive drive;
+
+	
+	public AutonControlScheme (SingDrive drive) {
+		this.drive = drive;
+		
+	}
+	
+	public abstract void MoveAuton();
+	
+	//if ur code isn't working for reverse, set vertspeed to negative
+public static void vertical(double verticalSpeed, double distance) {
+	
+		//int distanceAccelerated = 0;
+		
+		//Slowly start motors for i(acceleration) inches
+		/*for(int i = acceleration; i > 0; i--) {
+			if (2 * (acceleration - i + 1) > distance - 2) break;
+			do {
+				drive.drive(vertSpeed/i, vertSpeed/i, 0.0, false, SpeedMode.NORMAL);
+			} 
+			while (getAverage() > -2.0 / DistancePerRevolution
+				&& getAverage() < 2.0 / DistancePerRevolution);
+			
+			distanceAccelerated += 2;
+			
+			drive.resetAll();
+		}*/
+			
+		//normal speed
+		while (getAverage() > -distance / DistancePerRevolution
+				&& getAverage() < distance / DistancePerRevolution) {
+			drive.drive(verticalSpeed, verticalSpeed, 0.0, false, SpeedMode.NORMAL);
+		}
+		
+		drive.resetAll();
+		
+		//slow down
+		/*while (getAverage() > -2 / DistancePerRevolution
+				&& getAverage() < 2 / DistancePerRevolution) {
+			drive.drive(vertSpeed / 2, vertSpeed / 2, 0.0, false, SpeedMode.NORMAL);
+		}*/
+		
+		drive.resetAll();
+		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
+	}
+
+	private static double getAverage() { return (drive.getLeftPosition() + drive.getRightPosition()) / 2; }
+
+	//TODO Figure out AHRS gyro to get this method to work
+	public static void rotate(double rotationSpeed, double degree, boolean counterClockwise) {
+		
+		if(counterClockwise) rotationSpeed*= -1;
+		
+		drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
+		//todo make this work with encoders
+	}
+	
+}
