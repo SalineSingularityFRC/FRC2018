@@ -55,4 +55,50 @@ public class SixWheelDrive extends SingDrive{
 		SmartDashboard.putNumber("rightEncoder", ((CANTalon) m_rightMiddleMotor).getEncPosition());
 		SmartDashboard.putNumber("leftEncoder", ((CANTalon) m_leftMiddleMotor).getEncPosition());
 	}
+	
+	/**
+	 * 
+	 * 6 wheel tank drive
+	 * @param right
+	 * @param squaredInputs
+	 * @param speedMode
+	 */
+	public void tankDrive(double left, double right, boolean squaredInputs, SpeedMode speedMode) {
+		double leftVelocity = left, rightVelocity = right;
+		
+		leftVelocity = threshold(leftVelocity);
+		rightVelocity = threshold(rightVelocity);
+		
+		setVelocityMultiplierBasedOnSpeedMode(speedMode);
+		
+		// Do squared inputs if necessary
+		if (squaredInputs) {
+			leftVelocity *= Math.abs(left);
+			rightVelocity *= Math.abs(right);
+		}
+		
+		
+		// Guard against illegal values
+		double leftMaximum = Math.max(1, Math.abs(leftVelocity));
+		double rightMaximum = Math.max(1, Math.abs(rightVelocity));
+
+		if (velocityReduceActivated) {
+			leftMaximum *= 1 / reducedVelocity;
+			rightMaximum *= 1 / reducedVelocity;
+		}
+
+		leftVelocity = threshold(leftVelocity);
+		rightVelocity = threshold(rightVelocity);
+
+		// Set the motors
+		m_frontLeftMotor.set(this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
+		m_rearLeftMotor.set(this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
+		m_leftMiddleMotor.set(this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
+		m_rightMiddleMotor.set(this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		m_frontRightMotor.set(this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		m_rearRightMotor.set(this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		SmartDashboard.putNumber("rightEncoder", ((CANTalon) m_rightMiddleMotor).getEncPosition());
+		SmartDashboard.putNumber("leftEncoder", ((CANTalon) m_leftMiddleMotor).getEncPosition());
+	}
 }
+
