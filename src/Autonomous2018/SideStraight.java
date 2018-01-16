@@ -3,9 +3,9 @@ package Autonomous2018;
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
-public class LeftStraight extends AutonControlScheme {
+public class SideStraight extends AutonControlScheme {
 
-	public LeftStraight(SingDrive drive) {
+	public SideStraight(SingDrive drive) {
 		super(drive);
 		// TODO Auto-generated constructor stub
 	}
@@ -14,10 +14,6 @@ public class LeftStraight extends AutonControlScheme {
 	public void MoveAuton() {
 		// TODO Auto-generated method stub
 		
-		//drive.verticle();
-		
 	}
-	
-	
-	
+
 }
