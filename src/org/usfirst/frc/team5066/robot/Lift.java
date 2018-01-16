@@ -23,11 +23,12 @@ public class Lift {
 	//do javabat when done
 	
 	
-	LogitechController lc;
 	private CANTalon right1, right2, left1, left2;
 	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh;
 	double speed;
-	boolean previousButR, nowButR, previousButL, nowButL;
+	
+	boolean firstButtonR, firstButtonL;
+	
 	
 	public Lift(int r1, int r2, int l1, int l2, int rL1, int rL2, int lL1, int  lL2, int logitechPort, double s) {
 		
@@ -43,19 +44,42 @@ public class Lift {
 		
 		speed = s;
 		
-		previousButR = false;
-		nowButR = false;
-		previousButL = false;
-		nowButL = false;
+		firstButtonR = false;
+		firstButtonL = false;
 		
-		lc = new LogitechController(logitechPort);
 		
 	}
 	
-	public void raise() {
+	public void releaseLiftRight(boolean rightRelease) {
 		
-		nowButL = lc.getStickFrontLeft();
-		nowButR = lc.getStickFrontRight();
+		if (rightRelease) {
+			firstButtonR = true;
+		}
+
+		if (firstButtonR && !rightLimLow.get()) {
+			right1.set(speed);
+			right2.set(speed);
+		}
+		
+	}
+	
+	public void releaseLiftLeft(boolean leftRelease) {
+		
+		if (leftRelease) {
+			firstButtonL = true;
+		}
+
+		if (firstButtonL && !leftLimLow.get()) {
+			left1.set(speed);
+			left2.set(speed);
+		}
+		
+	}
+	
+	public void raiseLifts(boolean rButton, boolean lButton) {
+		
+		nowButL = lButton;
+		nowButR = rButton;
 		
 		//if the right button is toggled and the right lift is at the high limit it'll go down
 		//or if the right button is toggled and the right lift is at the low limit it'll go up
