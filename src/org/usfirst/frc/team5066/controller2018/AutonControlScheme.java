@@ -17,7 +17,7 @@ public abstract class AutonControlScheme {
 	public static final double CenterRobotLength = 13.0;
 	
 	//gyro
-	protected AHRS gyro;
+	protected static AHRS gyro;
 	
 	//PIDController turnController;
 	/*TODO Add PID Controller
@@ -81,12 +81,16 @@ public abstract class AutonControlScheme {
 	private static double getAverage() { return (drive.getLeftPosition() + drive.getRightPosition()) / 2; }
 
 	//TODO Figure out AHRS gyro to get this method to work
-	public static void rotate(double rotationSpeed, double degree, boolean counterClockwise) {
+	public static void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
 		
+		gyro.reset();
 		if(counterClockwise) rotationSpeed*= -1;
 		
-		drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
-		//TODO get this working using gyro
+		while(gyro.getAngle() < angle) {
+			drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
+		}
+		
+		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
 	}
 	
 }
