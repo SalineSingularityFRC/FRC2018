@@ -92,8 +92,11 @@ public class Robot extends IterativeRobot {
 		
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
+			drive.rampVoltage();
+			
 			lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
 					rightLimitHigh, leftLimitLow, leftLimitHigh, LIFT_SPEED);
+			
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			compressor = new Compressor();
 			compressor.start();

@@ -14,8 +14,8 @@ public abstract class SingDrive {
 	public double slowSpeedConstant, normalSpeedConstant, fastSpeedConstant;
 	public int mode = 0;
 	
-	protected SpeedController m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
-	protected SpeedController m_leftMiddleMotor, m_rightMiddleMotor;
+	protected CANTalon m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
+	protected CANTalon m_leftMiddleMotor, m_rightMiddleMotor;
 	
 
 	private final static double DEFAULT_VELOCITY_MULTIPLIER = 1.0;
@@ -125,14 +125,7 @@ public abstract class SingDrive {
 			m_leftMiddleMotor = new CANTalon(leftMiddleMotor);
 			m_rightMiddleMotor = new CANTalon(rightMiddleMotor);
 
-		} else if (talonType == TALON_SR_DRIVE) {
-			m_frontLeftMotor = new Talon(frontLeftMotor);
-			m_rearLeftMotor = new Talon(rearLeftMotor);
-			m_frontRightMotor = new Talon(frontRightMotor);
-			m_rearRightMotor = new Talon(rearRightMotor);
-			m_leftMiddleMotor = new Talon(leftMiddleMotor);
-			m_rightMiddleMotor = new Talon(rightMiddleMotor);
-		} else {
+		}  else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
 		}
 
@@ -157,11 +150,6 @@ public abstract class SingDrive {
 			m_frontRightMotor = new CANTalon(frontRightMotor);
 			m_rearRightMotor = new CANTalon(rearRightMotor);
 
-		} else if (talonType == TALON_SR_DRIVE) {
-			m_frontLeftMotor = new Talon(frontLeftMotor);
-			m_rearLeftMotor = new Talon(rearLeftMotor);
-			m_frontRightMotor = new Talon(frontRightMotor);
-			m_rearRightMotor = new Talon(rearRightMotor);
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
 		}
@@ -241,12 +229,12 @@ public abstract class SingDrive {
 	
 	public void rampVoltage() {
 		
-		((CANTalon) m_frontRightMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_rearRightMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_frontLeftMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_rearLeftMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_rightMiddleMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_leftMiddleMotor).setVoltageRampRate(RAMP_RATE);
+		m_frontRightMotor.setVoltageRampRate(RAMP_RATE);
+		m_rearRightMotor.setVoltageRampRate(RAMP_RATE);
+		m_frontLeftMotor.setVoltageRampRate(RAMP_RATE);
+		m_rearLeftMotor.setVoltageRampRate(RAMP_RATE);
+		m_rightMiddleMotor.setVoltageRampRate(RAMP_RATE);
+		m_leftMiddleMotor.setVoltageRampRate(RAMP_RATE);
 		
 	}
 	
