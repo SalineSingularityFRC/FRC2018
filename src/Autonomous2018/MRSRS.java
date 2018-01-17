@@ -14,8 +14,19 @@ public class MRSRS extends AutonControlScheme{
 	@Override
 	public void MoveAuton() {
 		super.vertical(35.0);
-		super.rotate( 0.5, 90, false);
-		//super.vertical(42-super.);
+		super.rotate( 90, false);
+		super.vertical(42-super.CenterRobotWidth);
+		super.rotate( 90, true);
+		super.vertical(105-super.CenterRobotLength);
+		//Drop the PC
+		super.vertical(32.5-super.CenterRobotLength);
+		super.rotate(90, true);
+		//Lower PC manipulator
+		super.vertical(54-super.CenterRobotLength);
+		//Pick up PC
+		super.vertical(-(54-super.CenterRobotLength));
+		super.rotate(90, false);
+		//Drop PC
 		
 	}
 	
