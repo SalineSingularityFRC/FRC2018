@@ -18,10 +18,8 @@ public class Lift {
 	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh;
 	double speed;
 	
-	boolean firstButtonR, firstButtonL;
 	
-	
-	public Lift(int r1, int r2, int l1, int l2, int rL1, int rL2, int lL1, int  lL2, int logitechPort, double s) {
+	public Lift(int r1, int r2, int l1, int l2, int rL1, int rL2, int lL1, int  lL2, double s) {
 		
 		right1 = new CANTalon(r1);
 		right2 = new CANTalon(r2);
@@ -35,39 +33,41 @@ public class Lift {
 		
 		speed = s;
 		
-		firstButtonR = false;
-		firstButtonL = false;
-		
 		
 	}
 	
-	public void releaseLiftRight(boolean rightRelease) {
-		
-		if (rightRelease) {
-			firstButtonR = true;
-		}
+	public boolean releaseLiftRight(boolean rightRelease) {
 
-		if (firstButtonR && !rightLimLow.get()) {
+		if (rightRelease && !rightLimLow.get()) {
 			right1.set(speed);
 			right2.set(speed);
 		}
 		
+		else {
+			right1.set(0.0);
+			right2.set(0.0);
+		}
+		
+		return rightLimLow.get();
+		
 	}
 	
-	public void releaseLiftLeft(boolean leftRelease) {
-		
-		if (leftRelease) {
-			firstButtonL = true;
-		}
+	public boolean releaseLiftLeft(boolean leftRelease) {
 
-		if (firstButtonL && !leftLimLow.get()) {
+		if (leftRelease && !leftLimLow.get()) {
 			left1.set(speed);
 			left2.set(speed);
 		}
+		else {
+			left1.set(0.0);
+			left2.set(0.0);
+		}
+		
+		return leftLimLow.get();
 		
 	}
 	
-	public void controlRightLift (boolean rightLiftUp, boolean rightLiftDown){
+	public boolean controlRightLift (boolean rightLiftUp, boolean rightLiftDown){
 		
 		if (rightLiftUp){
 			right1.set(speed);
@@ -78,13 +78,15 @@ public class Lift {
 			right2.set(-speed);
 		}
 		else {
-			right1.set(0);
-			right2.set(0);
+			right1.set(0.0);
+			right2.set(0.0);
 		}
+		
+		return rightLimHigh.get();
 		
 	}
 	
-	public void controlLeftLift (boolean leftLiftUp, boolean leftLiftDown) {
+	public boolean controlLeftLift (boolean leftLiftUp, boolean leftLiftDown) {
 		
 		if (leftLiftUp){
 			left1.set(speed);
@@ -95,10 +97,11 @@ public class Lift {
 			left2.set(-speed);
 		}
 		else {
-			left1.set(0);
-			left2.set(0);
+			left1.set(0.0);
+			left2.set(0.0);
 		}
 		
+		return leftLimHigh.get();
 	}
 	
 	/*public void raiseLifts(boolean rButton, boolean lButton) {
