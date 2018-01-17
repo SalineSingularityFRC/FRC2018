@@ -37,7 +37,9 @@ public class Lift {
 	}
 	
 	public boolean releaseLiftRight(boolean rightRelease) {
-
+		
+		//release lift if button is pressed 
+		//and not touching lower limit switch
 		if (rightRelease && !rightLimLow.get()) {
 			right1.set(speed);
 			right2.set(speed);
@@ -48,12 +50,15 @@ public class Lift {
 			right2.set(0.0);
 		}
 		
+		//return right limit switch value
 		return rightLimLow.get();
 		
 	}
 	
 	public boolean releaseLiftLeft(boolean leftRelease) {
-
+		
+		//release lift if button is pressed 
+		//and not touching lower limit switch
 		if (leftRelease && !leftLimLow.get()) {
 			left1.set(speed);
 			left2.set(speed);
@@ -63,12 +68,14 @@ public class Lift {
 			left2.set(0.0);
 		}
 		
+		//return left limit switch value
 		return leftLimLow.get();
 		
 	}
 	
 	public boolean controlRightLift (boolean rightLiftUp, boolean rightLiftDown){
 		
+		//raise or lower lift with controls
 		if (rightLiftUp){
 			right1.set(speed);
 			right2.set(speed);
@@ -82,12 +89,14 @@ public class Lift {
 			right2.set(0.0);
 		}
 		
+		//return right limit high switch
 		return rightLimHigh.get();
 		
 	}
 	
 	public boolean controlLeftLift (boolean leftLiftUp, boolean leftLiftDown) {
 		
+		//raise or lower lift with controls
 		if (leftLiftUp){
 			left1.set(speed);
 			left2.set(speed);
@@ -101,55 +110,8 @@ public class Lift {
 			left2.set(0.0);
 		}
 		
+		//return left limit high switch
 		return leftLimHigh.get();
 	}
-	
-	/*public void raiseLifts(boolean rButton, boolean lButton) {
-		
-		nowButL = lButton;
-		nowButR = rButton;
-		
-		//if the right button is toggled and the right lift is at the high limit it'll go down
-		//or if the right button is toggled and the right lift is at the low limit it'll go up
-		if(nowButR && !previousButR) { 
-			if (!rightLimHigh.get()) {
-				right1.set(speed);
-				right2.set(speed);
-			}
-			else{
-				right1.set(-speed);
-				right2.set(-speed);
-			}
-		}
-		
-		//if the right lift is at the high limit and it's still going up or vice versa it'll stop
-		else if((right1.getSpeed() > 0 && rightLimHigh.get()) || (right1.getSpeed() < 0 && rightLimLow.get())) {
-			right1.set(0.0);
-			right2.set(0.0);
-		}
-		
-		//if the button is toggled and it's at the high limit it'll go down
-		//or if the button is toggled and it's at the low limit it'll go up
-		if(nowButL && !previousButL) { 
-			if (!rightLimHigh.get()) {
-				left1.set(speed);
-				left2.set(speed);
-			}
-			else{
-				left1.set(-speed);
-				left2.set(-speed);
-			}
-		}
-				
-		//if the left lift is at the high limit and it's still going up or vice versa it'll stop
-		else if((left1.getSpeed() > 0 && leftLimHigh.get()) || (left1.getSpeed() < 0 && leftLimLow.get())) {
-			left1.set(0.0);
-			left2.set(0.0);
-		}
-			
-		previousButR = nowButR;
-		previousButL = nowButL;
-			
-	}*/
 
 }

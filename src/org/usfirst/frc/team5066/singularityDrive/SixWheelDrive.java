@@ -12,8 +12,10 @@ public class SixWheelDrive extends SingDrive{
 	public SixWheelDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
 			int midRightMotor, int midLeftMotor) {
 		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor);
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	//TODO gradual acceleration
 
 	public void drive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode) {
 		double translationVelocity = vertical, rotationVelocity = rotation;
