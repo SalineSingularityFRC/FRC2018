@@ -108,4 +108,18 @@ public abstract class AutonControlScheme {
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
 	}
 	
+	public static void rotate( double angle, boolean counterClockwise) {
+		
+		double rotationSpeed = speed;
+	
+		gyro.reset();
+		if(counterClockwise) rotationSpeed*= -1;
+		
+		while(gyro.getAngle() < angle) {
+			drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
+		}
+		
+		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
+	}
+	
 }
