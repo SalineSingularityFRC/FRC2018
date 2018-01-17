@@ -15,6 +15,7 @@ public abstract class AutonControlScheme {
 	public static final double DistancePerRevolution = 12.56;
 	public static final double CenterRobotWidth = 15.0;
 	public static final double CenterRobotLength = 13.0;
+	private static final double speed = 0.5;
 	
 	//gyro
 	protected static AHRS gyro;
@@ -27,7 +28,7 @@ public abstract class AutonControlScheme {
 	static final double kF = 0.00;
 	*/
 	
-	private static SingDrive drive;
+	protected static SingDrive drive;
 
 	
 	public AutonControlScheme (SingDrive drive, Port gyroPort) {
@@ -76,6 +77,20 @@ public abstract class AutonControlScheme {
 		
 		drive.resetAll();
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
+	}
+	
+	public static void vertical(double distance) {
+		
+		while (getAverage() > -distance / DistancePerRevolution
+				&& getAverage() < distance / DistancePerRevolution) {
+			drive.drive(speed, speed, 0.0, false, SpeedMode.NORMAL);
+		}
+		
+		drive.resetAll();
+		
+		drive.resetAll();
+		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
+		
 	}
 
 	private static double getAverage() { return (drive.getLeftPosition() + drive.getRightPosition()) / 2; }
