@@ -14,9 +14,9 @@ public class SideStraight extends AutonControlScheme {
 	}
 
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
+		
 		super.vertical(0.5, 60);
-		// TODO Auto-generated method stub
 		
 	}
 

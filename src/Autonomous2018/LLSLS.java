@@ -13,7 +13,7 @@ public class LLSLS extends AutonControlScheme{
 	}
 
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
 		super.vertical(168);
 		//raise arm
 		super.rotate(90, false);

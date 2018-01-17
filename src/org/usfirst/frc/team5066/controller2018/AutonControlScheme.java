@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public abstract class AutonControlScheme {
 
-	//Todo change later
+	//TODO change later
 	public static final double DistancePerRevolution = 12.56;
 	public static final double CenterRobotWidth = 15.0;
 	public static final double CenterRobotLength = 13.0;
@@ -41,7 +41,7 @@ public abstract class AutonControlScheme {
 		gyro.reset();
 	}
 	
-	public abstract void MoveAuton();
+	public abstract void moveAuton();
 	
 	//if ur code isn't working for reverse, set vertspeed to negative
 	public static void vertical(double verticalSpeed, double distance) {

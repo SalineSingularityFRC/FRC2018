@@ -13,7 +13,7 @@ public class LLS extends AutonControlScheme{
 	}
 
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
 		// TODO Auto-generated method stub
 		super.vertical(168);
 		//lift arm

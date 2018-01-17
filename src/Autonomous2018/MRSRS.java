@@ -12,7 +12,7 @@ public class MRSRS extends AutonControlScheme{
 	}
 
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
 		super.vertical(35.0);
 		super.rotate( 90, false);
 		super.vertical(42-super.CenterRobotWidth);

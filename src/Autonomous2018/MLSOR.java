@@ -12,7 +12,7 @@ public class MLSOR extends AutonControlScheme {
 	}
 
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
 		super.vertical(35);
 		super.rotate(90, true);
 		super.vertical(84-super.CenterRobotWidth);

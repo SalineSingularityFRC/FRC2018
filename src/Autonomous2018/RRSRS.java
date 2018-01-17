@@ -12,7 +12,7 @@ public class RRSRS extends AutonControlScheme {
 	}
 	
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
 		super.vertical(0.5, 60+(super.CenterRobotLength/2));
 		//This is where we´d want to lift the manipulator
 		super.rotate(90,true);

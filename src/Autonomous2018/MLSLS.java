@@ -13,7 +13,7 @@ public class MLSLS extends AutonControlScheme {
 	}
 
 	@Override
-	public void MoveAuton() {
+	public void moveAuton() {
 		// TODO Auto-generated method stub
 		super.vertical(35);
 		super.rotate(90, true);
