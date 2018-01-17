@@ -13,7 +13,9 @@ public class MRSRS extends AutonControlScheme{
 
 	@Override
 	public void MoveAuton() {
-		//drive.vertical();
+		super.vertical(35.0);
+		super.rotate( 0.5, 90, false);
+		//super.vertical(42-super.);
 		
 	}
 	
