@@ -21,7 +21,7 @@ public class MLSOR extends AutonControlScheme {
 		//Drop PC
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false);
-		//Lowerr PC manipulator
+		//Lower PC manipulator
 		super.vertical(54-super.CenterRobotLength);
 		//pick up PC
 		super.rotate(90, false);
