@@ -268,15 +268,15 @@ public class Robot extends IterativeRobot {
 			frontRightMotor = properties.getInt("middleRightMotor");
 			frontLeftMotor = properties.getInt("middleLeftMotor");
 			
-			frontRightMotor = properties.getInt("liftLeft1");
-			frontLeftMotor = properties.getInt("liftLeft2");
-			backRightMotor = properties.getInt("liftRight1");
-			backLeftMotor = properties.getInt("liftRight2");
+			liftLeft1 = properties.getInt("liftLeft1");
+			liftLeft2 = properties.getInt("liftLeft2");
+			liftRight1 = properties.getInt("liftRight1");
+			liftRight2 = properties.getInt("liftRight2");
 			
-			frontRightMotor = properties.getInt("rightLimitLow");
-			frontLeftMotor = properties.getInt("rightLimitHigh");
-			backRightMotor = properties.getInt("leftLimitLow");
-			backLeftMotor = properties.getInt("leftLimitHigh");
+			rightLimitLow = properties.getInt("rightLimitLow");
+			rightLimitHigh = properties.getInt("rightLimitHigh");
+			leftLimitLow = properties.getInt("leftLimitLow");
+			leftLimitHigh= properties.getInt("leftLimitHigh");
 			
 			drivePneuForward = properties.getInt("drivePneuForward");
 			drivePneuReverse = properties.getInt("drivePneuReverse");
@@ -298,6 +298,16 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("backLeftMotor", 5);
 		properties.addDefaultProp("middleRightMotor", 6);
 		properties.addDefaultProp("middleLeftMotor", 7);
+		
+		properties.addDefaultProp("liftLeft1", 8);
+		properties.addDefaultProp("liftLeft2", 9);
+		properties.addDefaultProp("liftRight1", 10);
+		properties.addDefaultProp("liftRight2", 11);
+		
+		properties.addDefaultProp("rightLimitLow", 0);
+		properties.addDefaultProp("rightLimitHigh", 1);
+		properties.addDefaultProp("leftLimitLow", 2);
+		properties.addDefaultProp("leftLimitHigh", 3);
 		
 		properties.addDefaultProp("drivePneuForward", 1);
 		properties.addDefaultProp("drivePneuReverse", 2);
