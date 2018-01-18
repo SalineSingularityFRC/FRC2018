@@ -5,32 +5,31 @@ import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 
-public class MRSRS extends AutonControlScheme{
+public class MRSV extends AutonControlScheme {
 
-	public MRSRS(SingDrive drive, Port gyroPort) {
+	public MRSV(SingDrive drive, Port gyroPort) {
 		super(drive, gyroPort);
 	}
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35.0);
+		super.vertical(35);
 		super.rotate( 90, false);
 		super.vertical(42-super.CenterRobotWidth);
 		super.rotate( 90, true);
+		//raise PC
 		super.vertical(105-super.CenterRobotLength);
 		//Drop the PC
 		super.vertical(-(32.5-super.CenterRobotLength));
-		super.rotate(90, true);
 		//Lower PC manipulator
+		super.rotate(90, true);
 		super.vertical(54-super.CenterRobotLength);
 		//Pick up PC
-		super.vertical(-(54-super.CenterRobotLength));
+		super.rotate(90, true);
+		super.vertical(63.5-super.CenterRobotLength);
 		super.rotate(90, false);
-		super.vertical(32.5-super.CenterRobotLength);
-		//Drop PC
-		
+		super.vertical(super.CenterRobotLength+12);
+		super.rotate(90, true);
 	}
-	
-	
-	
+
 }
