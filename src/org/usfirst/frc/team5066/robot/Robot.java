@@ -8,10 +8,16 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
+import Autonomous2018.SideStraight;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -28,6 +34,8 @@ public class Robot extends IterativeRobot {
 	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
 	int drivePneuForward, drivePneuReverse;
 	
+	Port aHRSGyro;
+	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
 	Compressor compressor;
@@ -35,6 +43,9 @@ public class Robot extends IterativeRobot {
 	SingularityProperties properties;
 	
 	ControlScheme currentScheme;
+	
+	Command autonomousCommand;
+	SendableChooser autoChooser;
 	
 	final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
@@ -70,6 +81,9 @@ public class Robot extends IterativeRobot {
 		
 		try {
 			properties = new SingularityProperties("/home/lvuser/robot.properties");
+			
+			//aHRSGyro = new Port(SerialPort::Port::kUSB);
+			
 		} catch (Exception e){
 			setDefaultProperties();
 			
@@ -86,6 +100,12 @@ public class Robot extends IterativeRobot {
 			compressor.start();
 			
 			currentScheme = new BasicDrive(XBOX_PORT);
+			
+			
+			
+			autoChooser = new SendableChooser();
+			autoChooser.addDefault("Default program", new SideStraight(drive, aHRSGyro));
+			autoChooser.addObject("LLS", new LLS(drive, aHRSGyro));
 		}
 	}
 
