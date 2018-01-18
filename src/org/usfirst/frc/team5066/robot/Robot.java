@@ -8,6 +8,7 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
+import Autonomous2018.LLS;
 import Autonomous2018.SideStraight;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -106,6 +107,9 @@ public class Robot extends IterativeRobot {
 			autoChooser = new SendableChooser();
 			autoChooser.addDefault("Default program", new SideStraight(drive, aHRSGyro));
 			autoChooser.addObject("LLS", new LLS(drive, aHRSGyro));
+			
+			
+			SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 		}
 	}
 
@@ -114,6 +118,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();
 	}
 
 	/**
