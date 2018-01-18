@@ -268,6 +268,16 @@ public class Robot extends IterativeRobot {
 			frontRightMotor = properties.getInt("middleRightMotor");
 			frontLeftMotor = properties.getInt("middleLeftMotor");
 			
+			frontRightMotor = properties.getInt("liftLeft1");
+			frontLeftMotor = properties.getInt("liftLeft2");
+			backRightMotor = properties.getInt("liftRight1");
+			backLeftMotor = properties.getInt("liftRight2");
+			
+			frontRightMotor = properties.getInt("rightLimitLow");
+			frontLeftMotor = properties.getInt("rightLimitHigh");
+			backRightMotor = properties.getInt("leftLimitLow");
+			backLeftMotor = properties.getInt("leftLimitHigh");
+			
 			drivePneuForward = properties.getInt("drivePneuForward");
 			drivePneuReverse = properties.getInt("drivePneuReverse");
 			
