@@ -5,19 +5,22 @@ import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 
-public class LLS extends AutonControlScheme{
+public class LRS extends AutonControlScheme{
 
-	public LLS(SingDrive drive, Port gyroPort) {
+	public LRS(SingDrive drive, Port gyroPort) {
 		super(drive, gyroPort);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
-		// TODO Auto-generated method stub
-		super.vertical(168-super.CenterRobotLength);
-		//lift arm
+		super.vertical(super.CenterRobotLength);
 		super.rotate(90, false);
+		super.vertical(264-super.CenterRobotWidth);
+		super.rotate(90, true);
+		super.vertical(168-(2*super.CenterRobotLength));
+		//lift arm
+		super.rotate(90, true);
 		//place block
 	}
 
