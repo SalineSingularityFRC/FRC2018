@@ -125,7 +125,7 @@ public abstract class SingDrive {
 			m_leftMiddleMotor = new CANTalon(leftMiddleMotor);
 			m_rightMiddleMotor = new CANTalon(rightMiddleMotor);
 
-		}  else {
+		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
 		}
 
