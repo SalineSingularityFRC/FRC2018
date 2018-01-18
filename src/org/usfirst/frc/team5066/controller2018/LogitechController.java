@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team5066.controller2018;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,3 +64,4 @@ public class LogitechController extends Joystick{
 	//maps raw input methods to usefully named methods
 	
 }
+

@@ -229,12 +229,12 @@ public abstract class SingDrive {
 	
 	public void rampVoltage() {
 		
-		((CANTalon) m_frontRightMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_rearRightMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_frontLeftMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_rearLeftMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_rightMiddleMotor).setVoltageRampRate(RAMP_RATE);
-		((CANTalon) m_leftMiddleMotor).setVoltageRampRate(RAMP_RATE);
+		m_frontRightMotor.setVoltageRampRate(RAMP_RATE);
+		m_rearRightMotor.setVoltageRampRate(RAMP_RATE);
+		m_frontLeftMotor.setVoltageRampRate(RAMP_RATE);
+		m_rearLeftMotor.setVoltageRampRate(RAMP_RATE);
+		m_rightMiddleMotor.setVoltageRampRate(RAMP_RATE);
+		m_leftMiddleMotor.setVoltageRampRate(RAMP_RATE);
 		
 	}
 	

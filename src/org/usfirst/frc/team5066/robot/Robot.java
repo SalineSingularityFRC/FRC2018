@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -27,13 +28,22 @@ public class Robot extends IterativeRobot {
 	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
 	int drivePneuForward, drivePneuReverse;
 	
+	int liftLeft1, liftLeft2, liftRight1, liftRight2;
+	int leftLimitLow, leftLimitHigh, rightLimitLow, rightLimitHigh;
+	
+	final double LIFT_SPEED = 1.0;
+	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
 	Compressor compressor;
+	Lift lift;
 	
 	SingularityProperties properties;
 	
 	ControlScheme currentScheme;
+	
+	Timer timer;
+	
 	
 	final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
@@ -82,11 +92,18 @@ public class Robot extends IterativeRobot {
 		
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
+			drive.rampVoltage();
+			
+			lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
+					rightLimitHigh, leftLimitLow, leftLimitHigh, LIFT_SPEED);
+			
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			compressor = new Compressor();
 			compressor.start();
 			
-			currentScheme = new BasicDrive(XBOX_PORT);
+			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
+			
+			timer = new Timer();
 		}
 	}
 
@@ -110,6 +127,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
+		timer.start();
 	}
 
 	/**
@@ -119,7 +137,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-	
+		currentScheme.lift(lift, timer);
 	}
 	
 	/**
