@@ -81,6 +81,7 @@ public class Robot extends IterativeRobot {
 		
 		try {
 			properties = new SingularityProperties("/home/lvuser/robot.properties");
+			
 		} catch (Exception e){
 			setDefaultProperties();
 			
@@ -267,6 +268,15 @@ public class Robot extends IterativeRobot {
 			backLeftMotor = properties.getInt("backLeftMotor");
 			frontRightMotor = properties.getInt("middleRightMotor");
 			frontLeftMotor = properties.getInt("middleLeftMotor");
+			liftLeft1 = properties.getInt("liftLeft1");
+			liftLeft2 = properties.getInt("liftLeft2");
+			liftRight1 = properties.getInt("liftRight1");
+			liftRight2 = properties.getInt("liftRight2");
+			
+			leftLimitLow = properties.getInt("leftLimitLow");
+			leftLimitHigh = properties.getInt("leftLimitHigh");
+			rightLimitLow = properties.getInt("rightLimitLow");
+			rightLimitHigh = properties.getInt("rightLimitHigh");
 			
 			drivePneuForward = properties.getInt("drivePneuForward");
 			drivePneuReverse = properties.getInt("drivePneuReverse");
@@ -288,6 +298,15 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("backLeftMotor", 5);
 		properties.addDefaultProp("middleRightMotor", 6);
 		properties.addDefaultProp("middleLeftMotor", 7);
+		properties.addDefaultProp("liftLeft1", 8);
+		properties.addDefaultProp("liftLeft2", 9);
+		properties.addDefaultProp("liftRight1", 10);
+		properties.addDefaultProp("liftRight2", 11);
+		
+		properties.addDefaultProp("leftLimitLow", 0);
+		properties.addDefaultProp("leftLimitHigh", 1);
+		properties.addDefaultProp("rightLimitLow", 2);
+		properties.addDefaultProp("rightLimitHigh", 3);
 		
 		properties.addDefaultProp("drivePneuForward", 1);
 		properties.addDefaultProp("drivePneuReverse", 2);
