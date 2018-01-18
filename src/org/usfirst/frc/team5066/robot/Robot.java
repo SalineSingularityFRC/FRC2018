@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import src.org.usfirst.frc.team5066.robot.ADXRS450_Gyro;
 
 
 /**
@@ -35,7 +36,7 @@ public class Robot extends IterativeRobot {
 	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
 	int drivePneuForward, drivePneuReverse;
 	
-	Port aHRSGyro;
+	AHRS aHRSGyro;
 	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
@@ -83,7 +84,8 @@ public class Robot extends IterativeRobot {
 		try {
 			properties = new SingularityProperties("/home/lvuser/robot.properties");
 			
-			//aHRSGyro = new Port(SerialPort::Port::kUSB);
+			
+			aHRSGyro = new AHRS(SPI.Port.kMXP);
 			
 		} catch (Exception e){
 			setDefaultProperties();
@@ -105,8 +107,8 @@ public class Robot extends IterativeRobot {
 			
 			
 			autoChooser = new SendableChooser();
-			autoChooser.addDefault("Default program", new SideStraight(drive, aHRSGyro));
-			autoChooser.addObject("LLS", new LLS(drive, aHRSGyro));
+			autoChooser.addDefault("Default program", new SideStraight(drive));
+			autoChooser.addObject("LLS", new LLS(drive));
 			
 			
 			SmartDashboard.putData("Autonomous mode chooser", autoChooser);

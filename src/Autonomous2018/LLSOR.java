@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class LLSOR extends AutonControlScheme {
 
-	public LLSOR(SingDrive drive, Port gyroPort) {
-		super(drive, gyroPort);
+	public LLSOR(SingDrive drive) {
+		super(drive);
 	}
 
 	@Override

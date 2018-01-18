@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class MLSV extends AutonControlScheme {
 
-	public MLSV(SingDrive drive, Port gyroPort) {
-		super(drive, gyroPort);
+	public MLSV(SingDrive drive) {
+		super(drive);
 		// TODO Auto-generated constructor stub
 	}
 

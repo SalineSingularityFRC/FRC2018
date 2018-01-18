@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class LLSOL extends AutonControlScheme{
 
-	public LLSOL(SingDrive drive, Port gyroPort) {
-		super(drive, gyroPort);
+	public LLSOL(SingDrive drive) {
+		super(drive);
 	}
 
 	@Override

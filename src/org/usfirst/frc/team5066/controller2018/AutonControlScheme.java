@@ -32,12 +32,12 @@ public abstract class AutonControlScheme {
 	protected static SingDrive drive;
 
 	
-	public AutonControlScheme (SingDrive drive, Port gyroPort) {
+	public AutonControlScheme (SingDrive drive) {
 		
 		this.drive = drive;
 		
 		//creates new AHRS gyro object that takes the port located on the roborio
-		gyro = new AHRS(gyroPort);
+		//gyro = new AHRS(gyroPort);
 		gyro.reset();
 	}
 	
