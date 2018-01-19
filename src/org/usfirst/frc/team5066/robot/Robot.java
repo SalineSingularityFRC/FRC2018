@@ -6,6 +6,7 @@ import org.usfirst.frc.team5066.library.*;
 import org.usfirst.frc.team5066.singularityDrive.*;
 
 import com.ctre.CANTalon;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -67,8 +68,6 @@ public class Robot extends IterativeRobot {
 	
 	//pneumatics
 	Solenoid solenoid;
-	
-	
 
 	/**
 	 * This function is run when the robot is first started up and should be
