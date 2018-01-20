@@ -1,17 +1,16 @@
 package org.usfirst.frc.team5066.controller2018.controlSchemes;
 
-
-
-
 import org.usfirst.frc.team5066.controller2018.ControlScheme;
 import org.usfirst.frc.team5066.controller2018.LogitechController;
 import org.usfirst.frc.team5066.controller2018.XboxController;
 import org.usfirst.frc.team5066.library.SingularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
 import org.usfirst.frc.team5066.robot.DrivePneumatics;
+import org.usfirst.frc.team5066.robot.Lift;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive implements ControlScheme {
@@ -51,6 +50,12 @@ public class TankDrive implements ControlScheme {
 		}
 		
 		((SixWheelDrive) sd).tankDrive(xbox.getLS_Y(), xbox.getRS_Y(), true, speedMode);
+		
+	}
+
+	@Override
+	public void lift(Lift lift, Timer timer) {
+		// TODO Auto-generated method stub
 		
 	}
 	
