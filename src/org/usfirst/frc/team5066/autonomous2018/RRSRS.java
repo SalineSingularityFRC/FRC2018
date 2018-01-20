@@ -13,24 +13,21 @@ public class RRSRS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(169-super.CenterRobotLength);
+		super.vertical(35);
 		super.rotate(90,true);
+		super.vertical(73.56-super.CenterRobotWidth);
+		super.rotate(90, false);
 		//raise PC
-		super.vertical(55.435-super.CenterRobotWidth);
+		super.vertical(105-super.CenterRobotLength);
 		//Drop PC
-		super.vertical(-(super.CenterRobotCorner-super.CenterRobotLength+1));
-		//Lower PC manipulator
-		super.rotate(90, true);
-		super.vertical(60.5);
-		//Lower manipulator
-		super.rotate(90,false);
-		super.vertical(70.25+(super.CenterRobotCorner-super.CenterRobotLength+1));//1 is placeholder value, this should be distance to cube stockpile from switch edge
-		//Grab PC
-		super.vertical(-54);
-		super.rotate(90,false);
-		//raise PC
 		super.vertical(32.5-super.CenterRobotLength);
-		
+		super.rotate(90, true);
+		//Lower PC manipulator
+		super.vertical(47.5-super.CenterRobotLength);
+		//Pick up PC
+		super.vertical(-(47.5-super.CenterRobotLength));
+		super.rotate(90, false);
+		super.vertical(32.5-super.CenterRobotLength);
 		//Drop PC
 	}
 

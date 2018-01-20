@@ -13,19 +13,22 @@ public class LLSV extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168-super.CenterRobotLength);
-		//raise arm
+		super.vertical(35);
+		super.rotate(90, true);
+		super.vertical(73.56-super.CenterRobotWidth);
 		super.rotate(90, false);
+		//raise PC
+		super.vertical(105-super.CenterRobotLength);
 		//Drop PC
+		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false);
-		super.rotate(90, false);
-		//lower arm
-		super.vertical(30-super.CenterRobotLength);//don't know exactly
-		super.rotate(90,true);
-		super.vertical(20);//don't know exactly
-		//pick up block
-		super.rotate(90,false);
-		super.vertical(98-super.CenterRobotLength);
+		//Lower PC manipulator
+		super.vertical(54-super.CenterRobotLength);
+		//pick up PC
+		super.rotate(180, false);
+		super.vertical(24-super.CenterRobotLength);
+		super.rotate(90, true);
+		super.vertical(63.5-super.CenterRobotLength);
 	}
 
 }

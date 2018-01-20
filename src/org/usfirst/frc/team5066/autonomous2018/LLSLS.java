@@ -14,21 +14,21 @@ public class LLSLS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168);
-		//raise arm
-		super.rotate(90, false);
-		//place block
-		super.rotate(90, false);
-		super.vertical(30);//don't know exactly
-		super.rotate(90,true);
-		super.vertical(20);//don't know exactly
-		//pick up block
-		super.vertical(20, -0.5);
+		super.vertical(35);
 		super.rotate(90, true);
-		super.vertical(30);
-		//lift arm
+		super.vertical(73.56-super.CenterRobotWidth);
 		super.rotate(90, false);
-		//place block
+		//raise PC
+		super.vertical(105-super.CenterRobotLength);
+		//Drop PC
+		super.vertical(-(32.5-super.CenterRobotLength));
+		super.rotate(90,false);
+		super.vertical(47.5-super.CenterRobotLength);
+		//Pick up PC
+		super.vertical(-(47.5-super.CenterRobotLength));
+		super.rotate(90,true);
+		super.vertical(32.5-super.CenterRobotLength);
+		//Drop PC
 	}
 
 }

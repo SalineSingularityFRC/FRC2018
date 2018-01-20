@@ -14,12 +14,14 @@ public class RLS extends AutonControlScheme{
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(0.5, 120-(super.CenterRobotLength)-(45/2));
-		super.rotate(90,true);
-		super.vertical(0.5,120);
-		super.rotate(90,false);
-		//This is where we'd want to lift the manipulator
-		super.vertical(0.5,45);
-		//This is where we'd want to deposit the PC
+		super.vertical(35);
+		super.rotate(90, true);
+		super.vertical(221.06-super.CenterRobotWidth+super.CenterRobotLength);
+		super.rotate(90, false);
+		super.vertical(133-super.CenterRobotLength);
+		super.rotate(90, false);
+		//raise PC
+		super.vertical(12);
+		//Drop PC
 	}
 }

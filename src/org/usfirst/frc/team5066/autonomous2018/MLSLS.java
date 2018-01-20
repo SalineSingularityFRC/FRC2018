@@ -19,13 +19,13 @@ public class MLSLS extends AutonControlScheme {
 		super.rotate(90, false);
 		super.vertical(105-super.CenterRobotLength);
 		//Drop PC
-		super.vertical(- (32.5-super.CenterRobotWidth));
-		super.rotate(90, false);
-		//Lower PC manipulator
+		super.vertical(-(32.5-super.CenterRobotLength));
+		super.rotate(90,false);
 		super.vertical(47.5-super.CenterRobotLength);
-		//pick up PC
+		//Pick up PC
 		super.vertical(-(47.5-super.CenterRobotLength));
-		super.rotate(90, true);
-		super.vertical(32.5-super.CenterRobotWidth);
+		super.rotate(90,true);
+		super.vertical(32.5-super.CenterRobotLength);
+		//Drop PC
 	}
 }

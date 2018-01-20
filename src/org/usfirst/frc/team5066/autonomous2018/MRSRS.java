@@ -22,12 +22,12 @@ public class MRSRS extends AutonControlScheme{
 		super.vertical(32.5-super.CenterRobotLength);
 		super.rotate(90, true);
 		//Lower PC manipulator
-		super.vertical(54-super.CenterRobotLength);
+		super.vertical(47.5-super.CenterRobotLength);
 		//Pick up PC
-		super.vertical(-(54-super.CenterRobotLength));
+		super.vertical(-(47.5-super.CenterRobotLength));
 		super.rotate(90, false);
+		super.vertical(32.5-super.CenterRobotLength);
 		//Drop PC
-		
 	}
 	
 	
