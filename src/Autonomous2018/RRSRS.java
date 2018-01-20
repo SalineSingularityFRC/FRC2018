@@ -13,10 +13,10 @@ public class RRSRS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(0.5, 60+(super.CenterRobotLength/2));
+		super.vertical(0.5, 132+(super.CenterRobotLength/2));
 		//This is where we´d want to lift the manipulator
 		super.rotate(90,true);
-		super.vertical(0.1,5);//Move forward until collision with switch walls, can be changed
+		super.vertical(0.1,60);//Move forward until collision with switch walls, can be changed
 		//This is where we´d want to throw the cube 
 		
 		//This is where we move back to receive another cube
