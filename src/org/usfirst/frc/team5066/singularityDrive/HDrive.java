@@ -2,6 +2,8 @@ package org.usfirst.frc.team5066.singularityDrive;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 //Simport com.kauailabs.navx.frc.AHRS;
 
 public class HDrive extends SingDrive {
@@ -60,12 +62,12 @@ public class HDrive extends SingDrive {
 		 * prevStrafe = horizontal;
 		 */
 
-		m_frontLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
-		m_frontRightMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
-		m_rearRightMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-horizontal / hWheelMaximum));
+		m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-horizontal / hWheelMaximum));
 
 		// for testing purposes only
 		/*
@@ -107,12 +109,12 @@ public class HDrive extends SingDrive {
 		right = threshold(right);
 		horizontal = threshold(horizontal);
 
-		m_frontLeftMotor.set(this.velocityMultiplier * (-left / leftWheelMaximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * (-left / leftWheelMaximum));
-		m_frontRightMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
-		m_rearRightMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * (-horizontal / hWheelMaximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-left / leftWheelMaximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-left / leftWheelMaximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (right / rightWheelMaximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (right / rightWheelMaximum));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-horizontal / hWheelMaximum));
+		m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-horizontal / hWheelMaximum));
 
 	}
 
@@ -132,12 +134,12 @@ public class HDrive extends SingDrive {
 			double vertMax = Math.max(1, Math.abs(vertical) + Math.abs(rotation));
 			double strafeMax = Math.max(1, Math.abs(horizontal));
 
-			m_frontLeftMotor.set((-vertical + rotation) / (vertMax * leftOverRight()));
-			m_rearLeftMotor.set((-vertical + rotation) / (vertMax * leftOverRight()));
-			m_frontRightMotor.set((vertical * leftOverRight() + rotation) / vertMax);
-			m_rearRightMotor.set((vertical * leftOverRight() + rotation) / vertMax);
-			m_rightMiddleMotor.set(-horizontal / strafeMax);
-			m_leftMiddleMotor.set(-horizontal / strafeMax);
+			m_frontLeftMotor.set(ControlMode.PercentOutput, (-vertical + rotation) / (vertMax * leftOverRight()));
+			m_rearLeftMotor.set(ControlMode.PercentOutput, (-vertical + rotation) / (vertMax * leftOverRight()));
+			m_frontRightMotor.set(ControlMode.PercentOutput, (vertical * leftOverRight() + rotation) / vertMax);
+			m_rearRightMotor.set(ControlMode.PercentOutput, (vertical * leftOverRight() + rotation) / vertMax);
+			m_rightMiddleMotor.set(ControlMode.PercentOutput, -horizontal / strafeMax);
+			m_leftMiddleMotor.set(ControlMode.PercentOutput, -horizontal / strafeMax);
 
 			if (Math.abs((this.getRightPosition() + this.getLeftPosition())) / 2 > distance)
 				return;
@@ -152,12 +154,12 @@ public class HDrive extends SingDrive {
 
 			double strafeMax = Math.max(1, Math.abs(horizontal));
 
-			m_frontLeftMotor.set(0.0);
-			m_rearLeftMotor.set(0.0);
-			m_frontRightMotor.set(0.0);
-			m_rearRightMotor.set(0.0);
-			m_rightMiddleMotor.set(-horizontal / strafeMax);
-			m_leftMiddleMotor.set(-horizontal / strafeMax);
+			m_frontLeftMotor.set(ControlMode.PercentOutput, 0.0);
+			m_rearLeftMotor.set(ControlMode.PercentOutput, 0.0);
+			m_frontRightMotor.set(ControlMode.PercentOutput, 0.0);
+			m_rearRightMotor.set(ControlMode.PercentOutput, 0.0);
+			m_rightMiddleMotor.set(ControlMode.PercentOutput, -horizontal / strafeMax);
+			m_leftMiddleMotor.set(ControlMode.PercentOutput, -horizontal / strafeMax);
 
 			if (Math.abs(this.getMiddlePosition()) > distance)
 				return;
@@ -169,11 +171,11 @@ public class HDrive extends SingDrive {
 		double vertMax = Math.max(1, Math.abs(vertical));
 		double strafeMax = Math.max(1, Math.abs(horizontal));
 
-		m_frontLeftMotor.set((-vertical * driveStraight + rotation) / vertMax);
-		m_rearLeftMotor.set((-vertical * driveStraight + rotation) / vertMax);
-		m_frontRightMotor.set((vertical + rotation) / (vertMax * driveStraight));
-		m_rearRightMotor.set((vertical + rotation) / (vertMax * driveStraight));
-		m_rightMiddleMotor.set(-horizontal / strafeMax);
-		m_leftMiddleMotor.set(-horizontal / strafeMax);
+		m_frontLeftMotor.set(ControlMode.PercentOutput, (-vertical * driveStraight + rotation) / vertMax);
+		m_rearLeftMotor.set(ControlMode.PercentOutput, (-vertical * driveStraight + rotation) / vertMax);
+		m_frontRightMotor.set(ControlMode.PercentOutput, (vertical + rotation) / (vertMax * driveStraight));
+		m_rearRightMotor.set(ControlMode.PercentOutput, (vertical + rotation) / (vertMax * driveStraight));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, -horizontal / strafeMax);
+		m_leftMiddleMotor.set(ControlMode.PercentOutput, -horizontal / strafeMax);
 	}
 }
