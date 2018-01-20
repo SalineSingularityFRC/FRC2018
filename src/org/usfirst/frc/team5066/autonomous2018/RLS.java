@@ -18,8 +18,8 @@ public class RLS extends AutonControlScheme{
 		super.rotate(90,true);
 		super.vertical(0.5,120);
 		super.rotate(90,false);
-		//This is where we´d want to lift the manipulator
+		//This is where we'd want to lift the manipulator
 		super.vertical(0.5,45);
-		//This is where we´d want to deposit the PC
+		//This is where we'd want to deposit the PC
 	}
 }

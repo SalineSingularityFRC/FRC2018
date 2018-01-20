@@ -17,9 +17,9 @@ public class RLSLS extends AutonControlScheme {
 		super.rotate(90,true);
 		super.vertical(0.5,120);
 		super.rotate(90,false);
-		//This is where we´d want to lift the manipulator
+		//This is where we'd want to lift the manipulator
 		super.vertical(0.5,45);
-		//This is where we´d want to deposit the PC
+		//This is where we'd want to deposit the PC
 		
 		//This is where the robot grabs a new PC
 		super.vertical(0.5,-22.5);
@@ -27,10 +27,10 @@ public class RLSLS extends AutonControlScheme {
 		super.vertical(0.5,1);//1 is placeholder value, value should be distance to PC
 		//This is where we´d want to pick up the cube
 		
-		//This is where we´d have the robot deposit its new PC onto the switch
+		//This is where we'd have the robot deposit its new PC onto the switch
 		super.vertical(0.5, -1);//1 is placeholder value, same as line 27
 		super.rotate(90,true);
-		//This is where we´d want to deposit the PC
+		//This is where we'd want to deposit the PC
 	}
 
 }

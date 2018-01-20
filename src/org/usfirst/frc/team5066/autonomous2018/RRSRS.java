@@ -14,10 +14,10 @@ public class RRSRS extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		super.vertical(0.5, 132+(super.CenterRobotLength/2));
-		//This is where we´d want to lift the manipulator
+		//This is where we'd want to lift the manipulator
 		super.rotate(90,true);
 		super.vertical(0.1,60);//Move forward until collision with switch walls, can be changed
-		//This is where we´d want to throw the cube 
+		//This is where we'd want to throw the cube 
 		
 		//This is where we move back to receive another cube
 		super.vertical(0.5,1);//1 is placeholder value, this should be half of diagonal length
@@ -38,7 +38,7 @@ public class RRSRS extends AutonControlScheme {
 		super.rotate(90,true);
 		super.vertical(0.5, 1.0);//1 is placeholder value should be half the length of the switch+length of robot
 		super.rotate(90,true);
-		//This is where we´d want to throw the cube
+		//This is where we'd want to throw the cube
 		
 	}
 
