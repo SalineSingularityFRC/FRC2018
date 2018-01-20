@@ -9,12 +9,10 @@ public class MLSLS extends AutonControlScheme {
 
 	public MLSLS(SingDrive drive) {
 		super(drive);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
-		// TODO Auto-generated method stub
 		super.vertical(35);
 		super.rotate(90, true);
 		super.vertical(84-super.CenterRobotWidth);
@@ -24,9 +22,9 @@ public class MLSLS extends AutonControlScheme {
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false);
 		//Lower PC manipulator
-		super.vertical(54-super.CenterRobotLength);
+		super.vertical(47.5-super.CenterRobotLength);
 		//pick up PC
-		super.vertical(-(54-super.CenterRobotLength));
+		super.vertical(-(47.5-super.CenterRobotLength));
 		super.rotate(90, true);
 		super.vertical(32.5-super.CenterRobotWidth);
 	}

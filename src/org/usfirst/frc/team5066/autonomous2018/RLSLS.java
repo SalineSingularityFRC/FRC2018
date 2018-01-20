@@ -13,24 +13,21 @@ public class RLSLS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(0.5, 120-(super.CenterRobotLength)-(45/2));
+		super.vertical(35);
 		super.rotate(90,true);
-		super.vertical(0.5,120);
+		super.vertical(153.75);
 		super.rotate(90,false);
-		//This is where we'd want to lift the manipulator
-		super.vertical(0.5,45);
-		//This is where we'd want to deposit the PC
-		
-		//This is where the robot grabs a new PC
-		super.vertical(0.5,-22.5);
+		//Raise PC
+		super.vertical(105-super.CenterRobotLength);
+		//Drop PC
+		super.vertical(-(32.5-super.CenterRobotLength));
 		super.rotate(90,false);
-		super.vertical(0.5,1);//1 is placeholder value, value should be distance to PC
-		//This is where we'd want to pick up the cube
-		
-		//This is where we'd have the robot deposit its new PC onto the switch
-		super.vertical(0.5, -1);//1 is placeholder value, same as line 27
+		super.vertical(47.5-super.CenterRobotLength);
+		//Pick up PC
+		super.vertical(-(47.5-super.CenterRobotLength));
 		super.rotate(90,true);
-		//This is where we'd want to deposit the PC
+		super.vertical(32.5-super.CenterRobotLength);
+		//Drop PC
 	}
 
 }
