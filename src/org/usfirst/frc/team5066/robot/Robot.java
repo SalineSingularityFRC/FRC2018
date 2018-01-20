@@ -112,8 +112,7 @@ public class Robot extends IterativeRobot {
 			
 			side = new SendableChooser();
 			priority = new SendableChooser();
-			priority.addDefault("Default program", new SideStraight(drive));
-			priority.addObject("Our Switch", new LLSLS(drive));
+			priority.addDefault("Our Switch", new LLSLS(drive));
 			priority.addObject("Opponet Switch", new LLSOL(drive));
 			priority.addObject("Our Vault", new LLSV(drive));
 			
@@ -129,13 +128,41 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		/*Object[][] L = {{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
-		{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}};
+		/*Object[][][] autonPrograms = {{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
+		{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}},{{new RRSRS(drive), 
+		new RRSV(drive), new RRSOL(drive), new RRSOR(drive)},{new RLSLS(drive), new RLSV(drive), new RLSOL(drive),
+		new RLSOR(drive)}},{{new MLSLS(drive), new MLSV(drive), new MLSOL(drive), new MLSOR(drive)},{new MRSRS(drive),
+		new MRSV(drive), new MRSOL(drive), new MRSOL(drive)}}};
 
 		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-
-		autonomousCommand = (Command) autoChooser.getSelected();
+		int a=0,b=0,c=0;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();		
+		
+		if(side.equals(new RLSLS(drive){
+			a=1;
+		}
+		
+		if(side.equals(new MLSLS(drive))){
+			a=2;
+		}
+		
+		if(gameData.charAt(0) == ´R´){
+			b=1;
+		}
+		
+		if(priority.equals(new LLSV(drive))){
+			c=1;
+		}
+		if(priority.equals(new LLSOL(drive))){
+			c=2;
+		}
+		if(priority.equals(new LLSOR(drive))){
+			c=3;
+		}
+		
+		
+		
+		autonomousCommand = (Command) autonPrograms[a][b][c];
 		autonomousCommand.start();
 		 */
 		
