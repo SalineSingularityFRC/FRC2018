@@ -9,7 +9,6 @@ public class LRS extends AutonControlScheme{
 
 	public LRS(SingDrive drive) {
 		super(drive);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

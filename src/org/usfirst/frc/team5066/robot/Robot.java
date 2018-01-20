@@ -8,8 +8,7 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
-import Autonomous2018.LLS;
-import Autonomous2018.SideStraight;
+import Autonomous2018.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -18,6 +17,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import src.org.usfirst.frc.team5066.robot.ADXRS450_Gyro;
@@ -47,7 +47,8 @@ public class Robot extends IterativeRobot {
 	ControlScheme currentScheme;
 	
 	Command autonomousCommand;
-	SendableChooser autoChooser;
+	SendableChooser side;
+	SendableChooser priority;
 	
 	final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
@@ -104,14 +105,18 @@ public class Robot extends IterativeRobot {
 			
 			currentScheme = new BasicDrive(XBOX_PORT);
 			
+			side = new SendableChooser();
+			priority = new SendableChooser();
+			priority.addDefault("Default program", new SideStraight(drive));
+			priority.addObject("Our Switch", new LLSLS(drive));
+			priority.addObject("Opponet Switch", new LLSOL(drive));
+			priority.addObject("Our Vault", new LLSV(drive));
 			
+			side.addDefault("Left", new LLS(drive));
+			side.addObject("Middle", new MLSLS(drive));
+			//side.addObject("Right", new RLSLS(drive));
 			
-			autoChooser = new SendableChooser();
-			autoChooser.addDefault("Default program", new SideStraight(drive));
-			autoChooser.addObject("LLS", new LLS(drive));
-			
-			
-			SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+			SmartDashboard.putData("Autonomous mode chooser", );
 		}
 	}
 
@@ -120,6 +125,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Object[][] L = {{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
+						{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}};
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
 	}
@@ -129,7 +140,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
+		Scheduler.getInstance();
 	}
 	/**
 	 * This function is called once each time the robot enters tele-operated
