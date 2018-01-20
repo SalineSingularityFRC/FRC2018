@@ -2,7 +2,8 @@ package org.usfirst.frc.team5066.robot;
 
 import org.usfirst.frc.team5066.controller2018.LogitechController;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -14,17 +15,17 @@ public class Lift {
 	//do javabat when done (WHO DONE THIS LMFAOOOOO)
 	
 	
-	private CANTalon right1, right2, left1, left2;
+	private TalonSRX right1, right2, left1, left2;
 	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh;
 	double speed;
 	
 	
 	public Lift(int r1, int r2, int l1, int l2, int rL1, int rL2, int lL1, int  lL2, double s) {
 		
-		right1 = new CANTalon(r1);
-		right2 = new CANTalon(r2);
-		left1 = new CANTalon(l1);
-		left2 = new CANTalon(l2);
+		right1 = new TalonSRX(r1);
+		right2 = new TalonSRX(r2);
+		left1 = new TalonSRX(l1);
+		left2 = new TalonSRX(l2);
 		
 		rightLimLow = new DigitalInput(rL1);
 		rightLimHigh = new DigitalInput(rL2);
@@ -41,13 +42,13 @@ public class Lift {
 		//release lift if button is pressed 
 		//and not touching lower limit switch
 		if (rightRelease && !rightLimLow.get()) {
-			right1.set(speed);
-			right2.set(speed);
+			right1.set(ControlMode.PercentOutput, speed);
+			right2.set(ControlMode.PercentOutput, speed);
 		}
 		
 		else {
-			right1.set(0.0);
-			right2.set(0.0);
+			right1.set(ControlMode.PercentOutput, 0.0);
+			right2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return right limit switch value
@@ -60,12 +61,12 @@ public class Lift {
 		//release lift if button is pressed 
 		//and not touching lower limit switch
 		if (leftRelease && !leftLimLow.get()) {
-			left1.set(speed);
-			left2.set(speed);
+			left1.set(ControlMode.PercentOutput, speed);
+			left2.set(ControlMode.PercentOutput, speed);
 		}
 		else {
-			left1.set(0.0);
-			left2.set(0.0);
+			left1.set(ControlMode.PercentOutput, 0.0);
+			left2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return left limit switch value
@@ -77,16 +78,16 @@ public class Lift {
 		
 		//raise or lower lift with controls
 		if (rightLiftUp){
-			right1.set(speed);
-			right2.set(speed);
+			right1.set(ControlMode.PercentOutput, speed);
+			right2.set(ControlMode.PercentOutput, speed);
 		}
 		else if (rightLiftDown) {
-			right1.set(-speed);
-			right2.set(-speed);
+			right1.set(ControlMode.PercentOutput, -speed);
+			right2.set(ControlMode.PercentOutput, -speed);
 		}
 		else {
-			right1.set(0.0);
-			right2.set(0.0);
+			right1.set(ControlMode.PercentOutput, 0.0);
+			right2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return right limit high switch
@@ -98,16 +99,16 @@ public class Lift {
 		
 		//raise or lower lift with controls
 		if (leftLiftUp){
-			left1.set(speed);
-			left2.set(speed);
+			left1.set(ControlMode.PercentOutput, speed);
+			left2.set(ControlMode.PercentOutput, speed);
 		}
 		else if (leftLiftDown) {
-			left1.set(-speed);
-			left2.set(-speed);
+			left1.set(ControlMode.PercentOutput, -speed);
+			left2.set(ControlMode.PercentOutput, -speed);
 		}
 		else {
-			left1.set(0.0);
-			left2.set(0.0);
+			left1.set(ControlMode.PercentOutput, 0.0);
+			left2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return left limit high switch
