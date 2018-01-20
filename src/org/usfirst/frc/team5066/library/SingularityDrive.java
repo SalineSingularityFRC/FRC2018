@@ -1,6 +1,9 @@
 package org.usfirst.frc.team5066.library;
 
-import com.ctre.CANTalon;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,8 +21,8 @@ public class SingularityDrive {
 	private double slowSpeedConstant, normalSpeedConstant, fastSpeedConstant;
 
 	
-	private SpeedController m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
-	private SpeedController m_leftMiddleMotor, m_rightMiddleMotor;
+	private TalonSRX m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
+	private TalonSRX m_leftMiddleMotor, m_rightMiddleMotor;
 
 
 	
@@ -109,20 +112,13 @@ public class SingularityDrive {
 			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) {
 
 		if (talonType == CANTALON_DRIVE) {
-			m_frontLeftMotor = new CANTalon(frontLeftMotor);
-			m_rearLeftMotor = new CANTalon(rearLeftMotor);
-			m_frontRightMotor = new CANTalon(frontRightMotor);
-			m_rearRightMotor = new CANTalon(rearRightMotor);
-			m_leftMiddleMotor = new CANTalon(leftMiddleMotor);
-			m_rightMiddleMotor = new CANTalon(rightMiddleMotor);
+			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
+			m_rearLeftMotor = new TalonSRX(rearLeftMotor);
+			m_frontRightMotor = new TalonSRX(frontRightMotor);
+			m_rearRightMotor = new TalonSRX(rearRightMotor);
+			m_leftMiddleMotor = new TalonSRX(leftMiddleMotor);
+			m_rightMiddleMotor = new TalonSRX(rightMiddleMotor);
 
-		} else if (talonType == TALON_SR_DRIVE) {
-			m_frontLeftMotor = new Talon(frontLeftMotor);
-			m_rearLeftMotor = new Talon(rearLeftMotor);
-			m_frontRightMotor = new Talon(frontRightMotor);
-			m_rearRightMotor = new Talon(rearRightMotor);
-			m_leftMiddleMotor = new Talon(leftMiddleMotor);
-			m_rightMiddleMotor = new Talon(rightMiddleMotor);
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.      value=", talonType);
 		}
@@ -137,21 +133,21 @@ public class SingularityDrive {
 	
 	//Encoder code:
 	public void resetAll(){
-		((CANTalon) m_frontLeftMotor).reset();
-		((CANTalon) m_leftMiddleMotor).reset();
-		((CANTalon) m_frontRightMotor).reset();
+		m_frontLeftMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		//m_leftMiddleMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		m_frontRightMotor.getSensorCollection().setQuadraturePosition(0, 10);
 	}
 	
 	public double getLeftPosition(){
-		return (((CANTalon) m_frontLeftMotor).getPosition());
+		return m_frontLeftMotor.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public double getRightPosition(){
-		return (((CANTalon) m_frontRightMotor).getPosition());
+		return m_frontRightMotor.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public double getMiddlePosition(){
-		return (((CANTalon) m_leftMiddleMotor).getPosition());
+		return m_leftMiddleMotor.getSensorCollection().getQuadraturePosition();
 	}
 
 	private double clamp(double velocityMultiplier) {
@@ -251,12 +247,12 @@ public class SingularityDrive {
 		//horizontal = threshold(horizontal);
 		rotation = threshold(rotation);
 		
-		m_frontLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
-		m_frontRightMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
-		m_rearRightMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));		
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
+		m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-vertical + rotation) / mainWheelMaximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((vertical + rotation) / mainWheelMaximum));		
 		
 		//for testing purposes only
 		/*SmartDashboard.putString("DB/String 0", "Front Left Motor " + m_frontLeftMotor.get());
@@ -292,12 +288,12 @@ public class SingularityDrive {
 		left = threshold(left);
 		right = threshold(right);		
 		
-		m_frontLeftMotor.set(this.velocityMultiplier * (-left /leftWheelMaximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * (-left / leftWheelMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * (-left / leftWheelMaximum));
-		m_frontRightMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
-		m_rearRightMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * (right / rightWheelMaximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-left /leftWheelMaximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-left / leftWheelMaximum));
+		m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (-left / leftWheelMaximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (right / rightWheelMaximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (right / rightWheelMaximum));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * (right / rightWheelMaximum));
 		
 				
 	}
@@ -388,10 +384,10 @@ public class SingularityDrive {
 		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors' speeds
-		m_frontLeftMotor.set((translationVelocity * Math.sin(direction) + rotationVelocity) / maximum);
-		m_rearLeftMotor.set((translationVelocity * -Math.cos(direction) + rotationVelocity) / maximum);
-		m_frontRightMotor.set((translationVelocity * Math.cos(direction) + rotationVelocity) / maximum);
-		m_rearRightMotor.set((translationVelocity * -Math.sin(direction) + rotationVelocity) / maximum);
+		m_frontLeftMotor.set(ControlMode.PercentOutput, (translationVelocity * Math.sin(direction) + rotationVelocity) / maximum);
+		m_rearLeftMotor.set(ControlMode.PercentOutput, (translationVelocity * -Math.cos(direction) + rotationVelocity) / maximum);
+		m_frontRightMotor.set(ControlMode.PercentOutput, (translationVelocity * Math.cos(direction) + rotationVelocity) / maximum);
+		m_rearRightMotor.set(ControlMode.PercentOutput, (translationVelocity * -Math.sin(direction) + rotationVelocity) / maximum);
 	}
 
 	/**
@@ -521,10 +517,10 @@ public class SingularityDrive {
 		rightVelocity = threshold(rightVelocity);
 
 		// Set the motors' speeds
-		m_frontLeftMotor.set(this.velocityMultiplier * leftVelocity);
-		m_rearLeftMotor.set(this.velocityMultiplier * leftVelocity);
-		m_frontRightMotor.set(this.velocityMultiplier * -rightVelocity);
-		m_rearRightMotor.set(this.velocityMultiplier * -rightVelocity);
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * leftVelocity);
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * leftVelocity);
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -rightVelocity);
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -rightVelocity);
 	}
 
 	/**
@@ -541,12 +537,12 @@ public class SingularityDrive {
 	 */
 	public void tank(double left, double right, SpeedMode speedMode) {
 		// Just ignore squared inputs
-		this.tank(left, right, false, speedMode);
+		this.tank(left, right, true, speedMode);
 	}
 	
 	public void tank(double left, double right, boolean squaredInputs) {
 		// Just ignore squared speedMode and reverse
-		this.tank(left, right, true, SpeedMode.NORMAL);
+		this.tank(left, right, squaredInputs, SpeedMode.NORMAL);
 	}
 	
 	

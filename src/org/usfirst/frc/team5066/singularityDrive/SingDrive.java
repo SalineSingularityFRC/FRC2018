@@ -176,9 +176,9 @@ public abstract class SingDrive {
 	
 	//Encoder code:
 	public void resetAll(){
-		//TODO figure out what 
+		
 		m_frontLeftMotor.getSensorCollection().setQuadraturePosition(0, 10);
-		m_leftMiddleMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		//m_leftMiddleMotor.getSensorCollection().setQuadraturePosition(0, 10);
 		m_frontRightMotor.getSensorCollection().setQuadraturePosition(0, 10);
 	}
 	
