@@ -1,7 +1,8 @@
 package org.usfirst.frc.team5066.singularityDrive;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 public class MecanumDrive extends SingDrive{
@@ -43,10 +44,10 @@ public class MecanumDrive extends SingDrive{
 		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors' speeds
-		m_frontLeftMotor.set((translationVelocity * Math.sin(direction) + rotationVelocity) / maximum);
-		m_rearLeftMotor.set((translationVelocity * -Math.cos(direction) + rotationVelocity) / maximum);
-		m_frontRightMotor.set((translationVelocity * Math.cos(direction) + rotationVelocity) / maximum);
-		m_rearRightMotor.set((translationVelocity * -Math.sin(direction) + rotationVelocity) / maximum);
+		m_frontLeftMotor.set(ControlMode.PercentOutput, (translationVelocity * Math.sin(direction) + rotationVelocity) / maximum);
+		m_rearLeftMotor.set(ControlMode.PercentOutput, (translationVelocity * -Math.cos(direction) + rotationVelocity) / maximum);
+		m_frontRightMotor.set(ControlMode.PercentOutput, (translationVelocity * Math.cos(direction) + rotationVelocity) / maximum);
+		m_rearRightMotor.set(ControlMode.PercentOutput, (translationVelocity * -Math.sin(direction) + rotationVelocity) / maximum);
 		
 	}
 	

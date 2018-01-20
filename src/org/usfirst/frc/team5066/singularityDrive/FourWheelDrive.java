@@ -5,6 +5,8 @@ import org.usfirst.frc.team5066.library.SpeedMode;
 //import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class FourWheelDrive extends SingDrive {
 
@@ -45,10 +47,10 @@ public class FourWheelDrive extends SingDrive {
 		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors
-		m_frontLeftMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_frontRightMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_rearRightMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 	}
 
 	private void tank(double left, double right, boolean squaredInputs, SpeedMode speedMode) {
@@ -91,9 +93,9 @@ public class FourWheelDrive extends SingDrive {
 		rightVelocity = threshold(rightVelocity);
 
 		// Set the motors' speeds
-		m_frontLeftMotor.set(this.velocityMultiplier * leftVelocity);
-		m_rearLeftMotor.set(this.velocityMultiplier * leftVelocity);
-		m_frontRightMotor.set(this.velocityMultiplier * -rightVelocity);
-		m_rearRightMotor.set(this.velocityMultiplier * -rightVelocity);
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * leftVelocity);
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * leftVelocity);
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -rightVelocity);
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -rightVelocity);
 	}
 }
