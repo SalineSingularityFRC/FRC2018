@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class RLS extends AutonControlScheme{
 	
-	public RLS(SingDrive drive, Port gyroPort) {
-		super(drive,gyroPort);
+	public RLS(SingDrive drive) {
+		super(drive);
 	}
 	
 	@Override

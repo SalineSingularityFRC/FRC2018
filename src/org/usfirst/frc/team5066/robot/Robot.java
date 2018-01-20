@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5066.robot;
 
+import org.usfirst.frc.team5066.autonomous2018.*;
 import org.usfirst.frc.team5066.controller2018.*;
 import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
 import org.usfirst.frc.team5066.library.*;
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -43,8 +46,11 @@ public class Robot extends IterativeRobot {
 	
 	ControlScheme currentScheme;
 	
-	Timer timer;
+	Command autonomousCommand;
+	SendableChooser side;
+	SendableChooser priority;
 	
+	Timer timer;
 	
 	final int XBOX_PORT = 0;
 	final int BIG_JOYSTICK_PORT = 1;
@@ -103,6 +109,18 @@ public class Robot extends IterativeRobot {
 			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
 			timer = new Timer();
+			
+			side = new SendableChooser();
+			priority = new SendableChooser();
+			priority.addDefault("Default program", new SideStraight(drive));
+			priority.addObject("Our Switch", new LLSLS(drive));
+			priority.addObject("Opponet Switch", new LLSOL(drive));
+			priority.addObject("Our Vault", new LLSV(drive));
+			
+			side.addDefault("Left", new LLS(drive));
+			side.addObject("Middle", new MLSLS(drive));
+			//side.addObject("Right", new RLSLS(drive));
+			
 		}
 	}
 
@@ -111,6 +129,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		/*Object[][] L = {{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
+		{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}};
+
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+		autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();
+		 */
 	}
 
 	/**

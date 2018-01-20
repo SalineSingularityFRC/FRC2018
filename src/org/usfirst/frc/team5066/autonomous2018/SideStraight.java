@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class SideStraight extends AutonControlScheme {
 
-	public SideStraight(SingDrive drive, Port gyroPort) {
-		super(drive, gyroPort);
+	public SideStraight(SingDrive drive) {
+		super(drive);
 		// TODO Auto-generated constructor stub
 	}
 

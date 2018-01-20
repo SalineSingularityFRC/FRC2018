@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class MRSRS extends AutonControlScheme{
 
-	public MRSRS(SingDrive drive, Port gyroPort) {
-		super(drive, gyroPort);
+	public MRSRS(SingDrive drive) {
+		super(drive);
 	}
 
 	@Override
