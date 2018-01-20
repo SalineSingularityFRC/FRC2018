@@ -1,13 +1,13 @@
-package Autonomous2018;
+package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 
-public class LLSOL extends AutonControlScheme{
+public class LLSOR extends AutonControlScheme {
 
-	public LLSOL(SingDrive drive) {
+	public LLSOR(SingDrive drive) {
 		super(drive);
 	}
 
@@ -25,8 +25,10 @@ public class LLSOL extends AutonControlScheme{
 		//pick up block
 		super.vertical(20, -0.5);
 		super.rotate(90, true);
-		super.vertical(120-super.CenterRobotLength);
-		
+		super.vertical(48-super.CenterRobotLength);
+		super.rotate(90, false);
+		super.vertical(264-super.CenterRobotWidth);
+
 	}
 
 }

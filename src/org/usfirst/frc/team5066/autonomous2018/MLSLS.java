@@ -1,18 +1,20 @@
-package Autonomous2018;
+package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 
-public class MLSOL extends AutonControlScheme {
+public class MLSLS extends AutonControlScheme {
 
-	public MLSOL(SingDrive drive) {
+	public MLSLS(SingDrive drive) {
 		super(drive);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
+		// TODO Auto-generated method stub
 		super.vertical(35);
 		super.rotate(90, true);
 		super.vertical(84-super.CenterRobotWidth);
@@ -24,9 +26,8 @@ public class MLSOL extends AutonControlScheme {
 		//Lower PC manipulator
 		super.vertical(54-super.CenterRobotLength);
 		//pick up PC
-		super.vertical(-54);
+		super.vertical(-(54-super.CenterRobotLength));
 		super.rotate(90, true);
-		super.vertical(201-super.CenterRobotWidth);
+		super.vertical(32.5-super.CenterRobotWidth);
 	}
-
 }

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5066.robot;
 
+import org.usfirst.frc.team5066.autonomous2018.*;
 import org.usfirst.frc.team5066.controller2018.*;
 import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
 import org.usfirst.frc.team5066.library.*;
@@ -8,7 +9,6 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
-import Autonomous2018.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import src.org.usfirst.frc.team5066.robot.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 
 /**
@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
 			side.addObject("Middle", new MLSLS(drive));
 			//side.addObject("Right", new RLSLS(drive));
 			
-			SmartDashboard.putData("Autonomous mode chooser", );
+			//SmartDashboard.putData("Autonomous mode chooser", );
 		}
 	}
 
@@ -125,7 +125,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		Object[][] L = {{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
+		/*Object[][] L = {{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
 						{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}};
 		
 		String gameData;
@@ -133,7 +133,7 @@ public class Robot extends IterativeRobot {
 		
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
-	}
+	*/}
 
 	/**
 	 * This function is called periodically during autonomous
