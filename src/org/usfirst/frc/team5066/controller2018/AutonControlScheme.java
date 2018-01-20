@@ -38,7 +38,7 @@ public abstract class AutonControlScheme {
 		
 		//creates new AHRS gyro object that takes the port located on the roborio
 		//gyro = new AHRS(gyroPort);
-		gyro.reset();
+		//gyro.reset();
 	}
 	
 	public abstract void moveAuton();
