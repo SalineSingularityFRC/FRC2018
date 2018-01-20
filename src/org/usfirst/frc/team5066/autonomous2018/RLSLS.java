@@ -13,7 +13,7 @@ public class RLSLS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(0.5, 120-(super.CenterRobotLenght)-(45/2));
+		super.vertical(0.5, 120-(super.CenterRobotLength)-(45/2));
 		super.rotate(90,true);
 		super.vertical(0.5,120);
 		super.rotate(90,false);

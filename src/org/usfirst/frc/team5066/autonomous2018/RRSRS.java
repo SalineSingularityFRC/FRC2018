@@ -30,10 +30,13 @@ public class RRSRS extends AutonControlScheme {
 		
 		//This is where we place the block onto the switch
 		super.rotate(180, true);
-		super.vertical(0,5,1);//1 is placeholder value, this should be distance to cube stockpile from switch edge + 
+		
+		//TODO check the values in vertical below
+		
+		super.vertical(0.5, 1.0);//1 is placeholder value, this should be distance to cube stockpile from switch edge + 
 		//diagonal robot length
 		super.rotate(90,true);
-		super.vertical(0,5,1);//1 is placeholder value should be half the length of the switch+length of robot
+		super.vertical(0.5, 1.0);//1 is placeholder value should be half the length of the switch+length of robot
 		super.rotate(90,true);
 		//This is where we´d want to throw the cube
 		
