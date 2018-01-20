@@ -39,7 +39,7 @@ public abstract class SingDrive {
 	private final static double DEFAULT_NORMAL_SPEED_CONSTANT = 0.8;
 	private final static double DEFAULT_FAST_SPEED_CONSTANT = 1.0;
 	
-	private final static double RAMP_RATE = 120.0;
+	private final static double RAMP_RATE = 0.2;
 
 	private int talonType;
 	
@@ -237,12 +237,8 @@ public abstract class SingDrive {
 	
 	public void rampVoltage() {
 		
-		m_frontRightMotor.setVoltageRampRate(RAMP_RATE);
-		m_rearRightMotor.setVoltageRampRate(RAMP_RATE);
-		m_frontLeftMotor.setVoltageRampRate(RAMP_RATE);
-		m_rearLeftMotor.setVoltageRampRate(RAMP_RATE);
-		m_rightMiddleMotor.setVoltageRampRate(RAMP_RATE);
-		m_leftMiddleMotor.setVoltageRampRate(RAMP_RATE);
+		m_frontRightMotor.configOpenloopRamp(RAMP_RATE, 10);
+		m_frontLeftMotor.configOpenloopRamp(RAMP_RATE, 10);
 		
 	}
 	
@@ -279,8 +275,8 @@ public abstract class SingDrive {
 	}
 	
 	public void displayEncoder() {
-		SmartDashboard.putNumber("encoder inches", encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition()));
-		SmartDashboard.putNumber("encoder ticks", ((CANTalon) m_leftMiddleMotor).getEncPosition());
+		SmartDashboard.putNumber("encoder inches", encTicToInches(m_leftMiddleMotor.getSensorCollection().getQuadraturePosition()));
+		SmartDashboard.putNumber("encoder ticks", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
 		
 	}
 	
