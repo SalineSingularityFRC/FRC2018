@@ -2,7 +2,8 @@ package org.usfirst.frc.team5066.singularityDrive;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -14,8 +15,8 @@ public abstract class SingDrive {
 	public double slowSpeedConstant, normalSpeedConstant, fastSpeedConstant;
 	public int mode = 0;
 	
-	protected CANTalon m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
-	protected CANTalon m_leftMiddleMotor, m_rightMiddleMotor;
+	protected TalonSRX m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
+	protected TalonSRX m_leftMiddleMotor, m_rightMiddleMotor;
 	
 
 	private final static double DEFAULT_VELOCITY_MULTIPLIER = 1.0;
@@ -118,12 +119,20 @@ public abstract class SingDrive {
 			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) {//Six wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {
-			m_frontLeftMotor = new CANTalon(frontLeftMotor);
-			m_rearLeftMotor = new CANTalon(rearLeftMotor);
-			m_frontRightMotor = new CANTalon(frontRightMotor);
-			m_rearRightMotor = new CANTalon(rearRightMotor);
-			m_leftMiddleMotor = new CANTalon(leftMiddleMotor);
-			m_rightMiddleMotor = new CANTalon(rightMiddleMotor);
+			
+			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
+			
+			m_rearLeftMotor = new TalonSRX(rearLeftMotor);
+			m_rearLeftMotor.set(ControlMode.Follower, frontLeftMotor);
+			m_leftMiddleMotor = new TalonSRX(leftMiddleMotor);
+			m_leftMiddleMotor.set(ControlMode.Follower, frontLeftMotor);
+			
+			m_frontRightMotor = new TalonSRX(frontRightMotor);
+			
+			m_rearRightMotor = new TalonSRX(rearRightMotor);
+			m_rearRightMotor.set(ControlMode.Follower, frontRightMotor);
+			m_rightMiddleMotor = new TalonSRX(rightMiddleMotor);
+			m_rightMiddleMotor.set(ControlMode.Follower, frontRightMotor);
 
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
@@ -138,17 +147,17 @@ public abstract class SingDrive {
 		timer = new Timer();
 		//this.gyro = gyro;
 		
-		((CANTalon) m_leftMiddleMotor).setEncPosition(0);
+		this.resetAll();
 	}
 	
 	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
 			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) { //Four wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {
-			m_frontLeftMotor = new CANTalon(frontLeftMotor);
-			m_rearLeftMotor = new CANTalon(rearLeftMotor);
-			m_frontRightMotor = new CANTalon(frontRightMotor);
-			m_rearRightMotor = new CANTalon(rearRightMotor);
+			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
+			m_rearLeftMotor = new TalonSRX(rearLeftMotor);
+			m_frontRightMotor = new TalonSRX(frontRightMotor);
+			m_rearRightMotor = new TalonSRX(rearRightMotor);
 
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
@@ -167,21 +176,22 @@ public abstract class SingDrive {
 	
 	//Encoder code:
 	public void resetAll(){
-		((CANTalon) m_frontLeftMotor).reset();
-		((CANTalon) m_leftMiddleMotor).reset();
-		((CANTalon) m_frontRightMotor).reset();
+		//TODO figure out what 
+		m_frontLeftMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		m_leftMiddleMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		m_frontRightMotor.getSensorCollection().setQuadraturePosition(0, 10);
 	}
 	
 	public double getLeftPosition(){
-		return (((CANTalon) m_frontLeftMotor).getPosition());
+		return m_frontLeftMotor.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public double getRightPosition(){
-		return (((CANTalon) m_frontRightMotor).getPosition());
+		return m_frontRightMotor.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public double getMiddlePosition(){
-		return (((CANTalon) m_leftMiddleMotor).getPosition());
+		return m_leftMiddleMotor.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public double leftOverRight() {
@@ -223,9 +233,7 @@ public abstract class SingDrive {
 		return velocity;
 	}
 	
-	public void resetEncoder() {
-		((CANTalon) m_leftMiddleMotor).reset();
-	}
+	
 	
 	public void rampVoltage() {
 		

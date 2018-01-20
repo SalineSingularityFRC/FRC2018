@@ -4,6 +4,7 @@ import org.usfirst.frc.team5066.library.SpeedMode;
 
 import com.ctre.CANTalon;
 //import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -48,14 +49,11 @@ public class SixWheelDrive extends SingDrive{
 		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors
-		m_frontLeftMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_frontRightMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_rearRightMotor.set(this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		SmartDashboard.putNumber("rightEncoder", ((CANTalon) m_rightMiddleMotor).getEncPosition());
-		SmartDashboard.putNumber("leftEncoder", ((CANTalon) m_leftMiddleMotor).getEncPosition());
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		
+		SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
 	}
 	
 	/**
@@ -93,14 +91,11 @@ public class SixWheelDrive extends SingDrive{
 		rightVelocity = threshold(rightVelocity);
 
 		// Set the motors
-		m_frontLeftMotor.set(this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
-		m_rearLeftMotor.set(this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
-		m_leftMiddleMotor.set(this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
-		m_rightMiddleMotor.set(this.velocityMultiplier * ((rightVelocity) / rightMaximum));
-		m_frontRightMotor.set(this.velocityMultiplier * ((rightVelocity) / rightMaximum));
-		m_rearRightMotor.set(this.velocityMultiplier * ((rightVelocity) / rightMaximum));
-		SmartDashboard.putNumber("rightEncoder", ((CANTalon) m_rightMiddleMotor).getEncPosition());
-		SmartDashboard.putNumber("leftEncoder", ((CANTalon) m_leftMiddleMotor).getEncPosition());
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		
+		SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
 	}
 }
 

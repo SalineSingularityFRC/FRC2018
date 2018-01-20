@@ -5,7 +5,8 @@ import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
 import org.usfirst.frc.team5066.library.*;
 import org.usfirst.frc.team5066.singularityDrive.*;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -54,7 +55,7 @@ public class Robot extends IterativeRobot {
 	//testing variables
 	
 	public enum TestMode {
-		CANTALON, PNEUMATIC
+		TALON, PNEUMATIC
 	}
 	TestMode testMode;
 	
@@ -63,7 +64,7 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	CANTalon cantalon;
+	TalonSRX cantalon;
 	double speed;
 	
 	//pneumatics
@@ -144,14 +145,14 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		
-		testMode = TestMode.CANTALON;
+		testMode = TestMode.TALON;
 		
 		port = 0;
 		prevRb = false;
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
 		
-		cantalon = new CANTalon(port);
+		cantalon = new TalonSRX(port);
 		
 		solenoid = new Solenoid(port);
 	}
@@ -164,7 +165,7 @@ public class Robot extends IterativeRobot {
 		
 		//press right on the d-pad to switch to cantalon
 		if (xbox.getPOVRight()) {
-			testMode = TestMode.CANTALON;
+			testMode = TestMode.TALON;
 		}
 		
 		//press left on the d-pad to switch to pneumatic
@@ -175,7 +176,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * Code to test the port numbers of cantalons
 		 */
-		if (testMode == TestMode.CANTALON) {
+		if (testMode == TestMode.TALON) {
 
 			currentRb = xbox.getRB();
 			currentLb = xbox.getLB();
@@ -183,13 +184,13 @@ public class Robot extends IterativeRobot {
 			// use Right Bumper to toggle up a cantalon port
 			// use Left Bumper to toggle down a cantalon port
 			if (currentRb && !prevRb) {
-				cantalon.set(0.0);
+				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port++;
-				cantalon = new CANTalon(port);
+				cantalon = new TalonSRX(port);
 			} else if (currentLb && !prevLb) {
-				cantalon.set(0.0);
+				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port--;
-				cantalon = new CANTalon(port);
+				cantalon = new TalonSRX(port);
 			}
 
 			prevRb = currentRb;
@@ -209,7 +210,7 @@ public class Robot extends IterativeRobot {
 			else
 				speed = 0.0;
 
-			cantalon.set(speed);
+			cantalon.set(ControlMode.PercentOutput, speed);
 
 			// log information to keep track of port number and speed
 			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
