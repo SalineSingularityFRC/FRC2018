@@ -83,13 +83,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		properties = new SingularityProperties();
+	
 		
 		try {
 			properties = new SingularityProperties("/home/lvuser/robot.properties");
 		} catch (Exception e){
-			setDefaultProperties();
+			properties = new SingularityProperties();
 			
+			setDefaultProperties();
+			DriverStation.reportError("error in properties", true);
 			
 			DriverStation.reportError("error in properties", true);
 		} finally {
@@ -164,7 +166,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-		currentScheme.lift(lift, timer);
+		//currentScheme.lift(lift, timer);
 	}
 	
 	/**
@@ -319,17 +321,17 @@ public class Robot extends IterativeRobot {
 	
 	private void setDefaultProperties() {
 		
-		properties.addDefaultProp("frontRightMotor", 2);
-		properties.addDefaultProp("frontLeftMotor", 3);
+		properties.addDefaultProp("frontRightMotor", 13);
+		properties.addDefaultProp("frontLeftMotor", 6);
 		properties.addDefaultProp("backRightMotor", 4);
-		properties.addDefaultProp("backLeftMotor", 5);
-		properties.addDefaultProp("middleRightMotor", 6);
+		properties.addDefaultProp("backLeftMotor", 2);
+		properties.addDefaultProp("middleRightMotor", 10);
 		properties.addDefaultProp("middleLeftMotor", 7);
 		
 		properties.addDefaultProp("liftLeft1", 8);
 		properties.addDefaultProp("liftLeft2", 9);
-		properties.addDefaultProp("liftRight1", 10);
-		properties.addDefaultProp("liftRight2", 11);
+		properties.addDefaultProp("liftRight1", 5);
+		properties.addDefaultProp("liftRight2", 12);
 		
 		properties.addDefaultProp("rightLimitLow", 0);
 		properties.addDefaultProp("rightLimitHigh", 1);
