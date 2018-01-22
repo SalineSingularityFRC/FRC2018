@@ -20,6 +20,14 @@ public class RLSOL extends AutonControlScheme {
 		//raise PC
 		super.vertical(12);
 		//Drop PC
+		super.vertical(- (32.5-super.CenterRobotWidth));
+		super.rotate(90, false);
+		//Lower PC manipulator
+		super.vertical(54-super.CenterRobotLength);
+		//pick up PC
+		super.vertical(-54);
+		super.rotate(90, true);
+		super.vertical(201-super.CenterRobotWidth);
 		
 	}
 
