@@ -9,6 +9,8 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -49,6 +51,9 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	SendableChooser side;
 	SendableChooser priority;
+	
+	UsbCamera frontCamera;
+	UsbCamera backCamera;
 	
 	Timer timer;
 	
@@ -109,6 +114,11 @@ public class Robot extends IterativeRobot {
 			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
 			timer = new Timer();
+			
+			frontCamera = CameraServer.getInstance().startAutomaticCapture();
+            frontCamera.setResolution(320, 240);
+            backCamera = CameraServer.getInstance().startAutomaticCapture();
+            backCamera.setResolution(320,240);
 			
 			side = new SendableChooser();
 			priority = new SendableChooser();
