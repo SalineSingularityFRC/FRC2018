@@ -14,8 +14,8 @@ public abstract class AutonControlScheme {
 	//TODO change later
 	public static final double DistancePerRevolution = 12.56;
 	public static final double CenterRobotWidth = 15.0;
-	public static final double CenterRobotLength = 13.0;
-	public static final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(CenterRobotLength,2) );
+	public final double CenterRobotLength = 13.0;
+	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
 	private static final double speed = 0.5;
 	
 	//gyro
