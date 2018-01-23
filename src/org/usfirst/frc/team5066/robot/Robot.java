@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import javafx.scene.Camera;
 
 
 /**
@@ -42,6 +45,7 @@ public class Robot extends IterativeRobot {
 	DrivePneumatics dPneumatics;
 	Compressor compressor;
 	Lift lift;
+	UsbCamera front, rear;
 	
 	SingularityProperties properties;
 	
@@ -110,6 +114,11 @@ public class Robot extends IterativeRobot {
 			compressor.start();
 			
 			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
+			
+			front = CameraServer.getInstance().startAutomaticCapture();
+			rear = CameraServer.getInstance().startAutomaticCapture();
+			front.setResolution(320, 480);
+			rear.setResolution(320, 480);
 			
 			timer = new Timer();
 			
