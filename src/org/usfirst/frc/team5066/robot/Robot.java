@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot {
 		
 	
 		//SmartDashboard Preferences code to change port value
-		
+		/*
 		frontRightMotor = prefs.getInt("frontRightMotor", 13);
 		frontLeftMotor = prefs.getInt("frontLeftMotor", 6);
 		middleRightMotor = prefs.getInt("middleRightMotor",4);
@@ -108,6 +108,7 @@ public class Robot extends IterativeRobot {
 		leftLimitHigh = prefs.getInt("leftLimitHigh", 1);
 		rightLimitLow = prefs.getInt("rightLimitLow", 2);
 		rightLimitHigh = prefs.getInt("righLimitHigh", 3);
+		*/
 		
 		try {
 			properties = new SingularityProperties("/home/lvuser/robot.properties");
