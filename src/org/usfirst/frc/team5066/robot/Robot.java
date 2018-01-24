@@ -10,14 +10,18 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import javafx.scene.Camera;
 
 
 /**
@@ -42,6 +46,9 @@ public class Robot extends IterativeRobot {
 	DrivePneumatics dPneumatics;
 	Compressor compressor;
 	Lift lift;
+	UsbCamera front, rear;
+	
+	Preferences prefs;
 	
 	SingularityProperties properties;
 	
@@ -84,6 +91,22 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 	
+		//SmartDashboard Preferences code to change port value
+		frontRightMotor = prefs.getInt("frontRighMotor", 13);
+		frontLeftMotor = prefs.getInt("frontLeftMotor", 6);
+		middleRightMotor = prefs.getInt("middleRightMotor",4);
+		middleLeftMotor = prefs.getInt("middleLeftMotor", 2);
+		backRightMotor = prefs.getInt("backRightMotor", 10);
+		backLeftMotor = prefs.getInt("backLeftMotor", 7);
+		
+		liftLeft1 = prefs.getInt("liftLeft18", 8);
+		liftLeft2 = prefs.getInt("lifLeft26", 6);
+		liftRight1 = prefs.getInt("liftRight", 5);
+		liftRight2 = prefs.getInt("liftRight", 12);
+		leftLimitLow = prefs.getInt("leftLimitLow", 0);
+		leftLimitHigh = prefs.getInt("leftLimitHigh", 1);
+		rightLimitLow = prefs.getInt("rightLimitLow", 2);
+		rightLimitHigh = prefs.getInt("righLimitHigh", 3);
 		
 		try {
 			properties = new SingularityProperties("/home/lvuser/robot.properties");
@@ -110,6 +133,11 @@ public class Robot extends IterativeRobot {
 			compressor.start();
 			
 			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
+			
+			front = CameraServer.getInstance().startAutomaticCapture();
+			rear = CameraServer.getInstance().startAutomaticCapture();
+			front.setResolution(320, 480);
+			rear.setResolution(320, 480);
 			
 			timer = new Timer();
 			
