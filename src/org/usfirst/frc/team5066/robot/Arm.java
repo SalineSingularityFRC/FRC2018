@@ -14,7 +14,7 @@ public class Arm {
 	private TalonSRX lowArm, highArm;
 	
 	public enum Position {
-		Start, Pickup, Exchange, Switch, LowScale, HighScale 
+		Start, Pickup, Exchange, Switch, LowScale, HighScale, Inbetween 
 	}
 	public Position currentPos;
 	
@@ -28,6 +28,14 @@ public class Arm {
 	private final ArmPosition lowScale = new ArmPosition(1.0, 1.0, 0.0, 58.0);
 	private final ArmPosition highScale = new ArmPosition(1.0, 1.0, 0.0, 82.0);
 	
+	/*
+	private final ArmPosition[] positions = {new ArmPosition("start", 1.0, 1.0, -30.0, 50.0),
+			 new ArmPosition("pickup", 1.0, 1.0, 0.0, 0.0),
+			 new ArmPosition("exchange", 1.0, 1.0, 0.0, 3.0),
+			 new ArmPosition("switch", 1.0, 1.0, 0.0, 32.0),
+			 new ArmPosition("lowScale", 1.0, 1.0, 0.0, 58.0),
+			 new ArmPosition("highScale", 1.0, 1.0, 0.0, 82.0)};
+	*/
 	private final double length1 = 15;
 	private final double length2 = 10;
 	
@@ -49,19 +57,21 @@ public class Arm {
 	 * @param highArmControl the value controlling the second joint
 	 * @param power the control values are raised to the power-eth power
 	 */
-	public void manualControl(double lowArmControl, double highArmControl, double power) {
+	public void manualControl(double lowArmControl, double highArmControl, double lowArmExponent, double highArmExponent) {
 		
-		lowArm.set(ControlMode.PercentOutput, Math.pow(lowArmControl, power));
-		highArm.set(ControlMode.PercentOutput, Math.pow(highArmControl, power));
+		lowArm.set(ControlMode.PercentOutput, Math.pow(lowArmControl, lowArmExponent));
+		highArm.set(ControlMode.PercentOutput, Math.pow(highArmControl, highArmExponent));
 	}
 	
 	public void autoControl(Position position) {
+		
+		this.checkPosition();
 		
 		if (currentPos == position) {
 			this.moveDirectlyToPosition(position);
 		}
 		
-		if ((currentPos == Position.Pickup || currentPos == Position.Exchange 
+		else if ((currentPos == Position.Pickup || currentPos == Position.Exchange 
 				|| currentPos == Position.Switch || currentPos == Position.Start) &&
 			(position == Position.Pickup || position == Position.Exchange 
 				|| position == Position.Switch || currentPos == Position.Start)) {
@@ -70,10 +80,26 @@ public class Arm {
 			
 		}
 		
+		else if ((currentPos == Position.HighScale || currentPos == Position.LowScale) &&
+				(position == Position.HighScale || position == Position.LowScale)) {
+			
+			this.moveDirectlyToPosition(position);
+		}
 		
 		
 		
+	}
+	
+	
+	private void checkPosition() {
+		if (start.isAtPosition(this.getAlpha(), this.getGamma())) currentPos = Position.Start;
+		else if (pickup.isAtPosition(this.getAlpha(), this.getGamma())) currentPos = Position.Pickup;
+		else if (exchange.isAtPosition(this.getAlpha(), this.getGamma())) currentPos = Position.Exchange;
+		else if (swich.isAtPosition(this.getAlpha(), this.getGamma())) currentPos = Position.Switch;
+		else if (lowScale.isAtPosition(this.getAlpha(), this.getGamma())) currentPos = Position.LowScale;
+		else if (highScale.isAtPosition(this.getAlpha(), this.getGamma())) currentPos = Position.HighScale;
 		
+		else currentPos = Position.Inbetween;
 	}
 	
 	/**
