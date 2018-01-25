@@ -152,7 +152,10 @@ public class Robot extends IterativeRobot {
 			
 			side.addDefault("Left", new LLS(drive));
 			side.addObject("Middle", new MLSLS(drive));
-			//side.addObject("Right", new RLSLS(drive));
+			side.addObject("Right", new RLSLS(drive));
+			
+			SmartDashboard.putData("Proirities: ", priority);
+			SmartDashboard.putData("Starting Side: ", side);
 			
 		}
 	}
@@ -162,11 +165,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		Object[][][] autonPrograms = {{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
-			{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}},{{new RRSRS(drive), 
-			new RRSV(drive), new RRSOL(drive), new RRSOR(drive)},{new RLSLS(drive), new RLSV(drive), new RLSOL(drive),
-			new RLSOR(drive)}},{{new MLSLS(drive), new MLSV(drive), new MLSOL(drive), new MLSOR(drive)},{new MRSRS(drive),
-			new MRSV(drive), new MRSOL(drive), new MRSOL(drive)}}};
+		AutonControlScheme[][][] autonPrograms = 
+			{{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
+			{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}},
+			{{new RRSRS(drive), new RRSV(drive), new RRSOL(drive), new RRSOR(drive)},
+			{new RLSLS(drive), new RLSV(drive), new RLSOL(drive), new RLSOR(drive)}},
+			{{new MLSLS(drive), new MLSV(drive), new MLSOL(drive), new MLSOR(drive)},
+			{new MRSRS(drive), new MRSV(drive), new MRSOL(drive), new MRSOL(drive)}}};
 
 			String gameData;
 			int a=0,b=0,c=0;
@@ -177,7 +182,7 @@ public class Robot extends IterativeRobot {
 				SmartDashboard.putString("DB/String 0", "Starting Right");
 			}
 			
-			if(side.equals(new MLSLS(drive))){
+			else if(side.equals(new MLSLS(drive))){
 				a=2;
 				SmartDashboard.putString("DB/String 0", "Stating Middle");
 			}
@@ -191,19 +196,20 @@ public class Robot extends IterativeRobot {
 				c=1;
 				SmartDashboard.putString("DB/String 2", "We are prioritizing the vault");
 			}
-			if(priority.equals(new LLSOL(drive))){
-				c=2;
-				SmartDashboard.putString("DB/String 2", "Moving to opponent Left");
+			else if(priority.equals(new LLSOL(drive))){
+				if(gameData.charAt(2) == 'R') {
+					c=3;
+					SmartDashboard.putString("DB/String 2", "Moving to opponent Right");
+				}
+				else {
+					c=2;
+					SmartDashboard.putString("DB/String 2", "Moving to opponent Left");
+				}
 			}
-			if(priority.equals(new LLSOR(drive))){
-				c=3;
-				SmartDashboard.putString("DB/String 2", "Moving to opponent Right");
-			}
 			
-			
-			
-			autonomousCommand = (Command) autonPrograms[a][b][c];
+			autonomousCommand = (Command) side.getSelected();
 			autonomousCommand.start();
+			
 	}
 
 	/**
