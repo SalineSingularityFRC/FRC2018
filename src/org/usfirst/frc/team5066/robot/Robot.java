@@ -124,7 +124,7 @@ public class Robot extends IterativeRobot {
 			loadProperties();
 		
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
-					frontRightMotor, backRightMotor, middleLeftMotor, middleRightMotor);
+					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
 			drive.rampVoltage();
 			
 			lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
@@ -134,7 +134,7 @@ public class Robot extends IterativeRobot {
 			compressor = new Compressor();
 			compressor.start();
 			
-			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
+			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
 			front = CameraServer.getInstance().startAutomaticCapture();
 			rear = CameraServer.getInstance().startAutomaticCapture();
@@ -363,8 +363,8 @@ public class Robot extends IterativeRobot {
 			frontLeftMotor = properties.getInt("frontLeftMotor");
 			backRightMotor = properties.getInt("backRightMotor");
 			backLeftMotor = properties.getInt("backLeftMotor");
-			middleRightMotor = properties.getInt("middleRightMotor");
-			middleLeftMotor = properties.getInt("middleLeftMotor");
+			frontRightMotor = properties.getInt("middleRightMotor");
+			frontLeftMotor = properties.getInt("middleLeftMotor");
 			
 			liftLeft1 = properties.getInt("liftLeft1");
 			liftLeft2 = properties.getInt("liftLeft2");
@@ -402,12 +402,12 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("liftRight1", 5);
 		properties.addDefaultProp("liftRight2", 12);
 		
-		properties.addDefaultProp("rightLimitLow", 25);
-		properties.addDefaultProp("rightLimitHigh", 30);
-		properties.addDefaultProp("leftLimitLow", 29);
-		properties.addDefaultProp("leftLimitHigh", 28);
+		properties.addDefaultProp("rightLimitLow", 0);
+		properties.addDefaultProp("rightLimitHigh", 1);
+		properties.addDefaultProp("leftLimitLow", 2);
+		properties.addDefaultProp("leftLimitHigh", 3);
 		
-		properties.addDefaultProp("drivePneuForward", 0);
-		properties.addDefaultProp("drivePneuReverse", 1);
+		properties.addDefaultProp("drivePneuForward", 1);
+		properties.addDefaultProp("drivePneuReverse", 2);
 	}
 }
