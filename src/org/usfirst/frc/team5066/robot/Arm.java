@@ -13,25 +13,23 @@ public class Arm {
 	
 	private TalonSRX lowArm, highArm;
 	
-	private double alpha, gamma, x, y;
 	public enum Position {
-		Exchange, Pickup, Scale, Start, Switch 
+		Start, Pickup, Exchange, Switch, LowScale, HighScale 
 	}
-	
 	public Position currentPos;
 	
 	
-	//TODO Figure out the encoder positions of the following
-	private final double exchangeAlpha = 1.0;
-	private final double exchangeGamma = 1.0;
-	private final double pickupAlpha = 1.0;
-	private final double pickupGamma = 1.0;
-	private final double scaleAlpha = 1.0;
-	private final double scaleGamma = 1.0;
-	private final double startAlpha = 1.0;
-	private final double startGamma = 1.0;
-	private final double switchAlpha = 1.0;
-	private final double switchGamma = 1.0;
+	//TODO Figure out the ENCODER POSITIONS of the following
+	//alpha, gamma, x, y
+	private final ArmPosition start = new ArmPosition(1.0, 1.0, -30.0, 50.0);
+	private final ArmPosition pickup = new ArmPosition(1.0, 1.0, 0.0, 0.0);
+	private final ArmPosition exchange = new ArmPosition(1.0, 1.0, 0.0, 3.0);
+	private final ArmPosition swich = new ArmPosition(1.0, 1.0, 0.0, 32.0);
+	private final ArmPosition lowScale = new ArmPosition(1.0, 1.0, 0.0, 58.0);
+	private final ArmPosition highScale = new ArmPosition(1.0, 1.0, 0.0, 82.0);
+	
+	private final double length1 = 15;
+	private final double length2 = 10;
 	
 	/**
 	 * 
@@ -57,6 +55,27 @@ public class Arm {
 		highArm.set(ControlMode.PercentOutput, Math.pow(highArmControl, power));
 	}
 	
+	public void autoControl(Position position) {
+		
+		if (currentPos == position) {
+			this.moveDirectlyToPosition(position);
+		}
+		
+		if ((currentPos == Position.Pickup || currentPos == Position.Exchange 
+				|| currentPos == Position.Switch || currentPos == Position.Start) &&
+			(position == Position.Pickup || position == Position.Exchange 
+				|| position == Position.Switch || currentPos == Position.Start)) {
+			
+			this.moveDirectlyToPosition(position);
+			
+		}
+		
+		
+		
+		
+		
+	}
+	
 	/**
 	 * Move both angles towards their values for a location
 	 * Should not be used for pickup to scale, as that would 
@@ -65,31 +84,42 @@ public class Arm {
 	 */
 	private void moveDirectlyToPosition(Position position) {
 		
-		if (position == Position.Exchange) {
-			lowArm.set(ControlMode.Position, exchangeAlpha);
-			lowArm.set(ControlMode.Position, exchangeGamma);
-		}
+		switch (position) {
 		
-		if (position == Position.Pickup) {
-			lowArm.set(ControlMode.Position, pickupAlpha);
-			lowArm.set(ControlMode.Position, pickupGamma);
-		}
-		
-		if (position == Position.Scale) {
-			lowArm.set(ControlMode.Position, scaleAlpha);
-			lowArm.set(ControlMode.Position, scaleGamma);
-		}
-		
-		if (position == Position.Start) {
-			lowArm.set(ControlMode.Position, startAlpha);
-			lowArm.set(ControlMode.Position, startGamma);
-		}
-		
-		if (position == Position.Switch) {
-			lowArm.set(ControlMode.Position, switchAlpha);
-			lowArm.set(ControlMode.Position, switchGamma);
+		case Exchange:
+			lowArm.set(ControlMode.Position, exchange.getAlpha());
+			highArm.set(ControlMode.Position, exchange.getGamma());
+			break;
+
+		case Pickup:
+			lowArm.set(ControlMode.Position, pickup.getAlpha());
+			highArm.set(ControlMode.Position, pickup.getGamma());
+			break;
+
+		case LowScale:
+			lowArm.set(ControlMode.Position, lowScale.getAlpha());
+			highArm.set(ControlMode.PercentOutput, lowScale.getAlpha());
+			break;
+
+		case HighScale:
+			lowArm.set(ControlMode.Position, highScale.getAlpha());
+			highArm.set(ControlMode.Position, highScale.getGamma());
+			break;
+
+		case Start:
+			lowArm.set(ControlMode.Position, start.getAlpha());
+			highArm.set(ControlMode.Position, start.getGamma());
+			break;
+
+		case Switch:
+			lowArm.set(ControlMode.Position, swich.getAlpha());
+			highArm.set(ControlMode.Position, swich.getGamma());
+			break;
 		}
 	}
+	
+	
+	
 	
 	/**
 	 * 
