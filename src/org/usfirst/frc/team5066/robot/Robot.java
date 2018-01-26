@@ -127,12 +127,11 @@ public class Robot extends IterativeRobot {
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
 			drive.rampVoltage();
 			
-			lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
+			/*lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
 					rightLimitHigh, leftLimitLow, leftLimitHigh, LIFT_SPEED);
 			
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
-			compressor = new Compressor();
-			compressor.start();
+			*/
 			
 			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
@@ -257,7 +256,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
-	@Override
+	/*@Override
 	public void testPeriodic() {
 		
 		//press right on the d-pad to switch to cantalon
@@ -270,9 +269,9 @@ public class Robot extends IterativeRobot {
 			testMode = TestMode.PNEUMATIC;
 		}
 
-		/*
+		
 		 * Code to test the port numbers of cantalons
-		 */
+		 
 		if (testMode == TestMode.TALON) {
 
 			currentRb = xbox.getRB();
@@ -314,11 +313,11 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putString("DB/String 1", "Current speed: " + speed);
 		}
 		
-		/*
+		
 		 * Code to Test the Pneumatics
 		 * This currently tests with SingleSolenoids,
 		 * which will probably still work for testing DoubleSolenoids
-		 */
+		 
 		
 		else if (testMode == TestMode.PNEUMATIC) {
 			
@@ -348,7 +347,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putString("DB/String 1", "solenoid value: " + solenoid.get());
 			
 		}
-	}
+	}*/
 	
 	@Override
 	public void disabledPeriodic() {
