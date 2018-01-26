@@ -178,33 +178,35 @@ public class Robot extends IterativeRobot {
 			
 			if(side.equals(new RLSLS(drive))){
 				a=1;
-				SmartDashboard.putString("DB/String 0", "Starting Right");
+				SmartDashboard.putString("Starting Position", "Starting Right");
 			}
-			
 			else if(side.equals(new MLSLS(drive))){
 				a=2;
-				SmartDashboard.putString("DB/String 0", "Stating Middle");
+				SmartDashboard.putString("Starting Position", "Starting Middle");
 			}
+			else SmartDashboard.putString("Starting Position", "Starting Left");
 			
 			if(gameData.charAt(0) == 'R'){
 				b=1;
-				SmartDashboard.putString("DB/String 1", "Our Switch is on the right");
+				SmartDashboard.putString("Switch", "Our Switch is on the right");
 			}
+			else SmartDashboard.putString("Switch", "Our Switch is on the right");
 			
 			if(priority.equals(new LLSV(drive))){
 				c=1;
-				SmartDashboard.putString("DB/String 2", "We are prioritizing the vault");
+				SmartDashboard.putString("Proirities", "The robot is going toward the vault");
 			}
 			else if(priority.equals(new LLSOL(drive))){
 				if(gameData.charAt(2) == 'R') {
 					c=3;
-					SmartDashboard.putString("DB/String 2", "Moving to opponent Right");
+					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Right Switch");
 				}
 				else {
 					c=2;
-					SmartDashboard.putString("DB/String 2", "Moving to opponent Left");
+					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Left Switch");
 				}
 			}
+			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
 			autonPrograms[a][b][c].moveAuton();
 			
