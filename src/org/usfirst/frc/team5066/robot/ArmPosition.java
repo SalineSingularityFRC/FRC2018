@@ -4,6 +4,7 @@ public class ArmPosition {
 	
 	
 	private double alpha, gamma, x, y;
+	private boolean isPosition;
 	
 	public ArmPosition(double alpha, double gamma, double x, double y) {
 		
@@ -11,6 +12,8 @@ public class ArmPosition {
 		this.gamma = gamma;
 		this.x = x;
 		this.y = y;
+		
+		isPosition = false;
 	}
 	
 	public double getAlpha() {
@@ -33,5 +36,7 @@ public class ArmPosition {
 		
 		return Math.abs(alpha - currentAlpha) < Math.PI / 12 && Math.abs(gamma - currentGamma) < Math.PI / 12;
 	}
+	
+	public boolean 
 
 }

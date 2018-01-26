@@ -18,6 +18,8 @@ public class Arm {
 	}
 	public Position currentPos;
 	
+	private double gammaVelocity;
+	
 	
 	//TODO Figure out the ENCODER POSITIONS of the following
 	//alpha, gamma, x, y
@@ -145,6 +147,13 @@ public class Arm {
 	}
 	
 	
+	//private double moveGamma(double dAlphadT, double currentAlpha) {
+		
+		//gammaVelocity = 
+		
+		//highArm.set(ControlMode.Velocity, );
+		
+	//}
 	
 	
 	/**
