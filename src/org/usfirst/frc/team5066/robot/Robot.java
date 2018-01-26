@@ -251,6 +251,7 @@ public class Robot extends IterativeRobot {
 		cantalon = new TalonSRX(port);
 		
 		solenoid = new Solenoid(port);
+		
 	}
 
 	/**
