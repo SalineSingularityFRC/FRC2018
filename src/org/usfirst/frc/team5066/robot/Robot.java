@@ -352,7 +352,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledPeriodic() {
-		dPneumatics.setOff();
+		//dPneumatics.setOff();
 	}
 	
 	private void loadProperties() {
