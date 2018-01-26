@@ -206,8 +206,11 @@ public class Robot extends IterativeRobot {
 				}
 			}
 			
-				autonomousCommand = (Command) side.getSelected();
-				autonomousCommand.start();
+			autonPrograms[a][b][c].moveAuton();
+			
+			
+				//autonomousCommand = (Command) side.getSelected();
+				//autonomousCommand.start();
 	}
 
 	/**
