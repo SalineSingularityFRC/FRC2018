@@ -176,29 +176,29 @@ public class Robot extends IterativeRobot {
 			int a=0,b=0,c=0;
 			gameData = DriverStation.getInstance().getGameSpecificMessage();		
 			
-			if(side.equals(new RLSLS(drive))){
+			if(side.getSelected().equals(new RLSLS(drive))){
 				a=1;
 				SmartDashboard.putString("Starting Position", "Starting Right");
 			}
-			else if(side.equals(new MLSLS(drive))){
+			else if(side.getSelected().equals(new MLSLS(drive))){
 				a=2;
 				SmartDashboard.putString("Starting Position", "Starting Middle");
 			}
-			//else SmartDashboard.putString("Starting Position", "Starting Left");
+			else SmartDashboard.putString("Starting Position", "Starting Left");
 			
 			SmartDashboard.putString("Game Data",gameData);
 			if(gameData.charAt(0) == 'R'){
 				b=1;
 				SmartDashboard.putString("Switch", "Our Switch is on the right");
 			}
-			//else SmartDashboard.putString("Switch", "Our Switch is on the left");
+			else SmartDashboard.putString("Switch", "Our Switch is on the left");
 			//note to self
 			
-			if(priority.equals(new LLSV(drive))){
+			if(priority.getSelected().equals(new LLSV(drive))){
 				c=1;
 				SmartDashboard.putString("Proirities", "The robot is going toward the vault");
 			}
-			else if(priority.equals(new LLSOL(drive))){
+			else if(priority.getSelected().equals(new LLSOL(drive))){
 				if(gameData.charAt(2) == 'R') {
 					c=3;
 					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Right Switch");
