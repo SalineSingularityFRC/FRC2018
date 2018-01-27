@@ -49,6 +49,11 @@ public abstract class SingDrive {
 	private static final double strafeTime = 0.05;
 	Timer timer;
 	
+	//AutonDriveStraightVariables
+	private static double error = 0.0;
+	private static final double KP = 5;
+	private static double leftEncVal, rightEncVal;
+	
 	//AHRS gyro;
 
 
@@ -361,6 +366,22 @@ public abstract class SingDrive {
 		Timer.delay(0.2);
 	}
 	*/
+	
+	public void encoderDriveStraight(double speed){
+		leftEncVal = this.getLeftPosition();
+		rightEncVal = this.getRightPosition();
+		
+		error = rightEncVal - leftEncVal;
+		
+		this.drive(speed, 0.0, error/KP, false, SpeedMode.NORMAL);
+		
+		leftEncVal = 0;
+		rightEncVal = 0;
+		
+		//repeat 10 times per second
+		Timer.delay(100);
+	}
+	
 	protected void setVelocityMultiplierBasedOnSpeedMode(SpeedMode speedMode) {
 		
 		switch(speedMode) {

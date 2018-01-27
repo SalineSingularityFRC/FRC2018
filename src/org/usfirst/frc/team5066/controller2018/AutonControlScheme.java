@@ -65,6 +65,8 @@ public abstract class AutonControlScheme {
 		//normal speed
 		while (getAverage() > -distance / DistancePerRevolution
 				&& getAverage() < distance / DistancePerRevolution) {
+			
+			//drive.encoderDriveStraight(verticalSpeed);
 			drive.drive(verticalSpeed, verticalSpeed, 0.0, false, SpeedMode.NORMAL);
 		}
 		
@@ -84,6 +86,8 @@ public abstract class AutonControlScheme {
 		
 		while (getAverage() > -distance / DistancePerRevolution
 				&& getAverage() < distance / DistancePerRevolution) {
+			
+			//drive.encoderDriveStraight(verticalSpeed);
 			drive.drive(speed, speed, 0.0, false, SpeedMode.NORMAL);
 		}
 		
