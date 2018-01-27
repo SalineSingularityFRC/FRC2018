@@ -192,7 +192,7 @@ public class Robot extends IterativeRobot {
 				SmartDashboard.putString("Switch", "Our Switch is on the right");
 			}
 			//else SmartDashboard.putString("Switch", "Our Switch is on the left");
-			
+			//note to self
 			
 			if(priority.equals(new LLSV(drive))){
 				c=1;
