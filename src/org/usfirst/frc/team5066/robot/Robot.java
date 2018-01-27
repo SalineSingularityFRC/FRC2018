@@ -64,7 +64,6 @@ public class Robot extends IterativeRobot {
 	
 	
 	//testing variables
-	
 	public enum TestMode {
 		TALON, PNEUMATIC
 	}
