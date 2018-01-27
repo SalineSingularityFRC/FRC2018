@@ -184,13 +184,15 @@ public class Robot extends IterativeRobot {
 				a=2;
 				SmartDashboard.putString("Starting Position", "Starting Middle");
 			}
-			else SmartDashboard.putString("Starting Position", "Starting Left");
+			//else SmartDashboard.putString("Starting Position", "Starting Left");
 			
+			SmartDashboard.putString("Game Data",gameData);
 			if(gameData.charAt(0) == 'R'){
 				b=1;
 				SmartDashboard.putString("Switch", "Our Switch is on the right");
 			}
-			else SmartDashboard.putString("Switch", "Our Switch is on the right");
+			//else SmartDashboard.putString("Switch", "Our Switch is on the left");
+			
 			
 			if(priority.equals(new LLSV(drive))){
 				c=1;
