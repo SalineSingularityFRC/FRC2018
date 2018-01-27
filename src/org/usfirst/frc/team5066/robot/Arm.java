@@ -16,6 +16,14 @@ public class Arm {
 	private final double LOWERLIMIT = 10;
 	private final double UPPERLIMIT = 100;
 	
+	private final double PICKUP = 10;
+	private final double SWITCH = 25;
+	private final double PORTAL = 25;
+	private final double HIGHSCALE = 90;
+	private final double LOWSCALE = 85;
+	private final double EXCHANGE = 15;
+	private final double START = 30;
+	
 	double speedConstant;
 	double speed;
 	
@@ -25,6 +33,9 @@ public class Arm {
 	public Arm(int vic, int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
 		victorMotor = new VictorSPX (vic);
+		
+		victorMotor.set(ControlMode.Follower, tal);
+		
 		speedConstant = s;
 		doubleSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
 	}
@@ -45,7 +56,6 @@ public class Arm {
 		}
 		
 		talonMotor.set(ControlMode.PercentOutput, speed);
-		victorMotor.set(ControlMode.PercentOutput, speed);			
 	}
 	
 	public void setArmForward() {
@@ -60,6 +70,47 @@ public class Arm {
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 	
+	public void setPositionPickup() {
+		talonMotor.set(ControlMode.Position, PICKUP);
+		this.setArmReverse();
+		
+	}
 	
+	public void setPositionSwitch() {
+		talonMotor.set(ControlMode.Position, SWITCH);
+		this.setArmReverse();
+		
+	}
 	
+	public void setPositionPortal() {
+		talonMotor.set(ControlMode.Position, PORTAL);
+		this.setArmReverse();
+		
+	}
+	public void setPositionHighScale() {
+		talonMotor.set(ControlMode.Position, HIGHSCALE);
+		this.setArmReverse();
+		
+	}
+
+	public void setPositionLowScale() {
+		talonMotor.set(ControlMode.Position, LOWSCALE);
+		this.setArmReverse();
+		
+	}
+
+	public void setPositionExchange() {
+		talonMotor.set(ControlMode.Position, EXCHANGE);
+		this.setArmReverse();
+		
+	}
+
+	public void setPositionStart() {
+		talonMotor.set(ControlMode.Position, START);
+		this.setArmReverse();
+		
+	}
+
+
 }
+
