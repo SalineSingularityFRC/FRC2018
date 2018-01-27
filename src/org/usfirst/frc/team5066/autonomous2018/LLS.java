@@ -9,15 +9,14 @@ public class LLS extends AutonControlScheme{
 
 	public LLS(SingDrive drive) {
 		super(drive);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
-		// TODO Auto-generated method stub
-		super.vertical(168);
-		//lift arm
+		super.vertical(168-super.CenterRobotLength);
 		super.rotate(90, false);
+		//lift arm
+		super.vertical(55.56-super.CenterRobotWidth);
 		//place block
 	}
 
