@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public class Arm {
 
 	private TalonSRX talonMotor;
@@ -17,10 +19,14 @@ public class Arm {
 	double speedConstant;
 	double speed;
 	
-	public Arm(int vic, int tal, double s) {
+	DoubleSolenoid doubleSolenoid;
+	
+	
+	public Arm(int vic, int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
 		victorMotor = new VictorSPX (vic);
 		speedConstant = s;
+		doubleSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
 	}
 	
 	public void controlArm (double armStick, double exponent) {
@@ -37,10 +43,23 @@ public class Arm {
 			speed = Math.pow(armStick, exponent);
 			speed *= speedConstant;
 		}
-		talonMotor.set(ControlMode.PercentOutput, speed);
-		victorMotor.set(ControlMode.PercentOutput, speed);
 		
-			
-			
+		talonMotor.set(ControlMode.PercentOutput, speed);
+		victorMotor.set(ControlMode.PercentOutput, speed);			
 	}
+	
+	public void setArmForward() {
+		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	public void setArmReverse() {
+		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public void setArmOff() {
+		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+	}
+	
+	
+	
 }
