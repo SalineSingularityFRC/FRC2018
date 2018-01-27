@@ -144,14 +144,14 @@ public class Robot extends IterativeRobot {
 			
 			side = new SendableChooser();
 			priority = new SendableChooser();
-			priority.addDefault("Default program", new SideStraight(drive));
-			priority.addObject("Our Switch", new LLSLS(drive));
-			priority.addObject("Opponet Switch", new LLSOL(drive));
-			priority.addObject("Our Vault", new LLSV(drive));
+			priority.addDefault("Default program", new String("Default program"));
+			priority.addObject("Our Switch", new String("Our Switch"));
+			priority.addObject("Opponet Switch", new String("Opponet Switch"));
+			priority.addObject("Our Vault", new String("Our Vault"));
 			
-			side.addDefault("Left", new LLS(drive));
-			side.addObject("Middle", new MLSLS(drive));
-			side.addObject("Right", new RLSLS(drive));
+			side.addDefault("Left", new String("Left"));
+			side.addObject("Middle", new String("Middle"));
+			side.addObject("Right", new String("Right"));
 			
 			SmartDashboard.putData("Proirities: ", priority);
 			SmartDashboard.putData("Starting Side: ", side);
@@ -176,38 +176,44 @@ public class Robot extends IterativeRobot {
 			int a=0,b=0,c=0;
 			gameData = DriverStation.getInstance().getGameSpecificMessage();		
 			
-			if(side.equals(new RLSLS(drive))){
+			if(side.getSelected().equals("Right")){
 				a=1;
-				SmartDashboard.putString("DB/String 0", "Starting Right");
+				SmartDashboard.putString("Starting Position", "Starting Right");
 			}
-			
-			else if(side.equals(new MLSLS(drive))){
+			else if(side.getSelected().equals("Middle")){
 				a=2;
-				SmartDashboard.putString("DB/String 0", "Stating Middle");
+				SmartDashboard.putString("Starting Position", "Starting Middle");
 			}
+			else SmartDashboard.putString("Starting Position", "Starting Left");
 			
+			SmartDashboard.putString("Game Data",gameData);
 			if(gameData.charAt(0) == 'R'){
 				b=1;
-				SmartDashboard.putString("DB/String 1", "Our Switch is on the right");
+				SmartDashboard.putString("Switch", "Our Switch is on the right");
 			}
+			else SmartDashboard.putString("Switch", "Our Switch is on the left");
 			
-			if(priority.equals(new LLSV(drive))){
+			if(priority.getSelected().equals("Our Vault")){
 				c=1;
-				SmartDashboard.putString("DB/String 2", "We are prioritizing the vault");
+				SmartDashboard.putString("Proirities", "The robot is going toward the vault");
 			}
-			else if(priority.equals(new LLSOL(drive))){
+			else if(priority.getSelected().equals("Opponet Switch")){
 				if(gameData.charAt(2) == 'R') {
 					c=3;
-					SmartDashboard.putString("DB/String 2", "Moving to opponent Right");
+					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Right Switch");
 				}
 				else {
 					c=2;
-					SmartDashboard.putString("DB/String 2", "Moving to opponent Left");
+					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Left Switch");
 				}
 			}
+			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
-				autonomousCommand = (Command) side.getSelected();
-				autonomousCommand.start();
+			autonPrograms[a][b][c].moveAuton();
+			
+			
+				//autonomousCommand = (Command) side.getSelected();
+				//autonomousCommand.start();
 	}
 
 	/**
