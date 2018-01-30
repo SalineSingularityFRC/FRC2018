@@ -2,6 +2,7 @@ package org.usfirst.frc.team5066.controller2018.controlSchemes;
 
 import org.usfirst.frc.team5066.library.SingularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
+import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.robot.DrivePneumatics;
 import org.usfirst.frc.team5066.robot.Lift;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
@@ -127,5 +128,18 @@ public class BasicDrive implements ControlScheme {
 			DriverStation.reportError("left upper limit reached", true);
 		}
 		
+	}
+
+	@Override
+	public void arm(Arm arm) {
+		
+		arm.controlArm(logitech.getStickY(), 2.0);
+		if(logitech.getStickFrontRight()) {
+			arm.setArmForward();
+		}
+		
+		else if(logitech.getStickBackRight()) {
+			arm.setArmReverse();
+		}
 	}
 }
