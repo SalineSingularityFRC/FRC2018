@@ -150,6 +150,8 @@ public class Robot extends IterativeRobot {
 			side.addObject("Middle", new String("Middle"));
 			side.addObject("Right", new String("Right"));
 			
+			SmartDashboard.putData("Side:", side);
+			SmartDashboard.putData("Priority:", priority);
 		}
 	}
 
