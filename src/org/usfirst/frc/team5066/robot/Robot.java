@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javafx.scene.Camera;
@@ -54,7 +53,6 @@ public class Robot extends IterativeRobot {
 	
 	ControlScheme currentScheme;
 	
-	Command autonomousCommand;
 	SendableChooser side;
 	SendableChooser priority;
 	
@@ -66,7 +64,6 @@ public class Robot extends IterativeRobot {
 	
 	
 	//testing variables
-	
 	public enum TestMode {
 		TALON, PNEUMATIC
 	}
@@ -146,15 +143,12 @@ public class Robot extends IterativeRobot {
 			priority = new SendableChooser();
 			priority.addDefault("Default program", new String("Default program"));
 			priority.addObject("Our Switch", new String("Our Switch"));
-			priority.addObject("Opponet Switch", new String("Opponet Switch"));
+			priority.addObject("Opponent Switch", new String("Opponent Switch"));
 			priority.addObject("Our Vault", new String("Our Vault"));
 			
 			side.addDefault("Left", new String("Left"));
 			side.addObject("Middle", new String("Middle"));
 			side.addObject("Right", new String("Right"));
-			
-			SmartDashboard.putData("Proirities: ", priority);
-			SmartDashboard.putData("Starting Side: ", side);
 			
 		}
 	}
@@ -186,7 +180,6 @@ public class Robot extends IterativeRobot {
 			}
 			else SmartDashboard.putString("Starting Position", "Starting Left");
 			
-			SmartDashboard.putString("Game Data",gameData);
 			if(gameData.charAt(0) == 'R'){
 				b=1;
 				SmartDashboard.putString("Switch", "Our Switch is on the right");
@@ -195,9 +188,9 @@ public class Robot extends IterativeRobot {
 			
 			if(priority.getSelected().equals("Our Vault")){
 				c=1;
-				SmartDashboard.putString("Proirities", "The robot is going toward the vault");
+				SmartDashboard.putString("Priorities", "The robot is going toward the vault");
 			}
-			else if(priority.getSelected().equals("Opponet Switch")){
+			else if(priority.getSelected().equals("Opponent Switch")){
 				if(gameData.charAt(2) == 'R') {
 					c=3;
 					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Right Switch");
