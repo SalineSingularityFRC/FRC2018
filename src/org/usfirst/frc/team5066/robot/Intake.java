@@ -4,46 +4,70 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class Intake {
-	
+
 	private VictorSPX left;
 	private VictorSPX right;
-	
-	public Intake(int leftPort, int rightPort){
-		
+
+	private final double INSPEED = 1.0;
+	private final double OUTSPEED = 1.0;
+	private final double ROTATESPEED = 0.5;
+
+	public Intake(int leftPort, int rightPort) {
+
 		left = new VictorSPX(leftPort);
 		right = new VictorSPX(rightPort);
 	}
-	
-	public void controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut){
-		
-		if (leftIn){
-			left.set(ControlMode.PercentOutput, 1.0);
-			
+
+	public void controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut) {
+
+		if (leftIn && rightOut) {
+			left.set(ControlMode.PercentOutput, ROTATESPEED);
+			right.set(ControlMode.PercentOutput, ROTATESPEED);
 		}
-		
-		else if (leftOut){
-			left.set(ControlMode.PercentOutput, -1.0);
-			
+
+		else if (rightIn && leftOut) {
+			right.set(ControlMode.PercentOutput, ROTATESPEED);
+			left.set(ControlMode.PercentOutput, ROTATESPEED);
 		}
-		
+
 		else {
-			left.set(ControlMode.PercentOutput, 0.0);
+
+			if (leftIn) {
+				left.set(ControlMode.PercentOutput, INSPEED);
+
+			}
+
+			else if (leftOut) {
+				left.set(ControlMode.PercentOutput, OUTSPEED);
+
+			}
+
+			else {
+				left.set(ControlMode.PercentOutput, 0.0);
+			}
+
+			if (rightIn) {
+				right.set(ControlMode.PercentOutput, INSPEED);
+
+			}
+
+			else if (rightOut) {
+
+				right.set(ControlMode.PercentOutput, OUTSPEED);
+			}
+
+			else {
+				right.set(ControlMode.PercentOutput, 0.0);
+			}
+
 		}
-		
-		if (rightIn){
-			right.set(ControlMode.PercentOutput, 1.0);
-				
-		}
-		
-		else if (rightOut){
-			
-			right.set(ControlMode.PercentOutput, -1.0);
-		}
-		
-		else {
-			right.set(ControlMode.PercentOutput, 0.0);
-		}
+
+	}
 	
+	public void manualIntake(double leftStick, double rightStick, double exponent){
+		
+		left.set(ControlMode.PercentOutput, Math.pow(leftStick, exponent));
+		right.set(ControlMode.PercentOutput, Math.pow(rightStick, exponent));
 	}
 
 }
