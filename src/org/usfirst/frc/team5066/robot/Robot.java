@@ -130,6 +130,8 @@ public class Robot extends IterativeRobot {
 		
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
+					
+			//drive = new TankDrive(0, 1);
 			drive.rampVoltage();
 			
 			/*lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
@@ -141,7 +143,7 @@ public class Robot extends IterativeRobot {
 			
 			arm = new Arm(victorArmMotor, talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
-			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
+			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
 			front = CameraServer.getInstance().startAutomaticCapture();
 			rear = CameraServer.getInstance().startAutomaticCapture();
@@ -374,8 +376,8 @@ public class Robot extends IterativeRobot {
 			frontLeftMotor = properties.getInt("frontLeftMotor");
 			backRightMotor = properties.getInt("backRightMotor");
 			backLeftMotor = properties.getInt("backLeftMotor");
-			frontRightMotor = properties.getInt("middleRightMotor");
-			frontLeftMotor = properties.getInt("middleLeftMotor");
+			middleRightMotor = properties.getInt("middleRightMotor");
+			middleLeftMotor = properties.getInt("middleLeftMotor");
 			
 			liftLeft1 = properties.getInt("liftLeft1");
 			liftLeft2 = properties.getInt("liftLeft2");

@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.SPI.Port;
 public abstract class AutonControlScheme {
 
 	//TODO change later
-	public static final double DistancePerRevolution = 37.69911184307752;
-	public static final double CenterRobotWidth = 15.0;
-	public final double CenterRobotLength = 13.0;
+	public static final double DistancePerRevolution = 6.2831853072;
+	public static final double CenterRobotWidth = 27.5;//TODO change if have bumpers
+	public final double CenterRobotLength = 32.5;//TODO change if have bumpers
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
 	private static final double speed = 0.5;
 	

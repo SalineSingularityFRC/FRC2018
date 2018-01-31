@@ -128,16 +128,16 @@ public abstract class SingDrive {
 			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
 			
 			m_rearLeftMotor = new TalonSRX(rearLeftMotor);
-			m_frontLeftMotor.set(ControlMode.Follower, rearLeftMotor);
+			m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
 			m_leftMiddleMotor = new TalonSRX(leftMiddleMotor);
-			m_leftMiddleMotor.set(ControlMode.Follower, rearLeftMotor);
+			m_leftMiddleMotor.set(ControlMode.Follower, frontLeftMotor);
 			
 			m_frontRightMotor = new TalonSRX(frontRightMotor);
 			
 			m_rearRightMotor = new TalonSRX(rearRightMotor);
-			m_frontRightMotor.set(ControlMode.Follower, rearRightMotor);
+			m_frontRightMotor.set(ControlMode.Follower, frontRightMotor);
 			m_rightMiddleMotor = new TalonSRX(rightMiddleMotor);
-			m_rightMiddleMotor.set(ControlMode.Follower, rearRightMotor);
+			m_rightMiddleMotor.set(ControlMode.Follower, frontRightMotor);
 
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
@@ -379,6 +379,7 @@ public abstract class SingDrive {
 		rightEncVal = 0;
 		
 		//repeat 10 times per second
+		//wait 100 milliseconds
 		Timer.delay(100);
 	}
 	
