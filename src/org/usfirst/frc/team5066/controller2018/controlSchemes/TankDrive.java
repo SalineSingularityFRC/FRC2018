@@ -7,6 +7,7 @@ import org.usfirst.frc.team5066.library.SingularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
 import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.robot.DrivePneumatics;
+import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.robot.Lift;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
@@ -123,6 +124,12 @@ public class TankDrive implements ControlScheme {
 		else if(xboxSystems.getLB()) {
 			arm.setArmReverse();
 		}
+	}
+
+	@Override
+	public void intake(Intake intake) {
+		
+		
 	}
 	
 
