@@ -39,15 +39,23 @@ public class Robot extends IterativeRobot {
 	int liftLeft1, liftLeft2, liftRight1, liftRight2;
 	int leftLimitLow, leftLimitHigh, rightLimitLow, rightLimitHigh;
 	
+	int talonArmMotor, victorArmMotor;
+	final double ARMSPEEDCONSTANT = 1.0;
+	int armPneumaticsForward;
+	int armPneumaticsReverse;
+	
 	final double LIFT_SPEED = 1.0;
 	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
 	Compressor compressor;
 	Lift lift;
+	Arm arm;
 	UsbCamera front, rear;
 	
 	Preferences prefs;
+	
+	
 	
 	SingularityProperties properties;
 	
@@ -129,6 +137,9 @@ public class Robot extends IterativeRobot {
 			
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			*/
+			
+			
+			arm = new Arm(victorArmMotor, talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
 			currentScheme = new BasicDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
@@ -379,6 +390,12 @@ public class Robot extends IterativeRobot {
 			drivePneuForward = properties.getInt("drivePneuForward");
 			drivePneuReverse = properties.getInt("drivePneuReverse");
 			
+			talonArmMotor = properties.getInt("talonArmMotor");
+			victorArmMotor = properties.getInt("victorArmMotor");
+			
+			armPneumaticsForward = properties.getInt("armPneumaticsForward");
+			armPneumaticsReverse = properties.getInt("armPneumaticsReverse");
+			
 		} catch (SingularityPropertyNotFoundException e) {
 			DriverStation.reportError("The property \"" + e.getPropertyName()
 				+ "was not found --> CODE SPLINTERED(CRASHED)!!!!!! \n _POSSIBLE CAUSES:\n - Property missing in file and defaults"
@@ -409,5 +426,11 @@ public class Robot extends IterativeRobot {
 		
 		properties.addDefaultProp("drivePneuForward", 1);
 		properties.addDefaultProp("drivePneuReverse", 2);
+		
+		properties.addDefaultProp("talonArmMotor", 3);
+		properties.addDefaultProp("victorArmMotor", 11);
+		
+		properties.addDefaultProp("armPneumaticsForward", 3);
+		properties.addDefaultProp("armPneumaticsReverse", 4);
 	}
 }

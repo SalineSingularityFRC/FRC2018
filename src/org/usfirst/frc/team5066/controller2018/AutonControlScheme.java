@@ -46,25 +46,13 @@ public abstract class AutonControlScheme {
 	//if ur code isn't working for reverse, set vertspeed to negative
 	public static void vertical(double verticalSpeed, double distance) {
 	
-		//int distanceAccelerated = 0;
-		
-		//Slowly start motors for i(acceleration) inches
-		/*for(int i = acceleration; i > 0; i--) {
-			if (2 * (acceleration - i + 1) > distance - 2) break;
-			do {
-				drive.drive(vertSpeed/i, vertSpeed/i, 0.0, false, SpeedMode.NORMAL);
-			} 
-			while (getAverage() > -2.0 / DistancePerRevolution
-				&& getAverage() < 2.0 / DistancePerRevolution);
-			
-			distanceAccelerated += 2;
-			
-			drive.resetAll();
-		}*/
 			
 		//normal speed
 		while (getAverage() > -distance / DistancePerRevolution
 				&& getAverage() < distance / DistancePerRevolution) {
+			
+			//Accelerate motors slowly
+			drive.rampVoltage();
 			
 			//drive.encoderDriveStraight(verticalSpeed);
 			drive.drive(verticalSpeed, verticalSpeed, 0.0, false, SpeedMode.NORMAL);
@@ -83,19 +71,7 @@ public abstract class AutonControlScheme {
 	}
 	
 	public static void vertical(double distance) {
-		
-		while (getAverage() > -distance / DistancePerRevolution
-				&& getAverage() < distance / DistancePerRevolution) {
-			
-			//drive.encoderDriveStraight(verticalSpeed);
-			drive.drive(speed, speed, 0.0, false, SpeedMode.NORMAL);
-		}
-		
-		drive.resetAll();
-		
-		drive.resetAll();
-		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
-		
+		vertical(speed, distance);
 	}
 
 	private static double getAverage() { return (drive.getLeftPosition() + drive.getRightPosition()) / 2; }
@@ -107,6 +83,10 @@ public abstract class AutonControlScheme {
 		if(counterClockwise) rotationSpeed*= -1;
 		
 		while(gyro.getAngle() < angle) {
+			
+			//accelerate motors slowly
+			drive.rampVoltage();
+			
 			drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
 		}
 		
@@ -114,17 +94,7 @@ public abstract class AutonControlScheme {
 	}
 	
 	public static void rotate( double angle, boolean counterClockwise) {
-		
-		double rotationSpeed = speed;
-	
-		gyro.reset();
-		if(counterClockwise) rotationSpeed*= -1;
-		
-		while(gyro.getAngle() < angle) {
-			drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
-		}
-		
-		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
+		rotate(speed, angle, counterClockwise);
 	}
 	
 }
