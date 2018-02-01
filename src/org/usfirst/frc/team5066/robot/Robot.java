@@ -271,7 +271,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
-	/*@Override
+	@Override
 	public void testPeriodic() {
 		
 		//press right on the d-pad to switch to cantalon
@@ -285,7 +285,9 @@ public class Robot extends IterativeRobot {
 		}
 
 		
-		 * Code to test the port numbers of cantalons
+		 /* Code to test the port numbers of cantalons
+		 */
+		 
 		 
 		if (testMode == TestMode.TALON) {
 
@@ -324,15 +326,15 @@ public class Robot extends IterativeRobot {
 			cantalon.set(ControlMode.PercentOutput, speed);
 
 			// log information to keep track of port number and speed
-			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
-			SmartDashboard.putString("DB/String 1", "Current speed: " + speed);
+			SmartDashboard.putNumber("port: ", (double) port);
+			SmartDashboard.putNumber("Speed: ", speed);
 		}
 		
 		
-		 * Code to Test the Pneumatics
+		 /* Code to Test the Pneumatics
 		 * This currently tests with SingleSolenoids,
 		 * which will probably still work for testing DoubleSolenoids
-		 
+		 */
 		
 		else if (testMode == TestMode.PNEUMATIC) {
 			
@@ -362,7 +364,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putString("DB/String 1", "solenoid value: " + solenoid.get());
 			
 		}
-	}*/
+	}
 	
 	@Override
 	public void disabledPeriodic() {
@@ -378,6 +380,8 @@ public class Robot extends IterativeRobot {
 			backLeftMotor = properties.getInt("backLeftMotor");
 			middleRightMotor = properties.getInt("middleRightMotor");
 			middleLeftMotor = properties.getInt("middleLeftMotor");
+			
+			//get 'er done
 			
 			liftLeft1 = properties.getInt("liftLeft1");
 			liftLeft2 = properties.getInt("liftLeft2");
@@ -409,28 +413,28 @@ public class Robot extends IterativeRobot {
 	
 	private void setDefaultProperties() {
 		
-		properties.addDefaultProp("frontRightMotor", 13);
-		properties.addDefaultProp("frontLeftMotor", 6);
-		properties.addDefaultProp("backRightMotor", 4);
-		properties.addDefaultProp("backLeftMotor", 2);
-		properties.addDefaultProp("middleRightMotor", 10);
-		properties.addDefaultProp("middleLeftMotor", 7);
+		properties.addDefaultProp("frontRightMotor", 0);
+		properties.addDefaultProp("frontLeftMotor", 1);
+		properties.addDefaultProp("backRightMotor", 2);
+		properties.addDefaultProp("backLeftMotor", 3);
+		properties.addDefaultProp("middleRightMotor", 14);
+		properties.addDefaultProp("middleLeftMotor", 12);
 		
 		properties.addDefaultProp("liftLeft1", 8);
 		properties.addDefaultProp("liftLeft2", 9);
 		properties.addDefaultProp("liftRight1", 5);
-		properties.addDefaultProp("liftRight2", 12);
+		properties.addDefaultProp("liftRight2", 4);
 		
-		properties.addDefaultProp("rightLimitLow", 0);
-		properties.addDefaultProp("rightLimitHigh", 1);
-		properties.addDefaultProp("leftLimitLow", 2);
-		properties.addDefaultProp("leftLimitHigh", 3);
+		properties.addDefaultProp("rightLimitLow", 10);
+		properties.addDefaultProp("rightLimitHigh", 11);
+		properties.addDefaultProp("leftLimitLow", 15);
+		properties.addDefaultProp("leftLimitHigh", 13);
 		
 		properties.addDefaultProp("drivePneuForward", 1);
 		properties.addDefaultProp("drivePneuReverse", 2);
 		
-		properties.addDefaultProp("talonArmMotor", 3);
-		properties.addDefaultProp("victorArmMotor", 11);
+		properties.addDefaultProp("talonArmMotor", 7);
+		properties.addDefaultProp("victorArmMotor", 6);
 		
 		properties.addDefaultProp("armPneumaticsForward", 3);
 		properties.addDefaultProp("armPneumaticsReverse", 4);
