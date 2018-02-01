@@ -413,12 +413,12 @@ public class Robot extends IterativeRobot {
 	
 	private void setDefaultProperties() {
 		
-		properties.addDefaultProp("frontRightMotor", 0);
-		properties.addDefaultProp("frontLeftMotor", 1);
-		properties.addDefaultProp("backRightMotor", 2);
-		properties.addDefaultProp("backLeftMotor", 3);
-		properties.addDefaultProp("middleRightMotor", 14);
-		properties.addDefaultProp("middleLeftMotor", 12);
+		properties.addDefaultProp("frontRightMotor", 14);
+		properties.addDefaultProp("frontLeftMotor", 12);
+		properties.addDefaultProp("backRightMotor", 0);
+		properties.addDefaultProp("backLeftMotor", 1);
+		properties.addDefaultProp("middleRightMotor", 2);
+		properties.addDefaultProp("middleLeftMotor", 3);
 		
 		properties.addDefaultProp("liftLeft1", 8);
 		properties.addDefaultProp("liftLeft2", 9);

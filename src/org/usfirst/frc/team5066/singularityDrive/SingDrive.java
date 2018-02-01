@@ -5,7 +5,7 @@ import org.usfirst.frc.team5066.library.SpeedMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.kauailabs.navx.frc.AHRS;
-
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,8 +15,9 @@ public abstract class SingDrive {
 	public double slowSpeedConstant, normalSpeedConstant, fastSpeedConstant;
 	public int mode = 0;
 	
-	protected TalonSRX m_frontLeftMotor, m_rearLeftMotor, m_frontRightMotor, m_rearRightMotor;
-	protected TalonSRX m_leftMiddleMotor, m_rightMiddleMotor;
+	protected VictorSPX m_rearLeftMotor, m_rearRightMotor, m_leftMiddleMotor, m_rightMiddleMotor;
+	 
+	protected TalonSRX m_frontLeftMotor, m_frontRightMotor;
 	
 
 	private final static double DEFAULT_VELOCITY_MULTIPLIER = 1.0;
@@ -127,16 +128,16 @@ public abstract class SingDrive {
 			
 			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
 			
-			m_rearLeftMotor = new TalonSRX(rearLeftMotor);
+			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
 			m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
-			m_leftMiddleMotor = new TalonSRX(leftMiddleMotor);
+			m_leftMiddleMotor = new VictorSPX(leftMiddleMotor);
 			m_leftMiddleMotor.set(ControlMode.Follower, frontLeftMotor);
 			
 			m_frontRightMotor = new TalonSRX(frontRightMotor);
 			
-			m_rearRightMotor = new TalonSRX(rearRightMotor);
+			m_rearRightMotor = new VictorSPX(rearRightMotor);
 			m_frontRightMotor.set(ControlMode.Follower, frontRightMotor);
-			m_rightMiddleMotor = new TalonSRX(rightMiddleMotor);
+			m_rightMiddleMotor = new VictorSPX(rightMiddleMotor);
 			m_rightMiddleMotor.set(ControlMode.Follower, frontRightMotor);
 
 		} else {
@@ -160,9 +161,9 @@ public abstract class SingDrive {
 
 		if (talonType == CANTALON_DRIVE) {
 			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
-			m_rearLeftMotor = new TalonSRX(rearLeftMotor);
+			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
 			m_frontRightMotor = new TalonSRX(frontRightMotor);
-			m_rearRightMotor = new TalonSRX(rearRightMotor);
+			m_rearRightMotor = new VictorSPX(rearRightMotor);
 
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
