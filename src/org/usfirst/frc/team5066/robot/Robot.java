@@ -8,6 +8,7 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.cscore.UsbCamera;
@@ -82,7 +83,7 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	TalonSRX cantalon;
+	VictorSPX cantalon;
 	double speed;
 	
 	//pneumatics
@@ -262,7 +263,7 @@ public class Robot extends IterativeRobot {
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
 		
-		cantalon = new TalonSRX(port);
+		cantalon = new VictorSPX(port);
 		
 		solenoid = new Solenoid(port);
 		
@@ -299,11 +300,11 @@ public class Robot extends IterativeRobot {
 			if (currentRb && !prevRb) {
 				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port++;
-				cantalon = new TalonSRX(port);
+				cantalon = new VictorSPX(port);
 			} else if (currentLb && !prevLb) {
 				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port--;
-				cantalon = new TalonSRX(port);
+				cantalon = new VictorSPX(port);
 			}
 
 			prevRb = currentRb;
@@ -416,8 +417,8 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("frontRightMotor", 14);
 		properties.addDefaultProp("frontLeftMotor", 12);
 		properties.addDefaultProp("backRightMotor", 0);
-		properties.addDefaultProp("backLeftMotor", 1);
-		properties.addDefaultProp("middleRightMotor", 2);
+		properties.addDefaultProp("backLeftMotor", 2);
+		properties.addDefaultProp("middleRightMotor", 1);
 		properties.addDefaultProp("middleLeftMotor", 3);
 		
 		properties.addDefaultProp("liftLeft1", 8);

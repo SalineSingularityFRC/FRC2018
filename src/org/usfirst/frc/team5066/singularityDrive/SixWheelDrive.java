@@ -49,7 +49,7 @@ public class SixWheelDrive extends SingDrive{
 		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors
-		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 		
 		SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
@@ -91,8 +91,12 @@ public class SixWheelDrive extends SingDrive{
 		rightVelocity = threshold(rightVelocity);
 
 		// Set the motors
-		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-leftVelocity) / leftMaximum));
-		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -((leftVelocity) / leftMaximum));
+		//m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((leftVelocity) / leftMaximum));
+
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -((rightVelocity) / rightMaximum));
+		//m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((leftVelocity) / leftMaximum));
+
 		
 		SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
 		SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
