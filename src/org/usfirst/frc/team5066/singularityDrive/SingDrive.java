@@ -121,7 +121,7 @@ public abstract class SingDrive {
 	 * pidGet
 	 */
 	
-	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int leftMiddleMotor, int rightMiddleMotor,
+	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int rightMiddleMotor, int leftMiddleMotor,
 			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) {//Six wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {

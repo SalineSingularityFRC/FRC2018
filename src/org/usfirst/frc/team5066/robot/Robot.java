@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	VictorSPX cantalon;
+	TalonSRX cantalon;
 	double speed;
 	
 	//pneumatics
@@ -263,7 +263,7 @@ public class Robot extends IterativeRobot {
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
 		
-		cantalon = new VictorSPX(port);
+		cantalon = new TalonSRX(port);
 		
 		solenoid = new Solenoid(port);
 		
@@ -274,6 +274,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		
+		//TODO make option to switch between talons and vistors
 		
 		//press right on the d-pad to switch to cantalon
 		if (xbox.getPOVRight()) {
@@ -300,11 +302,11 @@ public class Robot extends IterativeRobot {
 			if (currentRb && !prevRb) {
 				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port++;
-				cantalon = new VictorSPX(port);
+				cantalon = new TalonSRX(port);
 			} else if (currentLb && !prevLb) {
 				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port--;
-				cantalon = new VictorSPX(port);
+				cantalon = new TalonSRX(port);
 			}
 
 			prevRb = currentRb;
@@ -419,7 +421,7 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("backRightMotor", 0);
 		properties.addDefaultProp("backLeftMotor", 2);
 		properties.addDefaultProp("middleRightMotor", 1);
-		properties.addDefaultProp("middleLeftMotor", 3);
+		properties.addDefaultProp("middleLeftMotor", 4);
 		
 		properties.addDefaultProp("liftLeft1", 8);
 		properties.addDefaultProp("liftLeft2", 9);
