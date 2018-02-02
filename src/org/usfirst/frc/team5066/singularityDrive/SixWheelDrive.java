@@ -96,7 +96,7 @@ public class SixWheelDrive extends SingDrive{
 		m_leftMiddleMotor.set(ControlMode.PercentOutput, -this.velocityMultiplier * ((leftVelocity) / leftMaximum));
 
 		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((rightVelocity) / rightMaximum));
-		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, -this.velocityMultiplier * ((rightVelocity) / rightMaximum));
 		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((rightVelocity) / rightMaximum));
 
 		

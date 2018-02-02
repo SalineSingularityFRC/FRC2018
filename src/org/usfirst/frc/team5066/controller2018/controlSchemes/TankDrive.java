@@ -72,7 +72,7 @@ public class TankDrive implements ControlScheme {
 		else
 			dPneu.setReverse();
 		*/
-		((SixWheelDrive) sd).tankDrive(xboxDrive.getRS_Y(), xboxDrive.getLS_Y(), true, speedMode.NORMAL);
+		((SixWheelDrive) sd).tankDrive(-xboxDrive.getLS_Y(), -xboxDrive.getRS_Y(), true, speedMode.NORMAL);
 		
 	}
 
