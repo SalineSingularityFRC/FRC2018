@@ -9,11 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Lift {
 	
-	//TODO:
-	//only activate-able in end game
-	//notification for driver station
-	//do javabat when done (WHO DONE THIS LMFAOOOOO)
-	
 	
 	private TalonSRX right1, right2, left1, left2;
 	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh;
