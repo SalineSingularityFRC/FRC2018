@@ -68,16 +68,18 @@ public class BasicDrive implements ControlScheme {
 		// Left Bumper for slow
 		if (xbox.getRB())
 			speed = true;
-		else if (xbox.getLB())
+		else /*if (xbox.getLB())*/
 			speed = false;
-
-		if (speed)
+		
+		//TODO fix 
+		/*if (speed)
 			dPneu.setForward();
 		else
 			dPneu.setReverse();
-
+		 */
 		/*
 		 * rBCurrent = xbox.getRB(); lBCurrent = xbox.getLB();
+		 * 
 		 * 
 		 * if (rBCurrent && !rBPrevious) { if (speedMode == SpeedMode.FAST) speedMode =
 		 * SpeedMode.NORMAL; else speedMode = SpeedMode.FAST; } if (lBCurrent &&

@@ -75,7 +75,7 @@ public class TankDrive implements ControlScheme {
 	@Override
 	public void drive(SingDrive sd, DrivePneumatics dPneu) {
 		
-		/*rBCurrent = logitechDrive.getRB();
+		/*
 		//set speedMode
 		if(logitechDrive.getLB()) {
 			speedMode = SpeedMode.SLOW;
@@ -85,6 +85,7 @@ public class TankDrive implements ControlScheme {
 			speedMode = SpeedMode.NORMAL;
 		}*/
 		
+
 		if (logitechDrive.getRB())
 			speed = true;
 		else if (logitechDrive.getLB())
@@ -96,7 +97,8 @@ public class TankDrive implements ControlScheme {
 		else
 			dPneu.setReverse();
 		
-		((SixWheelDrive) sd).tankDrive(logitechDrive.getLS_Y(), logitechDrive.getRS_Y(), true, speedMode);
+		((SixWheelDrive) sd).tankDrive(logitechDrive.getLS_Y(), logitechDrive.getRS_Y(), true, speedMode.NORMAL);
+
 		
 	}
 

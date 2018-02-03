@@ -17,7 +17,7 @@ public class MRSRS extends AutonControlScheme{
 		super.rotate( 90, false);
 		super.vertical(42-super.CenterRobotWidth);
 		super.rotate( 90, true);
-		super.vertical(105-super.CenterRobotLength);
+		super.vertical(105/*delete this-->*/ -28/*<--delet this*/-super.CenterRobotLength);
 		//Drop the PC
 		super.vertical(32.5-super.CenterRobotLength);
 		super.rotate(90, true);
