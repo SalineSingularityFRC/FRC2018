@@ -15,40 +15,48 @@ public class Lift {
 	//do javabat when done (WHO DONE THIS LMFAOOOOO)
 	
 	
-	private TalonSRX right1, right2, left1, left2;
-	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh;
-	double speed;
+	private TalonSRX right1, left1;
+	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh, rightLimStart, leftLimStart;
+	double normalSpeed, highSpeed;
 	
 	
-	public Lift(int r1, int r2, int l1, int l2, int rL1, int rL2, int lL1, int  lL2, double s) {
+	public Lift(int right1, int left1, int rightLimLow, int rightLimHigh, 
+			int leftLimLow, int leftLimHigh, int rightLimStart, int leftLimStart, double normalSpeed) {
 		
-		right1 = new TalonSRX(r1);
-		right2 = new TalonSRX(r2);
-		left1 = new TalonSRX(l1);
-		left2 = new TalonSRX(l2);
+		this.right1 = new TalonSRX(right1);
+		//this.right2 = new TalonSRX(right2);
+		this.left1 = new TalonSRX(left1);
+		//this.left2 = new TalonSRX(left2);
 		
-		rightLimLow = new DigitalInput(rL1);
-		rightLimHigh = new DigitalInput(rL2);
-		leftLimLow = new DigitalInput(lL1);
-		leftLimHigh = new DigitalInput(lL2);
+		this.rightLimLow = new DigitalInput(rightLimLow);
+		this.rightLimHigh = new DigitalInput(rightLimHigh);
+		this.rightLimStart = new DigitalInput(rightLimStart);
+		this.leftLimLow = new DigitalInput(leftLimLow);
+		this.leftLimHigh = new DigitalInput(leftLimHigh);
+		this.leftLimStart = new DigitalInput(leftLimStart);
 		
-		speed = s;
-		
+		this.normalSpeed = normalSpeed;
+		this.highSpeed = 1.0;
 		
 	}
 	
-	public boolean releaseLiftRight(boolean rightRelease) {
+	public boolean releaseLiftRight(boolean rightReleaseNormal, boolean rightReleaseHigh) {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (rightRelease && !rightLimLow.get()) {
-			right1.set(ControlMode.PercentOutput, speed);
-			right2.set(ControlMode.PercentOutput, speed);
+		if (rightReleaseHigh && !rightLimLow.get()) {
+			right1.set(ControlMode.PercentOutput, highSpeed);
+			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
 		
+		else if (rightReleaseNormal && !rightLimLow.get()) {
+			right1.set(ControlMode.PercentOutput, normalSpeed);
+			//right2.set(ControlMode.PercentOutput, normalSpeed);
+		}	
+			
 		else {
 			right1.set(ControlMode.PercentOutput, 0.0);
-			right2.set(ControlMode.PercentOutput, 0.0);
+			//right2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return right limit switch value
@@ -56,17 +64,23 @@ public class Lift {
 		
 	}
 	
-	public boolean releaseLiftLeft(boolean leftRelease) {
+	public boolean releaseLiftLeft(boolean leftReleaseNormal, boolean leftReleaseHigh) {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (leftRelease && !leftLimLow.get()) {
-			left1.set(ControlMode.PercentOutput, speed);
-			left2.set(ControlMode.PercentOutput, speed);
+		if (leftReleaseHigh && !leftLimLow.get()) {
+			left1.set(ControlMode.PercentOutput, highSpeed);
+			//left2.set(ControlMode.PercentOutput, highSpeed);
+		}
+		
+		else if (leftReleaseHigh && !leftLimLow.get()) {
+			left1.set(ControlMode.PercentOutput, normalSpeed);
+			//left2.set(ControlMode.PercentOutput, normalSpeed);
+		
 		}
 		else {
 			left1.set(ControlMode.PercentOutput, 0.0);
-			left2.set(ControlMode.PercentOutput, 0.0);
+			//left2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return left limit switch value
@@ -74,20 +88,30 @@ public class Lift {
 		
 	}
 	
-	public boolean controlRightLift (boolean rightLiftUp, boolean rightLiftDown){
+	public boolean controlRightLift (boolean rightLiftUpNormal, boolean rightLiftDownNormal, 
+			boolean rightLiftUpHigh, boolean rightLiftDownHigh){
 		
 		//raise or lower lift with controls
-		if (rightLiftUp){
-			right1.set(ControlMode.PercentOutput, speed);
-			right2.set(ControlMode.PercentOutput, speed);
+		if (rightLiftUpHigh){
+			right1.set(ControlMode.PercentOutput, highSpeed);
+			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
-		else if (rightLiftDown) {
-			right1.set(ControlMode.PercentOutput, -speed);
-			right2.set(ControlMode.PercentOutput, -speed);
+		else if (rightLiftDownHigh) {
+			right1.set(ControlMode.PercentOutput, -highSpeed);
+			//right2.set(ControlMode.PercentOutput, -highSpeed);
+		}
+		
+		if (rightLiftUpNormal){
+			right1.set(ControlMode.PercentOutput, normalSpeed);
+			//right2.set(ControlMode.PercentOutput, normalSpeed);
+		}
+		else if (rightLiftDownNormal) {
+			right1.set(ControlMode.PercentOutput, -normalSpeed);
+			//right2.set(ControlMode.PercentOutput, -normalSpeed);
 		}
 		else {
 			right1.set(ControlMode.PercentOutput, 0.0);
-			right2.set(ControlMode.PercentOutput, 0.0);
+			//right2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return right limit high switch
@@ -95,24 +119,47 @@ public class Lift {
 		
 	}
 	
-	public boolean controlLeftLift (boolean leftLiftUp, boolean leftLiftDown) {
+	public boolean controlLeftLift (boolean leftLiftUpNormal, boolean leftLiftDownNormal,
+			boolean leftLiftUpHigh, boolean leftLiftDownHigh) {
 		
 		//raise or lower lift with controls
-		if (leftLiftUp){
-			left1.set(ControlMode.PercentOutput, speed);
-			left2.set(ControlMode.PercentOutput, speed);
+		if (leftLiftUpHigh){
+			right1.set(ControlMode.PercentOutput, highSpeed);
+			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
-		else if (leftLiftDown) {
-			left1.set(ControlMode.PercentOutput, -speed);
-			left2.set(ControlMode.PercentOutput, -speed);
+		else if (leftLiftDownHigh) {
+			right1.set(ControlMode.PercentOutput, -highSpeed);
+			//right2.set(ControlMode.PercentOutput, -highSpeed);
+		}
+		
+		if (leftLiftUpNormal){
+			left1.set(ControlMode.PercentOutput, normalSpeed);
+			//left2.set(ControlMode.PercentOutput, normalSpeed);
+		}
+		else if (leftLiftDownNormal) {
+			left1.set(ControlMode.PercentOutput, -normalSpeed);
+			//left2.set(ControlMode.PercentOutput, -normalSpeed);
 		}
 		else {
 			left1.set(ControlMode.PercentOutput, 0.0);
-			left2.set(ControlMode.PercentOutput, 0.0);
+			//left2.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		//return left limit high switch
 		return leftLimHigh.get();
+	}
+	
+	public void resetLeft(){
+		if (!leftLimStart.get()){
+			left1.set(ControlMode.PercentOutput, -normalSpeed);
+			//left2.set(ControlMode.PercentOutput, -normalSpeed);
+		}
+	}
+	public void resetRight(){
+		if (!rightLimStart.get()){
+			right1.set(ControlMode.PercentOutput, -normalSpeed);
+			//right2.set(ControlMode.PercentOutput, -normalSpeed);
+		}
 	}
 
 }

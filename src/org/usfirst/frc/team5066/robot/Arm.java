@@ -20,9 +20,11 @@ public class Arm {
 	private final double SWITCH = 25;
 	private final double PORTAL = 25;
 	private final double HIGHSCALE = 90;
+	private final double LEVELSCALE = 88;
 	private final double LOWSCALE = 85;
 	private final double EXCHANGE = 15;
 	private final double START = 30;
+	private final double TRAVEL = 30;
 	
 	double speedConstant;
 	double speed;
@@ -92,6 +94,11 @@ public class Arm {
 		this.setArmReverse();
 		
 	}
+	
+	public void setPositionLevelScale() {
+		talonMotor.set(ControlMode.Position, LEVELSCALE);
+		this.setArmReverse();
+	}
 
 	public void setPositionLowScale() {
 		talonMotor.set(ControlMode.Position, LOWSCALE);
@@ -109,6 +116,11 @@ public class Arm {
 		talonMotor.set(ControlMode.Position, START);
 		this.setArmReverse();
 		
+	}
+	
+	public void setPositionTravel() {
+		talonMotor.set(ControlMode.Position, TRAVEL);
+		this.setArmForward();
 	}
 
 
