@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Arm {
 
 	private TalonSRX talonMotor;
-	private VictorSPX victorMotor;
 	
 	private final double LOWERLIMIT = 10;
 	private final double UPPERLIMIT = 100;
@@ -32,11 +31,8 @@ public class Arm {
 	DoubleSolenoid doubleSolenoid;
 	
 	
-	public Arm(int vic, int tal, double s, int forwardChannel, int reverseChannel) {
+	public Arm(int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
-		victorMotor = new VictorSPX (vic);
-		
-		victorMotor.set(ControlMode.Follower, tal);
 		
 		speedConstant = s;
 		doubleSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);

@@ -4,6 +4,7 @@ import org.usfirst.frc.team5066.controller2018.LogitechController;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -15,7 +16,7 @@ public class Lift {
 	//do javabat when done (WHO DONE THIS LMFAOOOOO)
 	
 	
-	private TalonSRX right1, left1;
+	private VictorSPX right1, left1;
 	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh, rightLimStart, leftLimStart;
 	double normalSpeed, highSpeed;
 	
@@ -23,9 +24,9 @@ public class Lift {
 	public Lift(int right1, int left1, int rightLimLow, int rightLimHigh, 
 			int leftLimLow, int leftLimHigh, int rightLimStart, int leftLimStart, double normalSpeed) {
 		
-		this.right1 = new TalonSRX(right1);
+		this.right1 = new VictorSPX(right1);
 		//this.right2 = new TalonSRX(right2);
-		this.left1 = new TalonSRX(left1);
+		this.left1 = new VictorSPX(left1);
 		//this.left2 = new TalonSRX(left2);
 		
 		this.rightLimLow = new DigitalInput(rightLimLow);

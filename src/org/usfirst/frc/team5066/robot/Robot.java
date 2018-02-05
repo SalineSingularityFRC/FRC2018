@@ -36,10 +36,13 @@ public class Robot extends IterativeRobot {
 	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
 	int drivePneuForward, drivePneuReverse;
 	
-	int liftLeft1, liftLeft2, liftRight1, liftRight2;
+	int liftLeft1, liftRight1;
 	int leftLimitLow, leftLimitHigh, rightLimitLow, rightLimitHigh;
 	
-	int talonArmMotor, victorArmMotor;
+	int talonArmMotor;
+	
+	int intakeRight, intakeLeft;
+	
 	final double ARMSPEEDCONSTANT = 1.0;
 	int armPneumaticsForward;
 	int armPneumaticsReverse;
@@ -48,14 +51,13 @@ public class Robot extends IterativeRobot {
 	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
-	Compressor compressor;
 	Lift lift;
 	Arm arm;
 	UsbCamera front, rear;
 	
 	Preferences prefs;
 	
-	
+	Compressor compressor;
 	
 	SingularityProperties properties;
 	
@@ -73,7 +75,7 @@ public class Robot extends IterativeRobot {
 	
 	//testing variables
 	public enum TestMode {
-		TALON, PNEUMATIC
+		TALON, PNEUMATIC, COMPRESS
 	}
 	TestMode testMode;
 	
@@ -94,6 +96,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
+		compressor = new Compressor();
+		
 		
 	
 		//SmartDashboard Preferences code to change port value
@@ -141,7 +146,7 @@ public class Robot extends IterativeRobot {
 			*/
 			
 			
-			arm = new Arm(victorArmMotor, talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
+			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
 			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
@@ -255,17 +260,22 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		
-		testMode = TestMode.TALON;
+		testMode = TestMode.COMPRESS;
 		
-		port = 0;
-		prevRb = false;
-		prevLb = false;
-		xbox = new XboxController(XBOX_PORT);
+		if (testMode == TestMode.COMPRESS) {
+			compressor.start();
+		}
 		
-		cantalon = new TalonSRX(port);
-		
-		solenoid = new Solenoid(port);
-		
+		else {
+			port = 0;
+			prevRb = false;
+			prevLb = false;
+			xbox = new XboxController(XBOX_PORT);
+
+			cantalon = new TalonSRX(port);
+
+			solenoid = new Solenoid(port);
+		}
 	}
 
 	/**
@@ -384,9 +394,7 @@ public class Robot extends IterativeRobot {
 			//get 'er done
 			
 			liftLeft1 = properties.getInt("liftLeft1");
-			liftLeft2 = properties.getInt("liftLeft2");
 			liftRight1 = properties.getInt("liftRight1");
-			liftRight2 = properties.getInt("liftRight2");
 			
 			rightLimitLow = properties.getInt("rightLimitLow");
 			rightLimitHigh = properties.getInt("rightLimitHigh");
@@ -397,7 +405,9 @@ public class Robot extends IterativeRobot {
 			drivePneuReverse = properties.getInt("drivePneuReverse");
 			
 			talonArmMotor = properties.getInt("talonArmMotor");
-			victorArmMotor = properties.getInt("victorArmMotor");
+			
+			intakeRight = properties.getInt("intakeRight");
+			intakeLeft = properties.getInt("intakeLeft");
 			
 			armPneumaticsForward = properties.getInt("armPneumaticsForward");
 			armPneumaticsReverse = properties.getInt("armPneumaticsReverse");
@@ -416,14 +426,12 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("frontRightMotor", 0);
 		properties.addDefaultProp("frontLeftMotor", 1);
 		properties.addDefaultProp("backRightMotor", 2);
-		properties.addDefaultProp("backLeftMotor", 3);
+		properties.addDefaultProp("backLeftMotor", 4);
 		properties.addDefaultProp("middleRightMotor", 14);
 		properties.addDefaultProp("middleLeftMotor", 12);
 		
 		properties.addDefaultProp("liftLeft1", 8);
-		properties.addDefaultProp("liftLeft2", 9);
 		properties.addDefaultProp("liftRight1", 5);
-		properties.addDefaultProp("liftRight2", 4);
 		
 		properties.addDefaultProp("rightLimitLow", 10);
 		properties.addDefaultProp("rightLimitHigh", 11);
@@ -434,9 +442,12 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("drivePneuReverse", 2);
 		
 		properties.addDefaultProp("talonArmMotor", 7);
-		properties.addDefaultProp("victorArmMotor", 6);
 		
 		properties.addDefaultProp("armPneumaticsForward", 3);
 		properties.addDefaultProp("armPneumaticsReverse", 4);
+		
+		properties.addDefaultProp("intakeRight", 3);
+		properties.addDefaultProp("intakeLeft", 6);
+		
 	}
 }
