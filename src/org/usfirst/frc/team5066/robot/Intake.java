@@ -3,10 +3,13 @@ package org.usfirst.frc.team5066.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Intake {
 
 	private VictorSPX left;
 	private VictorSPX right;
+	private 
 
 	private final double INSPEED = 1.0;
 	private final double OUTSPEED = 1.0;
@@ -68,6 +71,15 @@ public class Intake {
 		
 		left.set(ControlMode.PercentOutput, Math.pow(leftStick, exponent));
 		right.set(ControlMode.PercentOutput, Math.pow(rightStick, exponent));
+	}
+	
+	public void powerCube(boolean photoSensor) {
+		if (photoSensor){
+			SmartDashboard.putString("Box: ", "YES! XD");
+					}
+		else {
+			SmartDashboard.putString("Box: ", "NO! O_o");
+		}
 	}
 
 }
