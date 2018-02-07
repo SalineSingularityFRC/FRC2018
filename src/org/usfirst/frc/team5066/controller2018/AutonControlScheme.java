@@ -2,6 +2,7 @@ package org.usfirst.frc.team5066.controller2018;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
+import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -14,6 +15,7 @@ public abstract class AutonControlScheme {
 
 	//TODO change later
 	public static final double DistancePerRevolution = 6.2831853072;
+	public static final double encoderTicks = 4096;
 	public static final double CenterRobotWidth = 27.5;//TODO change if have bumpers
 	public final double CenterRobotLength = 32.5;//TODO change if have bumpers
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
@@ -47,20 +49,19 @@ public abstract class AutonControlScheme {
 	
 	//if ur code isn't working for reverse, set vertspeed to negative
 	public static void vertical(double verticalSpeed, double distance) {
-	
+		drive.rampVoltage();
+
 			
 		//normal speed
-		while (getAverage() > -distance / DistancePerRevolution
-				&& getAverage() < distance / DistancePerRevolution) {
+		while (getAverage() > -distance*encoderTicks / DistancePerRevolution
+				&& getAverage() < distance*encoderTicks / DistancePerRevolution) {
 			
-			//Accelerate motors slowly
-			drive.rampVoltage();
 			
 			//drive.encoderDriveStraight(verticalSpeed);
-			drive.drive(verticalSpeed, verticalSpeed, 0.0, false, SpeedMode.NORMAL);
+			((SixWheelDrive)drive).tankDrive(-verticalSpeed, -verticalSpeed, false, SpeedMode.NORMAL);
 		}
 		
-		drive.resetAll();
+		//drive.resetAll();
 		
 		//slow down
 		/*while (getAverage() > -2 / DistancePerRevolution
@@ -69,7 +70,7 @@ public abstract class AutonControlScheme {
 		}*/
 		
 		drive.resetAll();
-		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);
+		((SixWheelDrive)drive).tankDrive(0.0, 0.0, false, SpeedMode.NORMAL);
 	}
 	
 	public static void vertical(double distance) {
@@ -80,16 +81,16 @@ public abstract class AutonControlScheme {
 
 	//TODO Figure out AHRS gyro to get this method to work
 	public static void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
-		
+		drive.rampVoltage();
+
 		gyro.reset();
 		if(counterClockwise) rotationSpeed*= -1;
-		
 		while(gyro.getAngle() < angle) {
 			
 			//accelerate motors slowly
-			drive.rampVoltage();
+			//drive.rampVoltage();
 			
-			drive.drive(0.0, 0.0, rotationSpeed, false, SpeedMode.NORMAL);
+			drive.drive(0.0, 0.0, -rotationSpeed, false, SpeedMode.NORMAL);
 		}
 		
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.NORMAL);

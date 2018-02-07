@@ -101,7 +101,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		compressor = new Compressor();
-		compressor.start();
 		
 	
 		//SmartDashboard Preferences code to change port value
@@ -275,8 +274,11 @@ public class Robot extends IterativeRobot {
 
 		cantalon = new VictorSPX(port);
 		
-		solenoidDrive = new DoubleSolenoid(0, 1);
-		solenoidArm = new DoubleSolenoid(2, 3);
+		//solenoidDrive = new DoubleSolenoid(0, 1);
+		//solenoidArm = new DoubleSolenoid(2, 3);
+		
+		compressor.getPressureSwitchValue();
+		
 
 	}
 	/*
@@ -345,7 +347,7 @@ public class Robot extends IterativeRobot {
 				speed = 0.0;
 
 			cantalon.set(ControlMode.PercentOutput, speed);
-			
+			/*
 			if (xbox.getPOVUp()) solenoidDrive.set(DoubleSolenoid.Value.kForward);
 			else if (xbox.getPOVDown()) solenoidDrive.set(DoubleSolenoid.Value.kReverse);
 			else solenoidDrive.set(DoubleSolenoid.Value.kOff);
@@ -353,7 +355,7 @@ public class Robot extends IterativeRobot {
 			if (xbox.getPOVRight()) solenoidArm.set(DoubleSolenoid.Value.kForward);
 			else if (xbox.getPOVLeft()) solenoidArm.set(DoubleSolenoid.Value.kReverse);
 			else solenoidArm.set(DoubleSolenoid.Value.kOff);
-
+*/
 			// log information to keep track of port number and speed
 			SmartDashboard.putNumber("port: ", (double) port);
 			SmartDashboard.putNumber("Speed: ", speed);

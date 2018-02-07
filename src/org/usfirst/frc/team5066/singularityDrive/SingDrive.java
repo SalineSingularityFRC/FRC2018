@@ -127,7 +127,6 @@ public abstract class SingDrive {
 		if (talonType == CANTALON_DRIVE) {
 			
 			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
-			
 			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
 
 			//m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
