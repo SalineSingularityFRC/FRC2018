@@ -8,11 +8,13 @@ import org.usfirst.frc.team5066.singularityDrive.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
@@ -84,11 +86,12 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	TalonSRX cantalon;
+	VictorSPX cantalon;
 	double speed;
 	
 	//pneumatics
-	Solenoid solenoid;
+	DoubleSolenoid solenoidDrive;
+	DoubleSolenoid solenoidArm;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -98,7 +101,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		compressor = new Compressor();
-		
+		compressor.start();
 		
 	
 		//SmartDashboard Preferences code to change port value
@@ -141,20 +144,20 @@ public class Robot extends IterativeRobot {
 			
 			/*lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
 					rightLimitHigh, leftLimitLow, leftLimitHigh, LIFT_SPEED);
-			
-			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			*/
+			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
 			
-			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
+			
+			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
 			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
-			
+			/*
 			front = CameraServer.getInstance().startAutomaticCapture();
 			rear = CameraServer.getInstance().startAutomaticCapture();
 			front.setResolution(320, 480);
 			rear.setResolution(320, 480);
-			
+			*/
 			timer = new Timer();
 			
 			side = new SendableChooser();
@@ -260,30 +263,35 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		
-		testMode = TestMode.COMPRESS;
+		testMode = TestMode.TALON;
 		
-		if (testMode == TestMode.COMPRESS) {
-			compressor.start();
-		}
+		port = 1;
+		prevRb = false;
+		prevLb = false;
+		xbox = new XboxController(XBOX_PORT);
+
+		cantalon = new VictorSPX(port);
 		
-		else {
-			port = 0;
-			prevRb = false;
-			prevLb = false;
-			xbox = new XboxController(XBOX_PORT);
+		solenoidDrive = new DoubleSolenoid(0, 1);
+		solenoidArm = new DoubleSolenoid(2, 3);
 
-			cantalon = new TalonSRX(port);
-
-			solenoid = new Solenoid(port);
-		}
 	}
-
+	/*
+	@Override
+	public void testPeriodic() {		
+		if (testMode == TestMode.COMPRESS)
+			compressor.start();
+} */
+	
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
 		
+		compressor.start();
+		
+		/*
 		//press right on the d-pad to switch to cantalon
 		if (xbox.getPOVRight()) {
 			testMode = TestMode.TALON;
@@ -292,7 +300,7 @@ public class Robot extends IterativeRobot {
 		//press left on the d-pad to switch to pneumatic
 		else if (xbox.getPOVLeft()) {
 			testMode = TestMode.PNEUMATIC;
-		}
+		}*/
 
 		
 		 /* Code to test the port numbers of cantalons
@@ -309,11 +317,11 @@ public class Robot extends IterativeRobot {
 			if (currentRb && !prevRb) {
 				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port++;
-				cantalon = new TalonSRX(port);
+				cantalon = new VictorSPX(port);
 			} else if (currentLb && !prevLb) {
 				cantalon.set(ControlMode.PercentOutput, 0.0);
 				port--;
-				cantalon = new TalonSRX(port);
+				cantalon = new VictorSPX(port);
 			}
 
 			prevRb = currentRb;
@@ -334,6 +342,14 @@ public class Robot extends IterativeRobot {
 				speed = 0.0;
 
 			cantalon.set(ControlMode.PercentOutput, speed);
+			
+			if (xbox.getPOVUp()) solenoidDrive.set(DoubleSolenoid.Value.kForward);
+			else if (xbox.getPOVDown()) solenoidDrive.set(DoubleSolenoid.Value.kReverse);
+			else solenoidDrive.set(DoubleSolenoid.Value.kOff);
+			
+			if (xbox.getPOVRight()) solenoidArm.set(DoubleSolenoid.Value.kForward);
+			else if (xbox.getPOVLeft()) solenoidArm.set(DoubleSolenoid.Value.kReverse);
+			else solenoidArm.set(DoubleSolenoid.Value.kOff);
 
 			// log information to keep track of port number and speed
 			SmartDashboard.putNumber("port: ", (double) port);
@@ -353,26 +369,31 @@ public class Robot extends IterativeRobot {
 
 			// use Right Bumper to toggle up a cantalon port
 			// use Left Bumper to toggle down a cantalon port
-			if (currentRb && !prevRb) {
-				solenoid.set(false);
-				port++;
-				solenoid = new Solenoid(port);
+			/*if (currentRb && !prevRb) {
+				solenoid.set(DoubleSolenoid.Value.kForward);
+				//port++;
+				//solenoid = new DoubleSolenoid(0, port);
 			} else if (currentLb && !prevLb) {
-				solenoid.set(false);
+				solenoid.set(DoubleSolenoid.Value.kOff);
 				port--;
-				solenoid = new Solenoid(port);
+				solenoid = new DoubleSolenoid(0, port);
 			}
-
+*/
 			prevRb = currentRb;
 			prevLb = currentLb;
 			
-			if (xbox.getAButton()) solenoid.set(true);
-			else solenoid.set(false);
+			if (xbox.getAButton()) solenoidDrive.set(DoubleSolenoid.Value.kForward);
+			else if (xbox.getBButton()) solenoidDrive.set(DoubleSolenoid.Value.kReverse);
+			else solenoidDrive.set(DoubleSolenoid.Value.kOff);
+			
+			if (xbox.getYButton()) solenoidArm.set(DoubleSolenoid.Value.kForward);
+			else if (xbox.getXButton()) solenoidArm.set(DoubleSolenoid.Value.kReverse);
+			else solenoidArm.set(DoubleSolenoid.Value.kOff);
 			
 			// log information to keep track of port number
 			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
-			SmartDashboard.putString("DB/String 1", "solenoid value: " + solenoid.get());
-			
+			//SmartDashboard.putString("DB/String 1", "solenoid value: " + solenoid.get());
+		
 		}
 	}
 	
@@ -423,12 +444,12 @@ public class Robot extends IterativeRobot {
 	
 	private void setDefaultProperties() {
 		
-		properties.addDefaultProp("frontRightMotor", 0);
-		properties.addDefaultProp("frontLeftMotor", 1);
-		properties.addDefaultProp("backRightMotor", 2);
-		properties.addDefaultProp("backLeftMotor", 4);
-		properties.addDefaultProp("middleRightMotor", 14);
-		properties.addDefaultProp("middleLeftMotor", 12);
+		properties.addDefaultProp("frontRightMotor", 13);
+		properties.addDefaultProp("frontLeftMotor", 9);
+		properties.addDefaultProp("backRightMotor", 3);
+		properties.addDefaultProp("backLeftMotor", 6);
+		properties.addDefaultProp("middleRightMotor", 5);
+		properties.addDefaultProp("middleLeftMotor", 7);
 		
 		properties.addDefaultProp("liftLeft1", 8);
 		properties.addDefaultProp("liftRight1", 5);
@@ -438,13 +459,13 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("leftLimitLow", 15);
 		properties.addDefaultProp("leftLimitHigh", 13);
 		
-		properties.addDefaultProp("drivePneuForward", 1);
-		properties.addDefaultProp("drivePneuReverse", 2);
+		properties.addDefaultProp("drivePneuForward", 0);
+		properties.addDefaultProp("drivePneuReverse", 1);
 		
 		properties.addDefaultProp("talonArmMotor", 7);
 		
-		properties.addDefaultProp("armPneumaticsForward", 3);
-		properties.addDefaultProp("armPneumaticsReverse", 4);
+		properties.addDefaultProp("armPneumaticsForward", 2);
+		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
 		properties.addDefaultProp("intakeRight", 3);
 		properties.addDefaultProp("intakeLeft", 6);
