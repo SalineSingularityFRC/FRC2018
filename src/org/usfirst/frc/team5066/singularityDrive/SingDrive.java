@@ -129,7 +129,9 @@ public abstract class SingDrive {
 			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
 			
 			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
-		//	m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
+
+			//m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
+
 			m_leftMiddleMotor = new VictorSPX(leftMiddleMotor);
 			//m_leftMiddleMotor.set(ControlMode.Follower, frontLeftMotor);
 			

@@ -105,10 +105,10 @@ public class BasicDrive implements ControlScheme {
 		}
 		
 		//test to see if safety is on
-		if (timer.get() >= 105.0 || safetyDisabled) {
+		/*if (timer.get() >= 105.0 || safetyDisabled) {
 			
 			//release left lift until lower limit switch is pressed
-			if (!leftLowLimit && lift.releaseLiftLeft(logitech.getBaseFrontLeft())) {
+			/*if (!leftLowLimit && lift.releaseLiftLeft(logitech.getBaseFrontLeft())) {
 				leftLowLimit = true;
 				DriverStation.reportError("left lower limit reached", true);
 			}
@@ -131,7 +131,7 @@ public class BasicDrive implements ControlScheme {
 		if (leftLowLimit && lift.controlLeftLift(logitech.getBaseMiddleLeft(), logitech.getBaseBackLeft())) {
 			DriverStation.reportError("left upper limit reached", true);
 		}
-		
+		*/
 	}
 
 	@Override
