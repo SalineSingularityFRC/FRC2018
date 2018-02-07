@@ -15,9 +15,9 @@ public abstract class SingDrive {
 	public double slowSpeedConstant, normalSpeedConstant, fastSpeedConstant;
 	public int mode = 0;
 	
+	protected VictorSPX m_rearLeftMotor, m_rearRightMotor, m_leftMiddleMotor, m_rightMiddleMotor;
+	 
 	protected TalonSRX m_frontLeftMotor, m_frontRightMotor;
-	protected VictorSPX m_rearLeftMotor, m_rearRightMotor;
-	protected VictorSPX m_leftMiddleMotor, m_rightMiddleMotor;
 	
 
 	private final static double DEFAULT_VELOCITY_MULTIPLIER = 1.0;
@@ -129,7 +129,9 @@ public abstract class SingDrive {
 			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
 			
 			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
+
 			//m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
+
 			m_leftMiddleMotor = new VictorSPX(leftMiddleMotor);
 			//m_leftMiddleMotor.set(ControlMode.Follower, frontLeftMotor);
 			

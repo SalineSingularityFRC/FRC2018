@@ -14,10 +14,10 @@ public class LLS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		// TODO Auto-generated method stub
-		super.vertical(168);
-		//lift arm
+		super.vertical(168-super.CenterRobotLength);
 		super.rotate(90, false);
+		//lift arm
+		super.vertical(58.56-super.CenterRobotWidth);
 		//place block
 	}
 

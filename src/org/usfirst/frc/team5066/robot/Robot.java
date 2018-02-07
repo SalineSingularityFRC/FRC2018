@@ -181,6 +181,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		//TODO figure out if setReverse = slow gear
+		dPneumatics.setReverse();
+		
 		AutonControlScheme[][][] autonPrograms = 
 			{{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
 			{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}},
@@ -216,11 +219,11 @@ public class Robot extends IterativeRobot {
 			else if(priority.getSelected().equals("Opponent Switch")){
 				if(gameData.charAt(2) == 'R') {
 					c=3;
-					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Right Switch");
+					SmartDashboard.putString("Priorities", "The robot is going toward the opponents Right Switch");
 				}
 				else {
 					c=2;
-					SmartDashboard.putString("Priorities", "The robot is going toward the opponets Left Switch");
+					SmartDashboard.putString("Priorities", "The robot is going toward the opponents Left Switch");
 				}
 			}
 			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");

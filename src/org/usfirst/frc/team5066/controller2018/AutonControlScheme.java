@@ -7,6 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 
 public abstract class AutonControlScheme {
@@ -35,6 +36,7 @@ public abstract class AutonControlScheme {
 	public AutonControlScheme (SingDrive drive) {
 		
 		this.drive = drive;
+		this.gyro = new AHRS(SPI.Port.kMXP);
 		
 		//creates new AHRS gyro object that takes the port located on the roborio
 		//gyro = new AHRS(gyroPort);

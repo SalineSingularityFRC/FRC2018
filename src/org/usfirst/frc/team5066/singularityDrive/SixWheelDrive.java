@@ -49,7 +49,7 @@ public class SixWheelDrive extends SingDrive{
 		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors
-		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((-translationVelocity + rotationVelocity) / maximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 		
 		SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());

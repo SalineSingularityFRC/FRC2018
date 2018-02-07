@@ -7,6 +7,7 @@ import org.usfirst.frc.team5066.robot.DrivePneumatics;
 import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.robot.Lift;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
+import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -87,7 +88,7 @@ public class BasicDrive implements ControlScheme {
 		 * else speedMode = SpeedMode.SLOW; }
 		 */
 
-		drive.drive(xbox.getLS_Y(), 0, xbox.getLS_X(), true, SpeedMode.FAST);
+		((SixWheelDrive) drive).tankDrive(-xbox.getRS_Y(), -xbox.getLS_Y(), true, SpeedMode.FAST);
 
 		/*
 		 * rBPrevious = rBCurrent; lBPrevious = lBCurrent;
