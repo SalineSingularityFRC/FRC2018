@@ -16,7 +16,7 @@ public class SideStraight extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		super.vertical(0.5, 60);
+		super.rotate(90,true);
 		
 	}
 

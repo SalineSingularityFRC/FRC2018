@@ -3,6 +3,7 @@ package org.usfirst.frc.team5066.singularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -40,7 +41,7 @@ public abstract class SingDrive {
 	private final static double DEFAULT_NORMAL_SPEED_CONSTANT = 0.8;
 	private final static double DEFAULT_FAST_SPEED_CONSTANT = 1.0;
 	
-	private final static double RAMP_RATE = 0.2;
+	private final static double RAMP_RATE = 0.5;
 
 	private int talonType;
 	
@@ -177,6 +178,7 @@ public abstract class SingDrive {
 		this.fastSpeedConstant = fastSpeedConstant;
 		this.driveStraight = driveStraight;
 		timer = new Timer();
+		
 		//this.gyro = gyro;
 	}
 	
@@ -184,9 +186,9 @@ public abstract class SingDrive {
 	//Encoder code:
 	public void resetAll(){
 		
-		m_frontLeftMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		m_frontLeftMotor.getSensorCollection().setPulseWidthPosition(0, 0);
 		//m_leftMiddleMotor.getSensorCollection().setQuadraturePosition(0, 10);
-		m_frontRightMotor.getSensorCollection().setQuadraturePosition(0, 10);
+		m_frontRightMotor.getSensorCollection().setPulseWidthPosition(0, 0);
 	}
 	
 	public double getLeftPosition(){
@@ -194,7 +196,7 @@ public abstract class SingDrive {
 	}
 	
 	public double getRightPosition(){
-		return m_frontRightMotor.getSensorCollection().getQuadraturePosition();
+		return m_frontRightMotor.getSensorCollection().getPulseWidthPosition();
 	}
 	
 	public double getMiddlePosition(){
@@ -205,6 +207,23 @@ public abstract class SingDrive {
 		return getLeftPosition() / getRightPosition();
 	}
 	
+	public void setControlMode(boolean coast) {
+		if(coast) {
+			m_frontRightMotor.setNeutralMode(NeutralMode.Coast);
+			m_rightMiddleMotor.setNeutralMode(NeutralMode.Coast);
+			m_rearRightMotor.setNeutralMode(NeutralMode.Coast);
+			m_frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+			m_leftMiddleMotor.setNeutralMode(NeutralMode.Coast);
+			m_rearLeftMotor.setNeutralMode(NeutralMode.Coast);
+		} else {
+			m_frontRightMotor.setNeutralMode(NeutralMode.Brake);
+			m_rightMiddleMotor.setNeutralMode(NeutralMode.Brake);
+			m_rearRightMotor.setNeutralMode(NeutralMode.Brake);
+			m_frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+			m_leftMiddleMotor.setNeutralMode(NeutralMode.Brake);
+			m_rearLeftMotor.setNeutralMode(NeutralMode.Brake);
+		}
+	}
 	
 	
 	private double clamp(double velocityMultiplier) {

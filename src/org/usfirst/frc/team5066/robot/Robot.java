@@ -182,6 +182,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		//TODO figure out if setReverse = slow gear
 		dPneumatics.setReverse();
+		drive.setControlMode(false);
 		
 		AutonControlScheme[][][] autonPrograms = 
 			{{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
@@ -190,7 +191,7 @@ public class Robot extends IterativeRobot {
 			{new RLSLS(drive), new RLSV(drive), new RLSOL(drive), new RLSOR(drive)}},
 			{{new MLSLS(drive), new MLSV(drive), new MLSOL(drive), new MLSOR(drive)},
 			{new MRSRS(drive), new MRSV(drive), new MRSOL(drive), new MRSOL(drive)}}};
-
+		
 			String gameData;
 			int a=0,b=0,c=0;
 			gameData = DriverStation.getInstance().getGameSpecificMessage();		
@@ -227,7 +228,8 @@ public class Robot extends IterativeRobot {
 			}
 			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
-			autonPrograms[a][b][c].moveAuton();
+			(new SideStraight(drive)).moveAuton();
+			//autonPrograms[a][b][c].moveAuton();
 			
 			
 				//autonomousCommand = (Command) side.getSelected();
@@ -248,6 +250,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		timer.start();
+		drive.setControlMode(true);
 	}
 
 	/**
@@ -401,10 +404,16 @@ public class Robot extends IterativeRobot {
 		
 		}
 	}
+	@Override
+	public void disabledInit() {
+		drive.resetAll();
+	}
 	
 	@Override
 	public void disabledPeriodic() {
 		//dPneumatics.setOff();
+		System.out.println(drive.getRightPosition());
+		System.out.println(AutonControlScheme.gyro.getAngle());
 	}
 	
 	private void loadProperties() {
