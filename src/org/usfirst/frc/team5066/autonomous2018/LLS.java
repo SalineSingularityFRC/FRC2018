@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class LLS extends AutonControlScheme{
 
-	public LLS(SingDrive drive) {
-		super(drive);
+	public LLS(SingDrive drive, AHRS gyro) {
+		super(drive, gyro);
 		// TODO Auto-generated constructor stub
 	}
 

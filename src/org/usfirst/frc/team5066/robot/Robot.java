@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -94,7 +95,7 @@ public class Robot extends IterativeRobot {
 	DoubleSolenoid solenoidDrive;
 	DoubleSolenoid solenoidArm;
 
-	public static ADXRS450_Gyro gyro;
+	public static AHRS gyro;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -149,7 +150,6 @@ public class Robot extends IterativeRobot {
 			*/
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
-			gyro = new ADXRS450_Gyro();
 			
 			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
@@ -189,12 +189,12 @@ public class Robot extends IterativeRobot {
 		
 		AutonControlScheme[][][] autonPrograms = 
 			
-			{{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
-			{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}},
-			{{new RRSRS(drive), new RRSV(drive), new RRSOL(drive), new RRSOR(drive)},
-			{new RLSLS(drive), new RLSV(drive), new RLSOL(drive), new RLSOR(drive)}},
-			{{new MLSLS(drive), new MLSV(drive), new MLSOL(drive), new MLSOR(drive)},
-			{new MRSRS(drive), new MRSV(drive), new MRSOL(drive), new MRSOL(drive)}}};
+			{{{new LLSLS(drive, gyro), new LLSV(drive, gyro), new LLSOL(drive, gyro), new LLSOR(drive, gyro)},
+			{new LRSRS(drive, gyro), new LRSV(drive, gyro), new LRSOL(drive, gyro), new LRSOR(drive, gyro)}},
+			{{new RRSRS(drive, gyro), new RRSV(drive, gyro), new RRSOL(drive, gyro), new RRSOR(drive, gyro)},
+			{new RLSLS(drive, gyro), new RLSV(drive, gyro), new RLSOL(drive, gyro), new RLSOR(drive, gyro)}},
+			{{new MLSLS(drive, gyro), new MLSV(drive, gyro), new MLSOL(drive, gyro), new MLSOR(drive, gyro)},
+			{new MRSRS(drive, gyro), new MRSV(drive, gyro), new MRSOL(drive, gyro), new MRSOL(drive, gyro)}}};
 		
 			String gameData;
 			int a=0,b=0,c=0;
@@ -232,7 +232,7 @@ public class Robot extends IterativeRobot {
 			}
 			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
-			(new SideStraight(drive)).moveAuton();
+			(new SideStraight(drive, gyro)).moveAuton();
 			//autonPrograms[a][b][c].moveAuton();
 			
 			
@@ -416,8 +416,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		//dPneumatics.setOff();
-		System.out.println(drive.getRightPosition());
-		//System.out.println(AutonControlScheme.gyro.getAngle());
+		//System.out.println("right: " + drive.getRightPosition());
+		//System.out.println("left: " + drive.getLeftPosition());
+		System.out.println(gyro.getAngle());
 	}
 	
 	private void loadProperties() {

@@ -3,12 +3,13 @@ package org.usfirst.frc.team5066.autonomous2018;
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI.Port;
 
 public class MRSOL extends AutonControlScheme {
 
-	public MRSOL(SingDrive drive) {
-		super(drive);
+	public MRSOL(SingDrive drive, ADXRS450_Gyro gyro) {
+		super(drive, gyro);
 	}
 
 	@Override

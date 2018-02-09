@@ -21,7 +21,7 @@ public abstract class AutonControlScheme {
 	public static final double CenterRobotWidth = 27.5;//TODO change if have bumpers
 	public final double CenterRobotLength = 32.5;//TODO change if have bumpers
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
-	private static final double speed = 0.5;
+	private static final double speed = 0.2;
 	
 	
 	//PIDController turnController;
@@ -31,13 +31,13 @@ public abstract class AutonControlScheme {
 	static final double kD = 0.00;
 	static final double kF = 0.00;
 	*/
-	protected static ADXRS450_Gyro gyro;
+	protected static AHRS gyro;
 	protected static SingDrive drive;
 	
 	double initialEncoderPos;
 
 	
-	public AutonControlScheme (SingDrive drive, ADXRS450_Gyro gyro) {
+	public AutonControlScheme (SingDrive drive, AHRS gyro) {
 		
 		this.drive = drive;
 		this.gyro = gyro;
@@ -52,14 +52,15 @@ public abstract class AutonControlScheme {
 	public static void vertical(double verticalSpeed, double distance) {
 		drive.rampVoltage();
 		drive.resetAll();
+		gyro.reset();
 			
 		//normal speed 3072
-		while ( drive.getRightPosition() < distance * encoderTicks / DistancePerRevolution) {
+		while (drive.getRightPosition() < distance * encoderTicks / DistancePerRevolution) {
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
 			//drive.encoderDriveStraight(verticalSpeed);
-			((SixWheelDrive)drive).tankDrive(-verticalSpeed, -verticalSpeed, false, SpeedMode.NORMAL);
+			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.2 * gyro.getAngle(), -verticalSpeed, false, SpeedMode.NORMAL);
 		}
 		
 		//slow down

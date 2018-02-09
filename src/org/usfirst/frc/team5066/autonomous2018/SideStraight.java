@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class SideStraight extends AutonControlScheme {
 
-	public SideStraight(SingDrive drive) {
+	public SideStraight(SingDrive drive, ADXRS450_Gyro gyro) {
 		super(drive, gyro);
 		// TODO Auto-generated constructor stub
 	}
@@ -17,7 +17,9 @@ public class SideStraight extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		super.rotate(0.3, 90,true);
+		super.vertical(20);
+		
+		//super.rotate(0.3, 90,true);
 		
 	}
 
