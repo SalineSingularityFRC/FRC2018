@@ -265,7 +265,21 @@ public abstract class SingDrive {
 		
 		m_frontRightMotor.configOpenloopRamp(RAMP_RATE, 10);
 		m_frontLeftMotor.configOpenloopRamp(RAMP_RATE, 10);
+		m_rearRightMotor.configOpenloopRamp(RAMP_RATE, 10);
+		m_rearLeftMotor.configOpenloopRamp(RAMP_RATE, 10);
+		m_rightMiddleMotor.configOpenloopRamp(RAMP_RATE, 10);
+		m_leftMiddleMotor.configOpenloopRamp(RAMP_RATE, 10);
 		
+	}
+	
+	public void rampVoltage(double rampRate) {
+		
+		m_frontRightMotor.configOpenloopRamp(rampRate, 10);
+		m_frontLeftMotor.configOpenloopRamp(rampRate, 10);
+		m_rearRightMotor.configOpenloopRamp(rampRate, 10);
+		m_rearLeftMotor.configOpenloopRamp(rampRate, 10);
+		m_rightMiddleMotor.configOpenloopRamp(rampRate, 10);
+		m_leftMiddleMotor.configOpenloopRamp(rampRate, 10);
 	}
 	
 	// reverse drive method for booleans. You have to hold the button to

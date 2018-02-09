@@ -33,6 +33,8 @@ public abstract class AutonControlScheme {
 	*/
 	protected static ADXRS450_Gyro gyro;
 	protected static SingDrive drive;
+	
+	double initialEncoderPos;
 
 	
 	public AutonControlScheme (SingDrive drive, ADXRS450_Gyro gyro) {
@@ -52,7 +54,7 @@ public abstract class AutonControlScheme {
 		drive.resetAll();
 			
 		//normal speed 3072
-		while ( drive.getRightPosition() < distance*encoderTicks / DistancePerRevolution) {
+		while ( drive.getRightPosition() < distance * encoderTicks / DistancePerRevolution) {
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
@@ -72,7 +74,33 @@ public abstract class AutonControlScheme {
 	public static void vertical(double distance) {
 		vertical(speed, distance);
 	}
+	
+	
+	
+	public static void verticalWithEdits(double verticalSpeed, double distance) {
+		
+		drive.rampVoltage();
+		drive.resetAll();
+		
+		// normal speed 3072
+		while (drive.getRightPosition() < distance * encoderTicks / DistancePerRevolution) {
+			SmartDashboard.putString("DB/String 4", "" + drive.getRightPosition());
+			System.out.println(drive.getRightPosition());
+			
+			if (drive.getRightPosition() > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+				drive.rampVoltage(0.0);
+			}
+			
+			// drive.encoderDriveStraight(verticalSpeed);
+			((SixWheelDrive) drive).tankDrive(-verticalSpeed, -verticalSpeed, false, SpeedMode.NORMAL);
+		}
+		
+		drive.rampVoltage();
 
+	}
+
+	
+	
 	private static double getAverage() { return Math.abs(drive.getLeftPosition()) + Math.abs(drive.getRightPosition()) / 2; }
 
 	//TODO Figure out AHRS gyro to get this method to work
