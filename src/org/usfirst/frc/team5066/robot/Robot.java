@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -93,6 +94,8 @@ public class Robot extends IterativeRobot {
 	DoubleSolenoid solenoidDrive;
 	DoubleSolenoid solenoidArm;
 
+	public static ADXRS450_Gyro gyro;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -146,7 +149,7 @@ public class Robot extends IterativeRobot {
 			*/
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
-			
+			gyro = new ADXRS450_Gyro();
 			
 			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
@@ -185,6 +188,7 @@ public class Robot extends IterativeRobot {
 		drive.setControlMode(false);
 		
 		AutonControlScheme[][][] autonPrograms = 
+			
 			{{{new LLSLS(drive), new LLSV(drive), new LLSOL(drive), new LLSOR(drive)},
 			{new LRSRS(drive), new LRSV(drive), new LRSOL(drive), new LRSOR(drive)}},
 			{{new RRSRS(drive), new RRSV(drive), new RRSOL(drive), new RRSOR(drive)},
@@ -413,7 +417,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		//dPneumatics.setOff();
 		System.out.println(drive.getRightPosition());
-		System.out.println(AutonControlScheme.gyro.getAngle());
+		//System.out.println(AutonControlScheme.gyro.getAngle());
 	}
 	
 	private void loadProperties() {

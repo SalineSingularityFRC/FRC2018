@@ -23,8 +23,6 @@ public abstract class AutonControlScheme {
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
 	private static final double speed = 0.5;
 	
-	//gyro
-	public static ADXRS450_Gyro gyro;
 	
 	//PIDController turnController;
 	/*TODO Add PID Controller
@@ -33,15 +31,14 @@ public abstract class AutonControlScheme {
 	static final double kD = 0.00;
 	static final double kF = 0.00;
 	*/
-	
+	protected static ADXRS450_Gyro gyro;
 	protected static SingDrive drive;
 
 	
-	public AutonControlScheme (SingDrive drive) {
+	public AutonControlScheme (SingDrive drive, ADXRS450_Gyro gyro) {
 		
 		this.drive = drive;
-		this.gyro = new ADXRS450_Gyro();
-		
+		this.gyro = gyro;
 		//creates new AHRS gyro object that takes the port located on the roborio
 		//gyro = new AHRS(gyroPort);
 		//gyro.reset();
@@ -98,9 +95,8 @@ public abstract class AutonControlScheme {
 		
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
 	}
-	
-	public static void rotate( double angle, boolean counterClockwise) {
+	public static void rotate(double angle, boolean counterClockwise) {
 		rotate(speed, angle, counterClockwise);
 	}
-	
+
 }
