@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5066.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team5066.autonomous2018.*;
 import org.usfirst.frc.team5066.controller2018.*;
 import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
@@ -11,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -155,12 +159,26 @@ public class Robot extends IterativeRobot {
 			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
 			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
-			/*
-			front = CameraServer.getInstance().startAutomaticCapture();
-			rear = CameraServer.getInstance().startAutomaticCapture();
-			front.setResolution(320, 480);
-			rear.setResolution(320, 480);
-			*/
+			
+			new Thread(() -> {
+				
+				//Next two lines are the normal way to instantiate a camera
+				front = CameraServer.getInstance().startAutomaticCapture();
+				front.setResolution(640, 480);
+
+				CvSink cvSink = CameraServer.getInstance().getVideo();
+				CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+
+				Mat source = new Mat();
+				Mat output = new Mat();
+
+				while (!Thread.interrupted()) {
+					cvSink.grabFrame(source);
+					Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+					outputStream.putFrame(output);
+				}
+			}).start();
+			
 			timer = new Timer();
 			
 			side = new SendableChooser();
@@ -234,8 +252,8 @@ public class Robot extends IterativeRobot {
 			}
 			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
-			(new SideStraight(drive, gyro)).moveAuton();
-			//autonPrograms[a][b][c].moveAuton();
+			//(new SideStraight(drive, gyro)).moveAuton();
+			autonPrograms[a][b][c].moveAuton();
 			
 			
 				//autonomousCommand = (Command) side.getSelected();

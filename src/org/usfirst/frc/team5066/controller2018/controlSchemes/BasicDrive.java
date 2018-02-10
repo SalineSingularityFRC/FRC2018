@@ -88,7 +88,7 @@ public class BasicDrive implements ControlScheme {
 		 * else speedMode = SpeedMode.SLOW; }
 		 */
 
-		((SixWheelDrive) drive).tankDrive(-xbox.getRS_Y(), -xbox.getLS_Y(), true, SpeedMode.FAST);
+		((SixWheelDrive) drive).tankDrive(-xbox.getRS_Y(), -xbox.getLS_Y(), 2.0, SpeedMode.FAST);
 
 		/*
 		 * rBPrevious = rBCurrent; lBPrevious = lBCurrent;

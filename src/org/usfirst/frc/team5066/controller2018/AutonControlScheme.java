@@ -6,6 +6,7 @@ import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,7 +18,7 @@ public abstract class AutonControlScheme {
 	public static final double CenterRobotWidth = 27.5;//TODO change if have bumpers
 	public final double CenterRobotLength = 32.5;//TODO change if have bumpers
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
-	private static final double speed = 0.2;
+	private static final double speed = 0.5;
 	
 	
 	//PIDController turnController;
@@ -54,7 +55,10 @@ public abstract class AutonControlScheme {
 			
 		//normal speed 3072
 		while (Math.abs(drive.getRightPosition() - initialEncoderPos) < 
-				distance * encoderTicks / DistancePerRevolution) {
+				distance * encoderTicks / DistancePerRevolution &&
+				DriverStation.getInstance().isAutonomous()) {
+			
+			
 			
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
@@ -64,8 +68,8 @@ public abstract class AutonControlScheme {
 			}
 			
 			//drive.encoderDriveStraight(verticalSpeed);
-			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.1 * (gyro.getAngle() - initialAngle),
-					-verticalSpeed, false, SpeedMode.FAST);
+			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.07 * (gyro.getAngle() - initialAngle),
+					-verticalSpeed, 1.0, SpeedMode.FAST);
 		}
 		
 		//slow down
@@ -74,13 +78,18 @@ public abstract class AutonControlScheme {
 			drive.drive(vertSpeed / 2, vertSpeed / 2, 0.0, false, SpeedMode.NORMAL);
 		}*/
 		
-		((SixWheelDrive)drive).tankDrive(0.0, 0.0, false, SpeedMode.FAST);
+		((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
 		
 		drive.rampVoltage();
 	}
 	
 	public void vertical(double distance) {
 		vertical(speed, distance);
+	}
+	
+	public void verticalReverse(double distance) {
+		
+		vertical(-speed, distance);
 	}
 
 	
@@ -95,7 +104,8 @@ public abstract class AutonControlScheme {
 		System.out.println(gyro.getAngle());
 		
 		if(counterClockwise) rotationSpeed*= -1;
-		while(Math.abs(gyro.getAngle() - initialAngle) < angle) {
+		while(Math.abs(gyro.getAngle() - initialAngle) < angle &&
+				DriverStation.getInstance().isAutonomous()) {
 			
 			//accelerate motors slowly
 			//drive.rampVoltage();

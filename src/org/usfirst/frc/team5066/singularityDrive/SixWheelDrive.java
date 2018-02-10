@@ -63,7 +63,7 @@ public class SixWheelDrive extends SingDrive{
 	 * @param squaredInputs
 	 * @param speedMode
 	 */
-	public void tankDrive(double left, double right, boolean squaredInputs, SpeedMode speedMode) {
+	public void tankDrive(double left, double right, double inputExponent, SpeedMode speedMode) {
 		double leftVelocity = left, rightVelocity = right;
 		
 		leftVelocity = threshold(leftVelocity);
@@ -72,10 +72,8 @@ public class SixWheelDrive extends SingDrive{
 		setVelocityMultiplierBasedOnSpeedMode(speedMode);
 		
 		// Do squared inputs if necessary
-		if (squaredInputs) {
-			leftVelocity *= Math.abs(left);
-			rightVelocity *= Math.abs(right);
-		}
+		left *= Math.abs(Math.pow(left, inputExponent - 1));
+		right *= Math.abs(Math.pow(right, inputExponent - 1));
 		
 		
 		// Guard against illegal values

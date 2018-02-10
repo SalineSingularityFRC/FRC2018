@@ -20,23 +20,7 @@ public class SideStraight extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		super.vertical(50.0);
-		
-		Timer.delay(1.0);
-		
-		//super.rotate(0.5, 90, false);
-		
-		Timer.delay(1.0);
-		
-		super.vertical(20.0);
-		
-		Timer.delay(1.0);
-		
-		super.vertical(-15.0);
-		
-		Timer.delay(1.0);
-		
-		super.rotate(0.5, 180, true);
+		super.vertical(140.0);;
 		
 	}
 
