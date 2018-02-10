@@ -34,7 +34,8 @@ public abstract class AutonControlScheme {
 	protected static AHRS gyro;
 	protected static SingDrive drive;
 	
-	double initialEncoderPos;
+	static double initialEncoderPos;
+	static double initialAngle;
 
 	
 	public AutonControlScheme (SingDrive drive, AHRS gyro) {
@@ -53,14 +54,24 @@ public abstract class AutonControlScheme {
 		drive.rampVoltage();
 		drive.resetAll();
 		gyro.reset();
+		
+		initialEncoderPos = drive.getRightPosition();
+		initialAngle = gyro.getAngle();
 			
 		//normal speed 3072
-		while (drive.getRightPosition() < distance * encoderTicks / DistancePerRevolution) {
+		while (Math.abs(drive.getRightPosition() - initialEncoderPos) < 
+				distance * encoderTicks / DistancePerRevolution) {
+			
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
+			if (drive.getRightPosition() > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+				drive.rampVoltage(0.0);
+			}
+			
 			//drive.encoderDriveStraight(verticalSpeed);
-			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.2 * gyro.getAngle(), -verticalSpeed, false, SpeedMode.NORMAL);
+			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.1 * (gyro.getAngle() - initialAngle),
+					-verticalSpeed, false, SpeedMode.NORMAL);
 		}
 		
 		//slow down
@@ -70,6 +81,8 @@ public abstract class AutonControlScheme {
 		}*/
 		
 		((SixWheelDrive)drive).tankDrive(0.0, 0.0, false, SpeedMode.NORMAL);
+		
+		drive.rampVoltage();
 	}
 	
 	public static void vertical(double distance) {
@@ -107,22 +120,29 @@ public abstract class AutonControlScheme {
 	//TODO Figure out AHRS gyro to get this method to work
 	public static void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
 		drive.rampVoltage();
-		gyro.reset();
+		initialAngle = gyro.getAngle();
 		
 		System.out.println(gyro.getAngle());
 		
 		if(counterClockwise) rotationSpeed*= -1;
-		while(Math.abs(gyro.getAngle()) < angle) {
+		while(Math.abs(gyro.getAngle() - initialAngle) < angle) {
 			
 			//accelerate motors slowly
 			//drive.rampVoltage();
 
 			System.out.println(gyro.getAngle());
 			
+			if (Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
+				drive.rampVoltage(0.0);
+			}
+			
 			drive.drive(0.0, 0.0, -rotationSpeed, false, SpeedMode.FAST);
 		}
 		
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
+		
+		drive.rampVoltage();
+		
 	}
 	public static void rotate(double angle, boolean counterClockwise) {
 		rotate(speed, angle, counterClockwise);

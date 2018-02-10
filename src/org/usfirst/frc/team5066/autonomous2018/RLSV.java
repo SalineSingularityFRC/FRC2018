@@ -3,11 +3,13 @@ package org.usfirst.frc.team5066.autonomous2018;
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class RLSV extends AutonControlScheme {
 
-	public RLSV(SingDrive drive, ADXRS450_Gyro gyro) {
+	public RLSV(SingDrive drive, AHRS gyro) {
 		super(drive, gyro);
 	}
 

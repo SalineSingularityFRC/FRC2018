@@ -150,6 +150,7 @@ public class Robot extends IterativeRobot {
 			*/
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
+			gyro = new AHRS(SPI.Port.kMXP);
 			
 			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			
@@ -186,6 +187,7 @@ public class Robot extends IterativeRobot {
 		//TODO figure out if setReverse = slow gear
 		dPneumatics.setReverse();
 		drive.setControlMode(false);
+		
 		
 		AutonControlScheme[][][] autonPrograms = 
 			
