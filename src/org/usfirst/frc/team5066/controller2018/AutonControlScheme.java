@@ -6,11 +6,7 @@ import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class AutonControlScheme {
@@ -31,8 +27,8 @@ public abstract class AutonControlScheme {
 	static final double kD = 0.00;
 	static final double kF = 0.00;
 	*/
-	protected static AHRS gyro;
-	protected static SingDrive drive;
+	protected AHRS gyro;
+	protected SingDrive drive;
 	
 	static double initialEncoderPos;
 	static double initialAngle;
@@ -50,10 +46,8 @@ public abstract class AutonControlScheme {
 	public abstract void moveAuton();
 	
 	//if ur code isn't working for reverse, set vertspeed to negative
-	public static void vertical(double verticalSpeed, double distance) {
+	public void vertical(double verticalSpeed, double distance) {
 		drive.rampVoltage();
-		drive.resetAll();
-		gyro.reset();
 		
 		initialEncoderPos = drive.getRightPosition();
 		initialAngle = gyro.getAngle();
@@ -65,13 +59,13 @@ public abstract class AutonControlScheme {
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
-			if (drive.getRightPosition() > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+			if (Math.abs(drive.getRightPosition() - initialEncoderPos) > 0.5 * distance * encoderTicks / DistancePerRevolution) {
 				drive.rampVoltage(0.0);
 			}
 			
 			//drive.encoderDriveStraight(verticalSpeed);
 			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.1 * (gyro.getAngle() - initialAngle),
-					-verticalSpeed, false, SpeedMode.NORMAL);
+					-verticalSpeed, false, SpeedMode.FAST);
 		}
 		
 		//slow down
@@ -80,45 +74,21 @@ public abstract class AutonControlScheme {
 			drive.drive(vertSpeed / 2, vertSpeed / 2, 0.0, false, SpeedMode.NORMAL);
 		}*/
 		
-		((SixWheelDrive)drive).tankDrive(0.0, 0.0, false, SpeedMode.NORMAL);
+		((SixWheelDrive)drive).tankDrive(0.0, 0.0, false, SpeedMode.FAST);
 		
 		drive.rampVoltage();
 	}
 	
-	public static void vertical(double distance) {
+	public void vertical(double distance) {
 		vertical(speed, distance);
 	}
-	
-	
-	
-	public static void verticalWithEdits(double verticalSpeed, double distance) {
-		
-		drive.rampVoltage();
-		drive.resetAll();
-		
-		// normal speed 3072
-		while (drive.getRightPosition() < distance * encoderTicks / DistancePerRevolution) {
-			SmartDashboard.putString("DB/String 4", "" + drive.getRightPosition());
-			System.out.println(drive.getRightPosition());
-			
-			if (drive.getRightPosition() > 0.5 * distance * encoderTicks / DistancePerRevolution) {
-				drive.rampVoltage(0.0);
-			}
-			
-			// drive.encoderDriveStraight(verticalSpeed);
-			((SixWheelDrive) drive).tankDrive(-verticalSpeed, -verticalSpeed, false, SpeedMode.NORMAL);
-		}
-		
-		drive.rampVoltage();
-
-	}
 
 	
 	
-	private static double getAverage() { return Math.abs(drive.getLeftPosition()) + Math.abs(drive.getRightPosition()) / 2; }
+	//private double getAverage() { return Math.abs(drive.getLeftPosition()) + Math.abs(drive.getRightPosition()) / 2; }
 
 	//TODO Figure out AHRS gyro to get this method to work
-	public static void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
+	public void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
 		drive.rampVoltage();
 		initialAngle = gyro.getAngle();
 		
@@ -144,7 +114,7 @@ public abstract class AutonControlScheme {
 		drive.rampVoltage();
 		
 	}
-	public static void rotate(double angle, boolean counterClockwise) {
+	public void rotate(double angle, boolean counterClockwise) {
 		rotate(speed, angle, counterClockwise);
 	}
 
