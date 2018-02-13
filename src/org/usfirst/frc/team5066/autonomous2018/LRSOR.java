@@ -16,21 +16,21 @@ public class LRSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35);
-		super.rotate(90, false);
-		super.vertical(190.15-super.CenterRobotLength);
-		super.rotate(90, true);
-		super.vertical(105-super.CenterRobotLength);
+		super.vertical(35, Arm.Position.TRAVEL);
+		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(190.15-super.CenterRobotLength, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.SWITCH);
+		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH);
 		//Drop PC
-		super.vertical(-(32.5-super.CenterRobotLength));
+		super.vertical(-(32.5-super.CenterRobotLength), Arm.Position.TRAVEL);
 		//Lower PC manipulator
-		super.rotate(90, true);
-		super.vertical(54-super.CenterRobotLength);
+		super.rotate(90, true, Arm.Position.PICKUP);
+		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP);
 		//Pick up PC
-		super.rotate(180, false);
-		super.vertical(60.5-super.CenterRobotLength);
-		super.rotate(90, true);
-		super.vertical(153.47-super.CenterRobotLength);
+		super.rotate(180, false, Arm.Position.TRAVEL);
+		super.vertical(60.5-super.CenterRobotLength, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(153.47-super.CenterRobotLength, Arm.Position.SWITCH);
 	}
 
 }

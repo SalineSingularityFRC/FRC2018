@@ -16,24 +16,24 @@ public class LRSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35);
-		super.rotate(90, false);
-		super.vertical(190.15-super.CenterRobotLength);
-		super.rotate(90, true);
-		super.vertical(105-super.CenterRobotLength);
+		super.vertical(35, Arm.Position.TRAVEL);
+		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(190.15-super.CenterRobotLength, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.SWITCH);
+		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH);
 		//Drop PC
-		super.vertical(-32.5);
+		super.vertical(-32.5, Arm.Position.SWITCH);
 		//Lower PC
-		super.rotate(90, true);
-		super.vertical(41.5-super.CenterRobotLength);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP);
 		//Pick up PC
-		super.rotate(180, true);
-		super.vertical(88.75+super.CenterRobotWidth);
-		super.rotate(90, true);
-		super.vertical(96.75+super.CenterRobotLength/2);
-		super.rotate(90, true);
-		super.vertical(177.75 +super.CenterRobotWidth*2);
-		super.rotate(90, true);
+		super.rotate(180, true, Arm.Position.PICKUP);
+		super.vertical(88.75+super.CenterRobotWidth, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(96.75+super.CenterRobotLength/2, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(177.75 +super.CenterRobotWidth*2, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.SWITCH);
 	}
 
 }

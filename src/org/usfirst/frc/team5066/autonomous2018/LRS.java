@@ -21,8 +21,7 @@ public class LRS extends AutonControlScheme{
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL);
 		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(168-(2*super.CenterRobotLength), Arm.Position.TRAVEL);
-		//lift arm
+		super.vertical(168-(2*super.CenterRobotLength), Arm.Position.SWITCH);
 		super.rotate(90, true, Arm.Position.SWITCH);
 		//place block
 	}

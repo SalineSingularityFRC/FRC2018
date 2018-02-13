@@ -17,7 +17,7 @@ public class LLSV extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL);
+		super.vertical(168-super.CenterRobotLength, Arm.Position.SWITCH);
 		//raise arm
 		super.rotate(90, false, Arm.Position.SWITCH);
 		//Drop PC
