@@ -3,19 +3,26 @@ package org.usfirst.frc.team5066.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Intake {
 
 	private VictorSPX left;
 	private VictorSPX right;
+	
+	DigitalInput input;
 
 	private final double INSPEED = 1.0;
 	private final double OUTSPEED = 1.0;
 	private final double ROTATESPEED = 0.5;
 
-	public Intake(int leftPort, int rightPort) {
+	public Intake(int leftPort, int rightPort, int inputPort) {
 
 		left = new VictorSPX(leftPort);
 		right = new VictorSPX(rightPort);
+		
+		input = new DigitalInput(inputPort);
 	}
 
 	public void controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut) {
@@ -68,6 +75,11 @@ public class Intake {
 		
 		left.set(ControlMode.PercentOutput, Math.pow(leftStick, exponent));
 		right.set(ControlMode.PercentOutput, Math.pow(rightStick, exponent));
+	}
+	
+	public void printDigitalInput() {
+		
+		SmartDashboard.putBoolean("We have a cube: ", input.get());
 	}
 
 }
