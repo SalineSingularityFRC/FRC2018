@@ -49,9 +49,9 @@ public class Arm {
 	
 	/**
 	 * if statement stating that if there is a powercube in the arm and it has reached the lowerlimit
-	 *  set the claw speed to 0
-	 *  second if statement setting claw speed to 0 if the arm has reached the upperlimit switch
-	 *
+	 * set the claw speed to 0
+	 * second if statement setting claw speed to 0 if the arm has reached the upperlimit switch
+	 * 
 	 */
 	public void controlArm (double armStick, double exponent) {
 			
@@ -71,6 +71,7 @@ public class Arm {
 		talonMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
+	//setting the arm forward, reverse, and off using the pneumatics
 	public void setArmForward() {
 		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
@@ -83,6 +84,7 @@ public class Arm {
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 	
+	//setting the PC manipulator to different positions using the talonMotor
 	public void setPositionPickup() {
 		talonMotor.set(ControlMode.Position, PICKUP);
 		this.setArmReverse();
