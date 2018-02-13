@@ -2,6 +2,7 @@ package org.usfirst.frc.team5066.controller2018;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
 import org.usfirst.frc.team5066.robot.Arm;
+import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
@@ -33,16 +34,19 @@ public abstract class AutonControlScheme {
 	protected AHRS gyro;
 	protected SingDrive drive;
 	protected Arm arm;
+	protected Intake intake;
 	
 	static double initialEncoderPos;
 	static double initialAngle;
 
 	
-	public AutonControlScheme (SingDrive drive, AHRS gyro, Arm arm) {
+	public AutonControlScheme (SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		
 		this.drive = drive;
 		this.gyro = gyro;
 		this.arm = arm;
+		this.intake = intake;
+		
 		//creates new AHRS gyro object that takes the port located on the roborio
 		//gyro = new AHRS(gyroPort);
 		//gyro.reset();
@@ -87,7 +91,7 @@ public abstract class AutonControlScheme {
 		drive.rampVoltage();
 	}
 	
-	public void vertical(double verticalSpeed, double distance, Arm.Position armPosition) {
+	public void vertical(double verticalSpeed, double distance, Arm.Position armPosition, boolean intakeOn) {
 		drive.rampVoltage();
 		
 		initialEncoderPos = drive.getRightPosition();
@@ -99,6 +103,12 @@ public abstract class AutonControlScheme {
 				DriverStation.getInstance().isAutonomous()) {
 			
 			arm.setArm(armPosition);
+			if (intakeOn) {
+				this.intake.controlIntake(true, false, true, false);
+			}
+			else {
+				this.intake.controlIntake(false, false, false, false);
+			}
 			
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
@@ -121,14 +131,15 @@ public abstract class AutonControlScheme {
 		((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
 		
 		drive.rampVoltage();
+		this.intake.controlIntake(false, false, false, false);
 	}
 	
 	public void vertical(double distance) {
 		vertical(speed, distance);
 	}
 	
-	public void vertical(double distance, Arm.Position armPosition) {
-		vertical(speed, distance, armPosition);
+	public void vertical(double distance, Arm.Position armPosition, boolean intakeOn) {
+		vertical(speed, distance, armPosition, intakeOn);
 	}
 	
 	public void verticalReverse(double distance) {
