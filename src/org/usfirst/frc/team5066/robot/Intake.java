@@ -5,9 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class Intake {
 
+	//create left and write in-take motors
 	private VictorSPX left;
 	private VictorSPX right;
 
+	// set speed for in-taking, out-taking, and rotating the powercubes
 	private final double INSPEED = 1.0;
 	private final double OUTSPEED = 1.0;
 	private final double ROTATESPEED = 0.5;
@@ -18,6 +20,7 @@ public class Intake {
 		right = new VictorSPX(rightPort);
 	}
 
+	//set left and right intake motors to be able to take in and eject blocks
 	public void controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut) {
 
 		if (leftIn && rightOut) {
@@ -68,6 +71,6 @@ public class Intake {
 		
 		left.set(ControlMode.PercentOutput, Math.pow(leftStick, exponent));
 		right.set(ControlMode.PercentOutput, Math.pow(rightStick, exponent));
-	}
+	} 
 
 }

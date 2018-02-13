@@ -7,14 +7,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+//This class controls the power cube manipulator
 public class Arm {
 
+	//TalonSRX motor for arm
 	private TalonSRX talonMotor;
 	
+	//limit arm from oer extending
 	private final double LOWERLIMIT = 10;
 	private final double UPPERLIMIT = 100;
 	
+	//names the different positions based off of the orientation of the motor
 	private final double PICKUP = 10;
 	private final double SWITCH = 25;
 	private final double PORTAL = 25;
@@ -25,12 +28,18 @@ public class Arm {
 	private final double START = 30;
 	private final double TRAVEL = 30;
 	
+	//creating a double speed
 	double speedConstant;
 	double speed;
 	
+	//naming DoubleSolenoid doubleSolenoid
 	DoubleSolenoid doubleSolenoid;
 	
-	
+	/**renaming:
+	 * talonMotor to int tal
+	 * speedConstant to s
+	 * giving doubleSolenoid 2 values: forwardChannel, and reverseChannel
+	 */
 	public Arm(int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
 		
@@ -38,6 +47,12 @@ public class Arm {
 		doubleSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
 	}
 	
+	/**
+	 * if statement stating that if there is a powercube in the arm and it has reached the lowerlimit
+	 *  set the claw speed to 0
+	 *  second if statement setting claw speed to 0 if the arm has reached the upperlimit switch
+	 *
+	 */
 	public void controlArm (double armStick, double exponent) {
 			
 		if (talonMotor.getSensorCollection().getQuadraturePosition() < LOWERLIMIT && armStick < 0) {
