@@ -15,20 +15,22 @@ public class Arm {
 	private final double LOWERLIMIT = 10;
 	private final double UPPERLIMIT = 100;
 	
-	private final double PICKUP = 10;
-	private final double SWITCH = 25;
-	private final double PORTAL = 25;
-	private final double HIGHSCALE = 90;
-	private final double LEVELSCALE = 88;
-	private final double LOWSCALE = 85;
-	private final double EXCHANGE = 15;
-	private final double START = 30;
-	private final double TRAVEL = 30;
+	public enum Position{
+		PICKUP,
+		SWITCH,
+		PORTAL,
+		HIGHSCALE,
+		LEVELSCALE,
+		LOWSCALE,
+		EXCHANGE,
+		START,
+		TRAVEL
+	}
 	
 	double speedConstant;
 	double speed;
 	
-	DoubleSolenoid doubleSolenoid;
+	private DoubleSolenoid doubleSolenoid;
 	
 	
 	public Arm(int tal, double s, int forwardChannel, int reverseChannel) {
@@ -56,6 +58,36 @@ public class Arm {
 		talonMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
+	public void setArm(Position setTo) {
+		if(setTo == Position.PICKUP) {
+			talonMotor.set(ControlMode.Position, 10);
+			this.setArmReverse();
+		} else if(setTo == Position.SWITCH || setTo == Position.PORTAL) {
+			talonMotor.set(ControlMode.Position, 25);
+			this.setArmReverse();
+		} else if(setTo == Position.HIGHSCALE) {
+			talonMotor.set(ControlMode.Position, 90);
+			this.setArmReverse();
+		} else if(setTo == Position.LEVELSCALE) {
+			talonMotor.set(ControlMode.Position, 88);
+			this.setArmReverse();
+		} else if(setTo == Position.LOWSCALE) {
+			talonMotor.set(ControlMode.Position, 85);
+			this.setArmReverse();
+		} else if(setTo == Position.EXCHANGE) {
+			talonMotor.set(ControlMode.Position, 15);
+			this.setArmReverse();
+		} else if (setTo == Position.START){
+			talonMotor.set(ControlMode.Position, 30);
+			this.setArmReverse();
+		} else {
+			talonMotor.set(ControlMode.Position, 30);
+			this.setArmForward();
+		}
+		
+		
+	}
+	
 	public void setArmForward() {
 		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
@@ -67,58 +99,6 @@ public class Arm {
 	public void setArmOff() {
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
-	
-	public void setPositionPickup() {
-		talonMotor.set(ControlMode.Position, PICKUP);
-		this.setArmReverse();
-		
-	}
-	
-	public void setPositionSwitch() {
-		talonMotor.set(ControlMode.Position, SWITCH);
-		this.setArmReverse();
-		
-	}
-	
-	public void setPositionPortal() {
-		talonMotor.set(ControlMode.Position, PORTAL);
-		this.setArmReverse();
-		
-	}
-	public void setPositionHighScale() {
-		talonMotor.set(ControlMode.Position, HIGHSCALE);
-		this.setArmReverse();
-		
-	}
-	
-	public void setPositionLevelScale() {
-		talonMotor.set(ControlMode.Position, LEVELSCALE);
-		this.setArmReverse();
-	}
-
-	public void setPositionLowScale() {
-		talonMotor.set(ControlMode.Position, LOWSCALE);
-		this.setArmReverse();
-		
-	}
-
-	public void setPositionExchange() {
-		talonMotor.set(ControlMode.Position, EXCHANGE);
-		this.setArmReverse();
-		
-	}
-
-	public void setPositionStart() {
-		talonMotor.set(ControlMode.Position, START);
-		this.setArmReverse();
-		
-	}
-	
-	public void setPositionTravel() {
-		talonMotor.set(ControlMode.Position, TRAVEL);
-		this.setArmForward();
-	}
-
 
 }
 

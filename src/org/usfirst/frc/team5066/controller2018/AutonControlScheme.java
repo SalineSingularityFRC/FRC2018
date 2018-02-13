@@ -5,6 +5,7 @@ import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -31,6 +32,7 @@ public abstract class AutonControlScheme {
 	*/
 	protected AHRS gyro;
 	protected SingDrive drive;
+	protected Arm arm;
 	
 	static double initialEncoderPos;
 	static double initialAngle;
@@ -40,6 +42,7 @@ public abstract class AutonControlScheme {
 		
 		this.drive = drive;
 		this.gyro = gyro;
+		this.arm = arm;
 		//creates new AHRS gyro object that takes the port located on the roborio
 		//gyro = new AHRS(gyroPort);
 		//gyro.reset();
@@ -60,6 +63,42 @@ public abstract class AutonControlScheme {
 				DriverStation.getInstance().isAutonomous()) {
 			
 			
+			
+			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
+			System.out.println(drive.getRightPosition());
+			
+			if (Math.abs(drive.getRightPosition() - initialEncoderPos) > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+				drive.rampVoltage(0.0);
+			}
+			
+			//drive.encoderDriveStraight(verticalSpeed);
+			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.07 * (gyro.getAngle() - initialAngle),
+					-verticalSpeed, 1.0, SpeedMode.FAST);
+		}
+		
+		//slow down
+		/*while (getAverage() > -2 / DistancePerRevolution
+				&& getAverage() < 2 / DistancePerRevolution) {
+			drive.drive(vertSpeed / 2, vertSpeed / 2, 0.0, false, SpeedMode.NORMAL);
+		}*/
+		
+		((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
+		
+		drive.rampVoltage();
+	}
+	
+	public void vertical(double verticalSpeed, double distance, Arm.Position armPosition) {
+		drive.rampVoltage();
+		
+		initialEncoderPos = drive.getRightPosition();
+		initialAngle = gyro.getAngle();
+			
+		//normal speed 3072
+		while (Math.abs(drive.getRightPosition() - initialEncoderPos) < 
+				distance * encoderTicks / DistancePerRevolution &&
+				DriverStation.getInstance().isAutonomous()) {
+			
+			arm.setArm(armPosition);
 			
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
@@ -125,6 +164,38 @@ public abstract class AutonControlScheme {
 		drive.rampVoltage();
 		
 	}
+	
+	public void rotate(double rotationSpeed, double angle, boolean counterClockwise, 
+			Arm.Position armPosition) {
+		drive.rampVoltage();
+		initialAngle = gyro.getAngle();
+		
+		System.out.println(gyro.getAngle());
+		
+		if(counterClockwise) rotationSpeed*= -1;
+		while(Math.abs(gyro.getAngle() - initialAngle) < angle &&
+				DriverStation.getInstance().isAutonomous()) {
+			
+			arm.setArm(armPosition);
+			
+			//accelerate motors slowly
+			//drive.rampVoltage();
+
+			System.out.println(gyro.getAngle());
+			
+			if (Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
+				drive.rampVoltage(0.0);
+			}
+			
+			drive.drive(0.0, 0.0, -rotationSpeed, false, SpeedMode.FAST);
+		}
+		
+		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
+		
+		drive.rampVoltage();
+		
+	}
+	
 	public void rotate(double angle, boolean counterClockwise) {
 		rotate(speed, angle, counterClockwise);
 	}
