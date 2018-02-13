@@ -17,13 +17,13 @@ public class LRS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(super.CenterRobotLength);
-		super.rotate(90, false);
-		super.vertical(264-super.CenterRobotWidth);
-		super.rotate(90, true);
-		super.vertical(168-(2*super.CenterRobotLength));
+		super.vertical(super.CenterRobotLength, Arm.Position.TRAVEL);
+		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(168-(2*super.CenterRobotLength), Arm.Position.TRAVEL);
 		//lift arm
-		super.rotate(90, true);
+		super.rotate(90, true, Arm.Position.SWITCH);
 		//place block
 	}
 

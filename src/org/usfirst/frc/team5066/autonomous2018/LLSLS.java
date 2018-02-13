@@ -18,20 +18,20 @@ public class LLSLS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168);
+		super.vertical(168, SWITCH);
 		//raise arm
-		super.rotate(90, false);
+		super.rotate(90, false, SWITCH);
 		//place block
-		super.rotate(90, false);
-		super.vertical(30);//don't know exactly
-		super.rotate(90,true);
-		super.vertical(20);//don't know exactly
+		super.rotate(90, false, SWITCH);
+		super.vertical(30, TRAVEL);//don't know exactly
+		super.rotate(90,true, TRAVEL);
+		super.vertical(20, PICKUP);//don't know exactly
 		//pick up block
-		super.vertical(20, -0.5);
-		super.rotate(90, true);
-		super.vertical(30);
+		super.vertical(20, -0.5, TRAVEL);
+		super.rotate(90, true, TRAVEL);
+		super.vertical(30, SWITCH);
 		//lift arm
-		super.rotate(90, false);
+		super.rotate(90, false, SWITCH);
 		//place block
 	}
 
