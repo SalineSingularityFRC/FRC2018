@@ -127,6 +127,10 @@ public abstract class AutonControlScheme {
 		vertical(speed, distance);
 	}
 	
+	public void vertical(double distance, Arm.Position armPosition) {
+		vertical(speed, distance, armPosition);
+	}
+	
 	public void verticalReverse(double distance) {
 		
 		vertical(-speed, distance);
@@ -198,6 +202,10 @@ public abstract class AutonControlScheme {
 	
 	public void rotate(double angle, boolean counterClockwise) {
 		rotate(speed, angle, counterClockwise);
+	}
+	
+	public void rotate(double angle, boolean counterClockwise, Arm.Position armPosition) {
+		rotate(speed, angle, counterClockwise, armPosition);
 	}
 
 }
