@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5066.controller2018;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
+import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
@@ -35,7 +36,7 @@ public abstract class AutonControlScheme {
 	static double initialAngle;
 
 	
-	public AutonControlScheme (SingDrive drive, AHRS gyro) {
+	public AutonControlScheme (SingDrive drive, AHRS gyro, Arm arm) {
 		
 		this.drive = drive;
 		this.gyro = gyro;

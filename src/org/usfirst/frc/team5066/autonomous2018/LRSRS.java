@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
+import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -9,8 +10,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class LRSRS extends AutonControlScheme {
 
-	public LRSRS(SingDrive drive, AHRS gyro) {
-		super(drive, gyro);
+	public LRSRS(SingDrive drive, AHRS gyro, Arm arm) {
+		super(drive, gyro, arm);
 		// TODO Auto-generated constructor stub
 	}
 
