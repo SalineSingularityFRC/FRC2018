@@ -33,19 +33,7 @@ public class TankDrive implements ControlScheme {
 	boolean leftLowLimit;
 	boolean rightLowLimit;
 	
-	public enum ArmPosition {
-		SWITCH,
-		PICKUP,
-		TRAVEL,
-		EXCHANGE,
-		START,
-		PORTAL,
-		LOWSCALE,
-		LEVELSCALE,
-		HIGHSCALE,
-	}
-	
-	ArmPosition lastPressed;
+	Arm.Position lastPressed;
 	
 	public TankDrive(int logitechDrivePort, int logitechSystemsPort) {
 		logitechDrive = new XboxController(logitechDrivePort);
@@ -59,16 +47,6 @@ public class TankDrive implements ControlScheme {
 		safetyDisabled = false;
 		leftLowLimit = false;
 		rightLowLimit = false;
-		
-		lastPressed = ArmPosition.START;
-		lastPressed = ArmPosition.SWITCH;
-		lastPressed = ArmPosition.PICKUP;
-		lastPressed = ArmPosition.TRAVEL;
-		lastPressed = ArmPosition.EXCHANGE;
-		lastPressed = ArmPosition.PORTAL;
-		lastPressed = ArmPosition.LOWSCALE;
-		lastPressed = ArmPosition.LEVELSCALE;
-		lastPressed = ArmPosition.HIGHSCALE;
 		
 	}
 	
@@ -150,58 +128,34 @@ public class TankDrive implements ControlScheme {
 	public void arm(Arm arm) {
 		
 		if(logitechSystems.getAButton()){
-			lastPressed = ArmPosition.PICKUP;
+			lastPressed = Arm.Position.PICKUP;
 		}
 		else if (logitechSystems.getBButton()) {
-			lastPressed = ArmPosition.TRAVEL;
+			lastPressed = Arm.Position.TRAVEL;
 		}
 		else if (logitechSystems.getXButton()){
-			lastPressed = ArmPosition.EXCHANGE;
+			lastPressed = Arm.Position.EXCHANGE;
 		}
 		else if (logitechSystems.getYButton()){
-			lastPressed = ArmPosition.SWITCH;
+			lastPressed = Arm.Position.SWITCH;
 		}
 		else if (logitechSystems.getStartButton()){
-			lastPressed = ArmPosition.START;
+			lastPressed = Arm.Position.START;
 		}
 		else if (logitechSystems.getBackButton()){
-			lastPressed = ArmPosition.PORTAL;
+			lastPressed = Arm.Position.PORTAL;
 		}
 		else if (logitechSystems.getPOVLeft()){
-			lastPressed = ArmPosition.LOWSCALE;
+			lastPressed = Arm.Position.LOWSCALE;
 		}
 		else if (logitechSystems.getPOVUp()){
-			lastPressed = ArmPosition.LEVELSCALE;
+			lastPressed = Arm.Position.LEVELSCALE;
 		}
 		else if (logitechSystems.getPOVRight()){
-			lastPressed = ArmPosition.HIGHSCALE;
+			lastPressed = Arm.Position.HIGHSCALE;
 		}
-			
 		
-		if (lastPressed == ArmPosition.PICKUP) {
-			arm.setPositionPickup();
-		}
-		else if (lastPressed == ArmPosition.TRAVEL) {
-			arm.setPositionTravel();
-		}
-		else if (lastPressed == ArmPosition.EXCHANGE) {
-			arm.setPositionExchange();
-		}
-		else if (lastPressed == ArmPosition.SWITCH) {
-			arm.setPositionSwitch();
-		}
-		else if (lastPressed == ArmPosition.PORTAL) {
-			arm.setPositionPortal();
-		}
-		else if (lastPressed == ArmPosition.LOWSCALE) {
-			arm.setPositionLowScale();
-		}
-		else if (lastPressed == ArmPosition.LEVELSCALE) {
-			arm.setPositionLevelScale();
-		}
-		else if (lastPressed == ArmPosition.HIGHSCALE) {
-			arm.setPositionHighScale();
-		}
+		arm.setArm(lastPressed);
 		
 	}
 
