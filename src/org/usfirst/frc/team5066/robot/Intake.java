@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake {
@@ -12,6 +14,9 @@ public class Intake {
 	private VictorSPX right;
 	
 	DigitalInput input;
+	Timer timer;
+	
+	private final double AUTONOUTTAKE = 1.0;
 
 	private final double INSPEED = 1.0;
 	private final double OUTSPEED = 1.0;
@@ -23,6 +28,8 @@ public class Intake {
 		right = new VictorSPX(rightPort);
 		
 		input = new DigitalInput(inputPort);
+		
+		timer = new Timer();
 	}
 
 	public void controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut) {
@@ -80,6 +87,23 @@ public class Intake {
 	public void printDigitalInput() {
 		
 		SmartDashboard.putBoolean("We have a cube: ", input.get());
+	}
+	
+	public void autonOuttake() {
+		
+		timer.reset();
+		timer.start();
+		
+		while (timer.get() < AUTONOUTTAKE && DriverStation.getInstance().isAutonomous()) {
+			right.set(ControlMode.PercentOutput, OUTSPEED);
+			left.set(ControlMode.PercentOutput, OUTSPEED);
+		}
+		
+		right.set(ControlMode.PercentOutput, 0.0);
+		left.set(ControlMode.PercentOutput, 0.0);
+		
+		timer.reset();
+		
 	}
 
 }

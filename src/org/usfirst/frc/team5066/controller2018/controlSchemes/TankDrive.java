@@ -165,6 +165,8 @@ public class TankDrive implements ControlScheme {
 		intake.controlIntake(logitechSystems.getTriggerLeft() > 0.5, logitechSystems.getLB(), 
 				logitechSystems.getTriggerRight() > 0.5, logitechSystems.getRB());
 		
+		intake.printDigitalInput();
+		
 	}
 	
 
