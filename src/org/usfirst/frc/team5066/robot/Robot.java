@@ -160,16 +160,16 @@ public class Robot extends IterativeRobot {
 			
 			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			
-			new Thread(() -> {
+			//new Thread(() -> {
 				
 				//Next two lines are the normal way to instantiate a camera
 				front = CameraServer.getInstance().startAutomaticCapture();
-				front.setResolution(640, 480);
+				front.setResolution(320, 240);
 
-				CvSink cvSink = CameraServer.getInstance().getVideo();
-				CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+				//CvSink cvSink = CameraServer.getInstance().getVideo();
+				//CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
 
-				Mat source = new Mat();
+				/*Mat source = new Mat();
 				Mat output = new Mat();
 
 				while (!Thread.interrupted()) {
@@ -178,7 +178,7 @@ public class Robot extends IterativeRobot {
 					outputStream.putFrame(output);
 				}
 			}).start();
-			
+			*/
 			timer = new Timer();
 			
 			side = new SendableChooser();
@@ -252,12 +252,9 @@ public class Robot extends IterativeRobot {
 			}
 			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
-			//(new SideStraight(drive, gyro)).moveAuton();
+			//new SideStraight(drive, gyro).moveAuton();
 			autonPrograms[a][b][c].moveAuton();
 			
-			
-				//autonomousCommand = (Command) side.getSelected();
-				//autonomousCommand.start();
 	}
 
 	/**
