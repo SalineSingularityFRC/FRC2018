@@ -22,7 +22,7 @@ public class LLSLS extends AutonControlScheme{
 		super.vertical(168, Arm.Position.SWITCH, false);
 		//raise arm
 		super.rotate(90, false, Arm.Position.SWITCH);
-		intake.controlOuttake();
+		intake.autonOuttake();
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(30, Arm.Position.TRAVEL, false);//don't know exactly
 		super.rotate(90,true, Arm.Position.PICKUP);
