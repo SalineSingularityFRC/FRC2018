@@ -17,15 +17,13 @@ public class RLSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35);
-		super.rotate(90, true);
-		super.vertical(221.06-super.CenterRobotWidth+super.CenterRobotLength);
-		super.rotate(90, false);
-		super.vertical(133-super.CenterRobotLength);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(12, Arm.Position.SWITCH, false);
+		super.vertical(95-(super.CenterRobotLength));
+		super.rotate(90,true);
+		super.vertical(329.06-super.CenterRobotWidth);
+		super.rotate(90,false, Arm.Position.SWITCH);
+		super.vertical(45, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
+		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.vertical(-54, Arm.Position.TRAVEL, false);
