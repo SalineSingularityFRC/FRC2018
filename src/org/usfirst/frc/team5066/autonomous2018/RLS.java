@@ -2,6 +2,7 @@ package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.robot.Arm;
+import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -13,8 +14,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class RLS extends AutonControlScheme{
 	
-	public RLS(SingDrive drive, AHRS gyro, Arm arm) {
-		super(drive, gyro, arm);
+	public RLS(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+		super(drive, gyro, arm, intake);
 	}
 	
 	@Override
@@ -24,6 +25,6 @@ public class RLS extends AutonControlScheme{
 		super.vertical(120);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(45, Arm.Position.SWITCH, false);
-		//Drop PC
+		intake.autonOuttake();
 	}
 }

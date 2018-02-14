@@ -2,6 +2,7 @@ package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.robot.Arm;
+import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -11,31 +12,25 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class RRSRS extends AutonControlScheme {
 	
-	public RRSRS(SingDrive drive, AHRS gyro, Arm arm) {
-		super(drive, gyro, arm);
+	public RRSRS(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+		super(drive, gyro, arm, intake);
 	}
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(169-super.CenterRobotLength);
+		super.vertical(35);
 		super.rotate(90,true);
-		//raise PC
-		super.vertical(55.435-super.CenterRobotWidth);
-		//Drop PC
-		super.vertical(-(super.CenterRobotCorner-super.CenterRobotLength+1));
-		//Lower PC manipulator
-		super.rotate(90, true);
-		super.vertical(60.5);
-		//Lower manipulator
-		super.rotate(90,false);
-		super.vertical(70.25+(super.CenterRobotCorner-super.CenterRobotLength+1));//1 is placeholder value, this should be distance to cube stockpile from switch edge
-		//Grab PC
-		super.vertical(-54);
-		super.rotate(90,false);
-		//raise PC
-		super.vertical(32.5-super.CenterRobotLength);
-		
-		//Drop PC
+		super.vertical(73.56-super.CenterRobotWidth);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		intake.autonOuttake();
+		super.vertical(-(32.5-super.CenterRobotLength), Arm.Position.TRAVEL, false);
+		super.rotate(90, true, Arm.Position.PICKUP);
+		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.vertical(- (54-super.CenterRobotLength), Arm.Position.TRAVEL, false);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		intake.autonOuttake();
 	}
 
 }
