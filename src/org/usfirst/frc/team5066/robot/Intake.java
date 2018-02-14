@@ -18,6 +18,7 @@ public class Intake {
 	
 	private Timer timer;
 	private final double INTAKETIME = 0.25;
+	private final double OVERRIDETIME = 3.0;
 	
 	private final double AUTONOUTTAKE = 1.0;
 
@@ -43,6 +44,10 @@ public class Intake {
 		
 		currentInput = input.get();
 		
+		if (!currentInput) {
+			timer.reset();
+		}
+		
 		if (currentInput && !lastInput) {
 			timer.reset();
 			timer.start();
@@ -60,7 +65,7 @@ public class Intake {
 
 		else {
 
-			if (leftIn && rightIn && timer.get() > INTAKETIME) {
+			if (leftIn && rightIn && timer.get() > INTAKETIME && timer.get() < OVERRIDETIME) {
 				left.set(ControlMode.PercentOutput, 0.0);
 				right.set(ControlMode.PercentOutput, 0.0);
 			}
