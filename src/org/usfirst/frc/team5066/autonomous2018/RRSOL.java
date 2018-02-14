@@ -22,7 +22,7 @@ public class RRSOL extends AutonControlScheme {
 		super.vertical(54.4);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		//Drop PC
+		intake.autonOuttake();
 		super.vertical(-32.5, Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.PICKUP);
 		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
