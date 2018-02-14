@@ -13,8 +13,12 @@ public class Intake {
 	private VictorSPX left;
 	private VictorSPX right;
 	
-	DigitalInput input;
-	Timer timer;
+	private DigitalInput input;
+	private boolean currentInput, lastInput;
+	
+	private Timer timer;
+	private final double INTAKETIME = 0.25;
+	private final double OVERRIDETIME = 3.0;
 	
 	private final double AUTONOUTTAKE = 1.0;
 
@@ -30,9 +34,24 @@ public class Intake {
 		input = new DigitalInput(inputPort);
 		
 		timer = new Timer();
+		
+		currentInput = true;
+		lastInput = true;
+		
 	}
 
-	public void controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut) {
+	public boolean controlIntake(boolean leftIn, boolean leftOut, boolean rightIn, boolean rightOut) {
+		
+		currentInput = input.get();
+		
+		if (!currentInput) {
+			timer.reset();
+		}
+		
+		if (currentInput && !lastInput) {
+			timer.reset();
+			timer.start();
+		}
 
 		if (leftIn && rightOut) {
 			left.set(ControlMode.PercentOutput, ROTATESPEED);
@@ -46,35 +65,45 @@ public class Intake {
 
 		else {
 
-			if (leftIn) {
-				left.set(ControlMode.PercentOutput, INSPEED);
-
-			}
-
-			else if (leftOut) {
-				left.set(ControlMode.PercentOutput, OUTSPEED);
-
-			}
-
-			else {
+			if (leftIn && rightIn && timer.get() > INTAKETIME && timer.get() < OVERRIDETIME) {
 				left.set(ControlMode.PercentOutput, 0.0);
-			}
-
-			if (rightIn) {
-				right.set(ControlMode.PercentOutput, INSPEED);
-
-			}
-
-			else if (rightOut) {
-
-				right.set(ControlMode.PercentOutput, OUTSPEED);
-			}
-
-			else {
 				right.set(ControlMode.PercentOutput, 0.0);
 			}
+			
+			else {
 
+				if (leftIn) {
+					left.set(ControlMode.PercentOutput, INSPEED);
+
+				}
+
+				else if (leftOut) {
+					left.set(ControlMode.PercentOutput, OUTSPEED);
+
+				}
+
+				else {
+					left.set(ControlMode.PercentOutput, 0.0);
+				}
+
+				if (rightIn) {
+					right.set(ControlMode.PercentOutput, INSPEED);
+
+				}
+
+				else if (rightOut) {
+
+					right.set(ControlMode.PercentOutput, OUTSPEED);
+				}
+
+				else {
+					right.set(ControlMode.PercentOutput, 0.0);
+				}
+			}
 		}
+		
+		lastInput = currentInput;
+		return input.get();
 
 	}
 	
@@ -87,6 +116,9 @@ public class Intake {
 	public void printDigitalInput() {
 		
 		SmartDashboard.putBoolean("We have a cube: ", input.get());
+	}
+	public boolean getInput() {
+		return input.get();
 	}
 	
 	public void autonOuttake() {
