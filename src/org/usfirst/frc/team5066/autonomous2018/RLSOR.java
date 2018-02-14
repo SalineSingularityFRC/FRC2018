@@ -24,7 +24,7 @@ public class RLSOR extends AutonControlScheme {
 		super.vertical(133-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(12, Arm.Position.SWITCH, false);
-		//Drop PC
+		intake.autonOuttake();
 		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
@@ -34,7 +34,6 @@ public class RLSOR extends AutonControlScheme {
 		super.vertical(60.5+super.CenterRobotLength);
 		super.rotate(90, true);
 		super.vertical(261.5);
-
 	}
 
 }

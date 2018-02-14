@@ -25,6 +25,6 @@ public class RLS extends AutonControlScheme{
 		super.vertical(120);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(45, Arm.Position.SWITCH, false);
-		//Drop PC
+		intake.autonOuttake();
 	}
 }

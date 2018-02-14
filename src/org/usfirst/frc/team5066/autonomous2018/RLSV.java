@@ -22,7 +22,7 @@ public class RLSV extends AutonControlScheme {
 		super.vertical(190.15-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		//Drop PC
+		intake.autonOuttake();
 		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(47.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
