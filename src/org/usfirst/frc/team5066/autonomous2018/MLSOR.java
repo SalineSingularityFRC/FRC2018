@@ -2,6 +2,7 @@ package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.robot.Arm;
+import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -11,29 +12,28 @@ import edu.wpi.first.wpilibj.SPI.Port;
 
 public class MLSOR extends AutonControlScheme {
 
-	public MLSOR(SingDrive drive, AHRS gyro, Arm arm) {
-		super(drive, gyro, arm);
+	public MLSOR(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+		super(drive, gyro, arm, intake);
 	}
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35);
-		super.rotate(90, true);
-		super.vertical(84-super.CenterRobotWidth);
-		super.rotate(90, false);
-		super.vertical(105-super.CenterRobotLength);
-		//Drop PC
-		super.vertical(- (32.5-super.CenterRobotWidth));
-		super.rotate(90, false);
+		super.vertical(35, Arm.Position.TRAVEL, false);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(84-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		intake.autonOuttake();
+		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
+		super.rotate(90, false, Arm.Position.PICKUP);
 		//Lower PC manipulator
-		super.vertical(54-super.CenterRobotLength);
-		//pick up PC
-		super.rotate(90, false);
-		super.vertical(super.CenterRobotLength-13);
-		super.rotate(90, true);
-		super.vertical(60.5+super.CenterRobotLength);
-		super.rotate(90, true);
-		super.vertical(261.5);
+		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(super.CenterRobotLength-13, Arm.Position.TRAVEL, false);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(60.5+super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(261.5, Arm.Position.TRAVEL, false);
 		
 	}
 
