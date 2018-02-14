@@ -20,20 +20,16 @@ public class RRSOR extends AutonControlScheme {
 		super.vertical(35);
 		super.rotate(90,true);
 		super.vertical(73.56-super.CenterRobotWidth);
-		super.rotate(90, false);
-		//raise PC
-		super.vertical(105-super.CenterRobotLength);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//Drop PC
-		super.vertical(-(32.5-super.CenterRobotLength));
-		//Lower PC manipulator
-		super.rotate(90, true);
-		super.vertical(54-super.CenterRobotLength);
-		//Pick up PC
-		super.rotate(180, false);
-		super.vertical(60.5-super.CenterRobotLength);
+		super.vertical(-(32.5-super.CenterRobotLength), Arm.Position.TRAVEL, false);
+		super.rotate(90, true, Arm.Position.PICKUP);
+		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(180, false, Arm.Position.TRAVEL);
+		super.vertical(60.5-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90, true);
 		super.vertical(153.47-super.CenterRobotLength);
-
 	}
 
 }
