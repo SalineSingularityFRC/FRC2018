@@ -19,21 +19,23 @@ public class LLSLS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168, Arm.Position.SWITCH, false);
+		super.vertical(168-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//raise arm
 		super.rotate(90, false, Arm.Position.SWITCH);
 		intake.autonOuttake();
+		super.vertical(-0.5, 5, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(30, Arm.Position.TRAVEL, false);//don't know exactly
-		super.rotate(90,true, Arm.Position.PICKUP);
+		super.vertical(28 + 2*super.CenterRobotWidth, Arm.Position.TRAVEL, false);//don't know exactly
+		super.rotate(90, true, Arm.Position.PICKUP);
 		//pick up block
-		super.vertical(20, Arm.Position.PICKUP, true);//don't know exactly
-		super.vertical(20, -0.5, Arm.Position.TRAVEL, false);
+		super.vertical(61, Arm.Position.PICKUP, true);//don't know exactly
+		super.vertical(-0.5, 61, Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(30, Arm.Position.SWITCH, false);
 		//lift arm
 		super.rotate(90, false, Arm.Position.SWITCH);
-		intake.controlIntake(false, true, false, true);
+		super.vertical(5, Arm.Position.SWITCH, false);
+		intake.autonOuttake();
 	}
 
 }

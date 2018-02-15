@@ -142,9 +142,9 @@ public abstract class AutonControlScheme {
 		vertical(speed, distance, armPosition, intakeOn);
 	}
 	
-	public void verticalReverse(double distance) {
+	public void verticalReverse(double distance, Arm.Position armPosition, boolean intakeOn) {
 		
-		vertical(-speed, distance);
+		vertical(-speed, distance, armPosition, intakeOn);
 	}
 
 	
