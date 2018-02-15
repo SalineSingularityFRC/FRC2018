@@ -20,9 +20,9 @@ public class RLS extends AutonControlScheme{
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(120-(super.CenterRobotLength)-(45/2));
+		super.vertical(95-(super.CenterRobotLength));
 		super.rotate(90,true);
-		super.vertical(120);
+		super.vertical(329.06-super.CenterRobotWidth);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(45, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
