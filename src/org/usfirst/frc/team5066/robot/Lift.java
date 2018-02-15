@@ -1,35 +1,46 @@
 package org.usfirst.frc.team5066.robot;
 
 import org.usfirst.frc.team5066.controller2018.LogitechController;
+import org.usfirst.frc.team5066.library.RangeFinder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Lift {
 	
 	
 	private VictorSPX right1, left1;
-	DigitalInput rightLimLow, rightLimHigh, leftLimLow, leftLimHigh, rightLimStart, leftLimStart;
+	
+	/*
+	 * For the nice silver ultrasonics,
+	 * plug the main port into analog, which is the port no.
+	 * Also, plug the random red wire into the 12V/2A
+	 * on the voltage Regulator Module
+	 */
+	Ultrasonic ultraRight, ultraLeft;
+	
+	private final double RELEASEDISTANCE = 20.0;
+	private final double FINISHDISTANCE = 5.0;
+	
 	double normalSpeed, highSpeed;
 	
 	
-	public Lift(int right1, int left1, int rightLimLow, int rightLimHigh, 
-			int leftLimLow, int leftLimHigh, int rightLimStart, int leftLimStart, double normalSpeed) {
+	public Lift(int right1, int left1, int ultraRightInput, int ultraRightOutput,
+			int ultraLeftInput, int ultraLeftOutput, double normalSpeed) {
 		
 		this.right1 = new VictorSPX(right1);
 		//this.right2 = new TalonSRX(right2);
 		this.left1 = new VictorSPX(left1);
 		//this.left2 = new TalonSRX(left2);
 		
-		this.rightLimLow = new DigitalInput(rightLimLow);
-		this.rightLimHigh = new DigitalInput(rightLimHigh);
-		this.rightLimStart = new DigitalInput(rightLimStart);
-		this.leftLimLow = new DigitalInput(leftLimLow);
-		this.leftLimHigh = new DigitalInput(leftLimHigh);
-		this.leftLimStart = new DigitalInput(leftLimStart);
+		this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
+		this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
+		
 		
 		this.normalSpeed = normalSpeed;
 		this.highSpeed = 1.0;
@@ -40,12 +51,12 @@ public class Lift {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (rightReleaseHigh && !rightLimLow.get()) {
+		if (rightReleaseHigh && ultraRight.getRangeInches() > RELEASEDISTANCE) {
 			right1.set(ControlMode.PercentOutput, highSpeed);
 			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
 		
-		else if (rightReleaseNormal && !rightLimLow.get()) {
+		else if (rightReleaseNormal && ultraRight.getRangeInches() > RELEASEDISTANCE) {
 			right1.set(ControlMode.PercentOutput, normalSpeed);
 			//right2.set(ControlMode.PercentOutput, normalSpeed);
 		}	
@@ -56,7 +67,7 @@ public class Lift {
 		}
 		
 		//return right limit switch value
-		return rightLimLow.get();
+		return ultraRight.getRangeInches() < RELEASEDISTANCE;
 		
 	}
 	
@@ -64,12 +75,12 @@ public class Lift {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (leftReleaseHigh && !leftLimLow.get()) {
+		if (leftReleaseHigh && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
 			left1.set(ControlMode.PercentOutput, highSpeed);
 			//left2.set(ControlMode.PercentOutput, highSpeed);
 		}
 		
-		else if (leftReleaseHigh && !leftLimLow.get()) {
+		else if (leftReleaseHigh && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
 			left1.set(ControlMode.PercentOutput, normalSpeed);
 			//left2.set(ControlMode.PercentOutput, normalSpeed);
 		
@@ -80,7 +91,7 @@ public class Lift {
 		}
 		
 		//return left limit switch value
-		return leftLimLow.get();
+		return ultraLeft.getRangeInches() < RELEASEDISTANCE;
 		
 	}
 	
@@ -111,7 +122,7 @@ public class Lift {
 		}
 		
 		//return right limit high switch
-		return rightLimHigh.get();
+		return ultraRight.getRangeInches() < FINISHDISTANCE;
 		
 	}
 	
@@ -142,17 +153,20 @@ public class Lift {
 		}
 		
 		//return left limit high switch
-		return leftLimHigh.get();
+		return ultraLeft.getRangeInches() < FINISHDISTANCE;
 	}
 	
-	public void resetLeft(){
-		if (!leftLimStart.get()){
+	public void resetLeft(boolean reset){
+		
+		if (reset) {
+			
 			left1.set(ControlMode.PercentOutput, -normalSpeed);
 			//left2.set(ControlMode.PercentOutput, -normalSpeed);
 		}
 	}
-	public void resetRight(){
-		if (!rightLimStart.get()){
+	public void resetRight(boolean reset){
+		if (reset){
+			
 			right1.set(ControlMode.PercentOutput, -normalSpeed);
 			//right2.set(ControlMode.PercentOutput, -normalSpeed);
 		}

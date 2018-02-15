@@ -17,15 +17,15 @@ public class RLSV extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35);
-		super.rotate(90, true);
-		super.vertical(190.15-super.CenterRobotLength);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(70-(super.CenterRobotLength/2));
+		super.rotate(90,true);
+		super.vertical(170.685-super.CenterRobotWidth);
+		super.rotate(90,false, Arm.Position.SWITCH);
+		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(47.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.vertical(- (32.5-super.CenterRobotWidth));
+		super.rotate(90,false, Arm.Position.PICKUP);
+		super.vertical(44.875-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(180, false, Arm.Position.TRAVEL);
 		super.vertical(24-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90, true);

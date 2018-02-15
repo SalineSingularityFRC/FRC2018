@@ -98,29 +98,27 @@ public class TankDrive implements ControlScheme {
 			}
 			
 			//release right lift until lower limit switch is pressed
-			if (!rightLowLimit && lift.releaseLiftRight(logitechSystems.getAButton(), logitechSystems.getBButton())) {
+			if (!rightLowLimit && lift.releaseLiftRight(logitechDrive.getAButton(), logitechDrive.getBButton())) {
 				rightLowLimit = true;
 				DriverStation.reportError("right lower limit reached", true);
 			}
 		}
 		//lifts right lift. When reached upper limit switch, ping driver
-		if (rightLowLimit && lift.controlRightLift(logitechSystems.getYButton(), logitechSystems.getAButton(),
-				logitechSystems.getBButton(), logitechSystems.getXButton())) {
+		if (rightLowLimit && lift.controlRightLift(logitechDrive.getYButton(), logitechDrive.getAButton(),
+				logitechDrive.getBButton(), logitechDrive.getXButton())) {
 			DriverStation.reportError("right upper limit reached", true);
 		}
 				
 		//lifts left lift. When reached upper limit switch, ping driver
-		if (leftLowLimit && lift.controlLeftLift(logitechSystems.getPOVUp(), logitechSystems.getPOVDown(),
-				logitechSystems.getPOVRight(), logitechSystems.getPOVLeft())) {
+		if (leftLowLimit && lift.controlLeftLift(logitechDrive.getPOVUp(), logitechDrive.getPOVDown(),
+				logitechDrive.getPOVRight(), logitechDrive.getPOVLeft())) {
 			DriverStation.reportError("left upper limit reached", true);
 		}
 		
-		if (logitechSystems.getBackButton()) {
-			lift.resetLeft();
-			lift.resetRight();
-			
-		}
-	
+		
+		lift.resetLeft(logitechDrive.getBackButton());
+		lift.resetRight(logitechDrive.getStartButton());
+		
 		
 	}
 

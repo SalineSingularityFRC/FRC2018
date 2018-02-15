@@ -17,23 +17,21 @@ public class RLSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35);
-		super.rotate(90, true);
-		super.vertical(221.06-super.CenterRobotWidth+super.CenterRobotLength);
-		super.rotate(90, false);
-		super.vertical(133-super.CenterRobotLength);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(12, Arm.Position.SWITCH, false);
+		super.vertical(70-(super.CenterRobotLength/2));
+		super.rotate(90,true);
+		super.vertical(170.685-super.CenterRobotWidth);
+		super.rotate(90,false, Arm.Position.SWITCH);
+		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
+		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(super.CenterRobotLength-13, Arm.Position.TRAVEL, false);
+		super.vertical(127.125-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(114+ super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90, true);
-		super.vertical(60.5+super.CenterRobotLength);
-		super.rotate(90, true);
-		super.vertical(261.5);
+		super.vertical(177.5+ super.CenterRobotWidth*2);
+		super.rotate(90, false);
+		super.vertical(100.47-super.CenterRobotWidth);
 	}
 
 }
