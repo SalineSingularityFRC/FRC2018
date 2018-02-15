@@ -18,17 +18,18 @@ public class LLSV extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		//raise arm
 		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(5, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(-0.5, 5, Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		//lower arm
-		super.vertical(30-super.CenterRobotLength, Arm.Position.PICKUP, false);//don't know exactly
+		super.vertical(28-2*super.CenterRobotWidth, Arm.Position.TRAVEL, false);//don't know exactly
 		super.rotate(90,true, Arm.Position.PICKUP);
 		//pick up block
-		super.vertical(20, Arm.Position.PICKUP, true);//don't know exactly
+		super.vertical(61, Arm.Position.PICKUP, true);
 		super.rotate(90,false, Arm.Position.PICKUP);
 		super.vertical(98-super.CenterRobotLength, Arm.Position.EXCHANGE, false);
 	}

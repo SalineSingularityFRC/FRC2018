@@ -21,20 +21,22 @@ public class LLSOR extends AutonControlScheme {
 		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		//raise arm
 		super.rotate(90, false, Arm.Position.SWITCH);
-		//Drop PC
+		super.vertical(5, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		super.vertical(-0.5, 5, Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		//lower arm
-		super.vertical(30-super.CenterRobotLength, Arm.Position.TRAVEL, false);//don't know exactly
+		super.vertical(28-2*super.CenterRobotWidth, Arm.Position.TRAVEL, false);//don't know exactly
 		super.rotate(90,true, Arm.Position.PICKUP);
-		//pick up b block
-		super.vertical(20, Arm.Position.PICKUP, true);//don't know exactly
-		super.vertical(-0.5, 20, Arm.Position.TRAVEL, false);
+		//pick up block
+		super.vertical(61, Arm.Position.PICKUP, true);
+		super.vertical(-0.5, 61, Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(48-super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.vertical(50-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.SWITCH, false);
-
+		super.rotate(90, false, Arm.Position.SWITCH);
+		intake.autonOuttake();
 	}
 
 }

@@ -45,11 +45,12 @@ public class Robot extends IterativeRobot {
 	int drivePneuForward, drivePneuReverse;
 	
 	int liftLeft1, liftRight1;
-	int leftLimitLow, leftLimitHigh, rightLimitLow, rightLimitHigh;
+	int ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput;
 	
 	int talonArmMotor;
 	
 	int intakeRight, intakeLeft;
+	int intakeSensorPort;
 	
 	final double ARMSPEEDCONSTANT = 1.0;
 	int armPneumaticsForward;
@@ -61,6 +62,7 @@ public class Robot extends IterativeRobot {
 	DrivePneumatics dPneumatics;
 	Lift lift;
 	Arm arm;
+	Intake intake;
 	UsbCamera front, rear;
 	
 	Preferences prefs;
@@ -142,6 +144,8 @@ public class Robot extends IterativeRobot {
 		} finally {
 			
 			loadProperties();
+			
+			gyro = new AHRS(SPI.Port.kMXP);
 		
 			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
 					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
@@ -149,23 +153,22 @@ public class Robot extends IterativeRobot {
 			//drive = new TankDrive(0, 1);
 			drive.rampVoltage();
 			
-			/*lift = new Lift(liftRight1, liftRight2, liftLeft1, liftLeft2, rightLimitLow, 
-					rightLimitHigh, leftLimitLow, leftLimitHigh, LIFT_SPEED);
-			*/
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
-			gyro = new AHRS(SPI.Port.kMXP);
+			lift = new Lift(liftRight1, liftLeft1, ultraRightInput, ultraRightOutput,
+					ultraLeftInput, ultraLeftOutput, LIFT_SPEED);
 			
-			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
+			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
+			intake = new Intake(intakeLeft, intakeRight, intakeSensorPort);
 			
 			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
-			
+			/*
 			new Thread(() -> {
-				
+				*/
 				//Next two lines are the normal way to instantiate a camera
 				front = CameraServer.getInstance().startAutomaticCapture();
 				front.setResolution(640, 480);
-
+				/*
 				CvSink cvSink = CameraServer.getInstance().getVideo();
 				CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
 
@@ -178,7 +181,7 @@ public class Robot extends IterativeRobot {
 					outputStream.putFrame(output);
 				}
 			}).start();
-			
+			*/
 			timer = new Timer();
 			
 			side = new SendableChooser();
@@ -209,12 +212,18 @@ public class Robot extends IterativeRobot {
 		
 		AutonControlScheme[][][] autonPrograms = 
 			
-			{{{new LLSLS(drive, gyro), new LLSV(drive, gyro), new LLSOL(drive, gyro), new LLSOR(drive, gyro)},
-			{new LRSRS(drive, gyro), new LRSV(drive, gyro), new LRSOL(drive, gyro), new LRSOR(drive, gyro)}},
-			{{new RRSRS(drive, gyro), new RRSV(drive, gyro), new RRSOL(drive, gyro), new RRSOR(drive, gyro)},
-			{new RLSLS(drive, gyro), new RLSV(drive, gyro), new RLSOL(drive, gyro), new RLSOR(drive, gyro)}},
-			{{new MLSLS(drive, gyro), new MLSV(drive, gyro), new MLSOL(drive, gyro), new MLSOR(drive, gyro)},
-			{new MRSRS(drive, gyro), new MRSV(drive, gyro), new MRSOL(drive, gyro), new MRSOL(drive, gyro)}}};
+			{{{new LLSLS(drive, gyro, arm, intake), new LLSV(drive, gyro, arm, intake),
+				new LLSOL(drive, gyro, arm, intake), new LLSOR(drive, gyro, arm, intake)},
+			{new LRSRS(drive, gyro, arm, intake), new LRSV(drive, gyro, arm, intake), 
+				new LRSOL(drive, gyro, arm, intake), new LRSOR(drive, gyro, arm, intake)}},
+			{{new RLSLS(drive, gyro, arm, intake), new RLSV(drive, gyro, arm, intake), 
+				new RLSOL(drive, gyro, arm, intake), new RLSOR(drive, gyro, arm, intake)},
+			{new RRSRS(drive, gyro, arm, intake), new RRSV(drive, gyro, arm, intake), 
+				new RRSOL(drive, gyro, arm, intake), new RRSOR(drive, gyro, arm, intake)}},
+			{{new MLSLS(drive, gyro, arm, intake), new MLSV(drive, gyro, arm, intake),
+				new MLSOL(drive, gyro, arm, intake), new MLSOR(drive, gyro, arm, intake)},
+			{new MRSRS(drive, gyro, arm, intake), new MRSV(drive, gyro, arm, intake),
+				new MRSOL(drive, gyro, arm, intake), new MRSOL(drive, gyro, arm, intake)}}};
 		
 			String gameData;
 			int a=0,b=0,c=0;
@@ -451,26 +460,24 @@ public class Robot extends IterativeRobot {
 			middleRightMotor = properties.getInt("middleRightMotor");
 			middleLeftMotor = properties.getInt("middleLeftMotor");
 			
-			//get 'er done
+			drivePneuForward = properties.getInt("drivePneuForward");
+			drivePneuReverse = properties.getInt("drivePneuReverse");
 			
 			liftLeft1 = properties.getInt("liftLeft1");
 			liftRight1 = properties.getInt("liftRight1");
 			
-			rightLimitLow = properties.getInt("rightLimitLow");
-			rightLimitHigh = properties.getInt("rightLimitHigh");
-			leftLimitLow = properties.getInt("leftLimitLow");
-			leftLimitHigh= properties.getInt("leftLimitHigh");
-			
-			drivePneuForward = properties.getInt("drivePneuForward");
-			drivePneuReverse = properties.getInt("drivePneuReverse");
+			ultraRightInput = properties.getInt("ultraRightInput");
+			ultraRightOutput = properties.getInt("ultraRightOutput");
+			ultraLeftInput = properties.getInt("ultraLeftInput");
+			ultraLeftOutput = properties.getInt("ultraLeftOutput");
 			
 			talonArmMotor = properties.getInt("talonArmMotor");
+			armPneumaticsForward = properties.getInt("armPneumaticsForward");
+			armPneumaticsReverse = properties.getInt("armPneumaticsReverse");
 			
 			intakeRight = properties.getInt("intakeRight");
 			intakeLeft = properties.getInt("intakeLeft");
-			
-			armPneumaticsForward = properties.getInt("armPneumaticsForward");
-			armPneumaticsReverse = properties.getInt("armPneumaticsReverse");
+			intakeSensorPort = properties.getInt("intakeSensorPort");
 			
 		} catch (SingularityPropertyNotFoundException e) {
 			DriverStation.reportError("The property \"" + e.getPropertyName()
@@ -490,24 +497,24 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("middleRightMotor", 5);
 		properties.addDefaultProp("middleLeftMotor", 7);
 		
-		properties.addDefaultProp("liftLeft1", 8);
-		properties.addDefaultProp("liftRight1", 5);
-		
-		properties.addDefaultProp("rightLimitLow", 10);
-		properties.addDefaultProp("rightLimitHigh", 11);
-		properties.addDefaultProp("leftLimitLow", 15);
-		properties.addDefaultProp("leftLimitHigh", 13);
-		
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
 		
-		properties.addDefaultProp("talonArmMotor", 7);
+		properties.addDefaultProp("liftLeft1", 8);
+		properties.addDefaultProp("liftRight1", 5);
 		
+		properties.addDefaultProp("ultraRightInput", 6);
+		properties.addDefaultProp("ultraRightOutput", 7);
+		properties.addDefaultProp("ultraLeftInput", 8);
+		properties.addDefaultProp("ultraLeftOutput", 9);
+		
+		properties.addDefaultProp("talonArmMotor", 7);
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
 		properties.addDefaultProp("intakeRight", 3);
 		properties.addDefaultProp("intakeLeft", 6);
+		properties.addDefaultProp("intakeSensorPort", 2);
 		
 	}
 }

@@ -18,16 +18,16 @@ public class RLSLS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
-		super.vertical(95-(super.CenterRobotLength));
+		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90,true);
-		super.vertical(329.06-super.CenterRobotWidth);
+		super.vertical(170.685-super.CenterRobotWidth);
 		super.rotate(90,false, Arm.Position.SWITCH);
-		super.vertical(45, Arm.Position.SWITCH, false);
+		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90,false, Arm.Position.PICKUP);
-		super.vertical(83.25-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		super.vertical(-(83.25-super.CenterRobotLength), Arm.Position.TRAVEL, false);
+		super.vertical(44.875-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.vertical(-(44.875-super.CenterRobotLength), Arm.Position.TRAVEL, false);
 		super.rotate(90,true, Arm.Position.SWITCH);
 		super.vertical(32.5-super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();

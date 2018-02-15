@@ -18,12 +18,13 @@ public class LRS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.rotate(90,false);
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(168-(2*super.CenterRobotLength), Arm.Position.SWITCH, false);
-		super.rotate(90, true, Arm.Position.SWITCH);
+		super.rotate(90,false, Arm.Position.TRAVEL);
+		super.vertical(45, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(5, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 	}
 
