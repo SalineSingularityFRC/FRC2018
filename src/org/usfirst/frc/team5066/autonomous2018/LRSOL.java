@@ -17,6 +17,7 @@ public class LRSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		//Get to the right switch by going around the back
 		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90,false);
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
@@ -24,17 +25,22 @@ public class LRSOL extends AutonControlScheme {
 		super.vertical(45, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(5, Arm.Position.SWITCH, false);
+		//release PC onto switch and reverse
 		intake.autonOuttake();
 		super.verticalReverse(5, Arm.Position.SWITCH, false);
+		//go over to pyramid of PCs
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(90, false, Arm.Position.PICKUP);
+		//arm is lowered, activate intake
 		super.vertical(61, Arm.Position.PICKUP, true);
+		//go around the back of the switch to get to left side
 		super.verticalReverse(61, Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(70+(2*super.CenterRobotLength), Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(177.75 +super.CenterRobotWidth*2, Arm.Position.TRAVEL,false);
+		//this should get us close to null zone
 		super.rotate(90, false, Arm.Position.SWITCH);
 	}
 

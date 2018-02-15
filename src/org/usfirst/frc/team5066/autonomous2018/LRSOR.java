@@ -17,20 +17,28 @@ public class LRSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(190.15-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.SWITCH);
-		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		intake.controlIntakein();
-		super.vertical(-(32.5-super.CenterRobotLength), Arm.Position.TRAVEL, false);
-		//Lower PC manipulator
-		super.rotate(90, true, Arm.Position.PICKUP);
-		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		super.rotate(180, false, Arm.Position.TRAVEL);
-		super.vertical(60.5-super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		//Get to the right switch by going around the back
+		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.rotate(90,false);
+		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		super.rotate(90,false, Arm.Position.TRAVEL);
+		super.vertical(45, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(5, Arm.Position.SWITCH, false);
+		//release PC onto switch and reverse
+		intake.autonOuttake();
+		super.verticalReverse(5, Arm.Position.SWITCH, false);
+		//go over to pyramid of PCs
 		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(153.47-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(90, false, Arm.Position.PICKUP);
+		//arm is lowered, activate intake
+		super.vertical(61, Arm.Position.PICKUP, true);
+		//go around the back of the switch to get to left side
+		super.verticalReverse(61, Arm.Position.TRAVEL, false);
+		super.rotate(90, false, Arm.Position.TRAVEL);
+		//should get us close to null zone of right side
+		super.vertical(130, Arm.Position.TRAVEL, false);
 	}
 
 }
