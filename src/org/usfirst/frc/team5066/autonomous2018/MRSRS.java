@@ -30,7 +30,7 @@ public class MRSRS extends AutonControlScheme{
 		//Lower PC manipulator
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		//Pick up PC
-		super.vertical(-(54-super.CenterRobotLength), Arm.Position.SWITCH, false);
+		super.verticalReverse((54-super.CenterRobotLength), Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		//Drop PC
 		intake.autonOuttake();

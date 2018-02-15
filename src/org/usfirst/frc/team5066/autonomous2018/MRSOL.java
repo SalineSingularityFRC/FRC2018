@@ -25,7 +25,7 @@ public class MRSOL extends AutonControlScheme {
 		//raise PC
 		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.vertical(-(32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
+		super.verticalReverse((32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
 		//Lower PC manipulator
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, false);

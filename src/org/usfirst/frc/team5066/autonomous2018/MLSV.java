@@ -24,7 +24,7 @@ public class MLSV extends AutonControlScheme {
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false );
 		intake.autonOuttake();
-		super.vertical(- (32.5-super.CenterRobotWidth), Arm.Position.SWITCH, false);
+		super.verticalReverse((32.5-super.CenterRobotWidth), Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		//Lower PC manipulator
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);

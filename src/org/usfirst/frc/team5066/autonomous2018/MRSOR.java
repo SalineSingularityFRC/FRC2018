@@ -26,7 +26,7 @@ public class MRSOR extends AutonControlScheme {
 		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//Drop the PC
 		intake.autonOuttake();
-		super.vertical(-(32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
+		super.verticalReverse((32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
 		//Lower PC manipulator
 		super.rotate(90, true, Arm.Position.PICKUP);
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
