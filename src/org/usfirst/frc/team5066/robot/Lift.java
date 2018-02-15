@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5066.robot;
 
 import org.usfirst.frc.team5066.controller2018.LogitechController;
+import org.usfirst.frc.team5066.library.RangeFinder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -8,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Lift {
 	
@@ -20,23 +22,24 @@ public class Lift {
 	 * Also, plug the random red wire into the 12V/2A
 	 * on the voltage Regulator Module
 	 */
-	AnalogInput ultraRight, ultraLeft;
+	Ultrasonic ultraRight, ultraLeft;
 	
-	private final double RELEASEVOLTAGE = 2.5;
-	private final double LIFTVOLTAGE = 2.5;
+	private final double RELEASEDISTANCE = 20.0;
+	private final double FINISHDISTANCE = 5.0;
 	
 	double normalSpeed, highSpeed;
 	
 	
-	public Lift(int right1, int left1, int ultraRightPort, int ultraLeftPort, double normalSpeed) {
+	public Lift(int right1, int left1, int ultraRightInput, int ultraRightOutput,
+			int ultraLeftInput, int ultraLeftOutput, double normalSpeed) {
 		
 		this.right1 = new VictorSPX(right1);
 		//this.right2 = new TalonSRX(right2);
 		this.left1 = new VictorSPX(left1);
 		//this.left2 = new TalonSRX(left2);
 		
-		this.ultraRight = new AnalogInput(ultraRightPort);
-		this.ultraLeft = new AnalogInput(ultraLeftPort);
+		this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
+		this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
 		
 		
 		this.normalSpeed = normalSpeed;
@@ -48,12 +51,12 @@ public class Lift {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (rightReleaseHigh && ultraRight.getVoltage() > RELEASEVOLTAGE) {
+		if (rightReleaseHigh && ultraRight.getRangeInches() > RELEASEDISTANCE) {
 			right1.set(ControlMode.PercentOutput, highSpeed);
 			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
 		
-		else if (rightReleaseNormal && ultraRight.getVoltage() > RELEASEVOLTAGE) {
+		else if (rightReleaseNormal && ultraRight.getRangeInches() > RELEASEDISTANCE) {
 			right1.set(ControlMode.PercentOutput, normalSpeed);
 			//right2.set(ControlMode.PercentOutput, normalSpeed);
 		}	
@@ -64,7 +67,7 @@ public class Lift {
 		}
 		
 		//return right limit switch value
-		return ultraRight.getVoltage() < RELEASEVOLTAGE;
+		return ultraRight.getRangeInches() < RELEASEDISTANCE;
 		
 	}
 	
@@ -72,12 +75,12 @@ public class Lift {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (leftReleaseHigh && ultraLeft.getVoltage() > RELEASEVOLTAGE) {
+		if (leftReleaseHigh && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
 			left1.set(ControlMode.PercentOutput, highSpeed);
 			//left2.set(ControlMode.PercentOutput, highSpeed);
 		}
 		
-		else if (leftReleaseHigh && ultraLeft.getVoltage() > RELEASEVOLTAGE) {
+		else if (leftReleaseHigh && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
 			left1.set(ControlMode.PercentOutput, normalSpeed);
 			//left2.set(ControlMode.PercentOutput, normalSpeed);
 		
@@ -88,7 +91,7 @@ public class Lift {
 		}
 		
 		//return left limit switch value
-		return ultraLeft.getVoltage() < RELEASEVOLTAGE;
+		return ultraLeft.getRangeInches() < RELEASEDISTANCE;
 		
 	}
 	
@@ -119,7 +122,7 @@ public class Lift {
 		}
 		
 		//return right limit high switch
-		return ultraRight.getVoltage() < LIFTVOLTAGE;
+		return ultraRight.getRangeInches() < FINISHDISTANCE;
 		
 	}
 	
@@ -150,7 +153,7 @@ public class Lift {
 		}
 		
 		//return left limit high switch
-		return ultraLeft.getVoltage() < LIFTVOLTAGE;
+		return ultraLeft.getRangeInches() < FINISHDISTANCE;
 	}
 	
 	public void resetLeft(boolean reset){
