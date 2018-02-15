@@ -61,6 +61,7 @@ public class Robot extends IterativeRobot {
 	DrivePneumatics dPneumatics;
 	Lift lift;
 	Arm arm;
+	Intake intake;
 	UsbCamera front, rear;
 	
 	Preferences prefs;
@@ -209,12 +210,18 @@ public class Robot extends IterativeRobot {
 		
 		AutonControlScheme[][][] autonPrograms = 
 			
-			{{{new LLSLS(drive, gyro), new LLSV(drive, gyro), new LLSOL(drive, gyro), new LLSOR(drive, gyro)},
-			{new LRSRS(drive, gyro), new LRSV(drive, gyro), new LRSOL(drive, gyro), new LRSOR(drive, gyro)}},
-			{{new RRSRS(drive, gyro), new RRSV(drive, gyro), new RRSOL(drive, gyro), new RRSOR(drive, gyro)},
-			{new RLSLS(drive, gyro), new RLSV(drive, gyro), new RLSOL(drive, gyro), new RLSOR(drive, gyro)}},
-			{{new MLSLS(drive, gyro), new MLSV(drive, gyro), new MLSOL(drive, gyro), new MLSOR(drive, gyro)},
-			{new MRSRS(drive, gyro), new MRSV(drive, gyro), new MRSOL(drive, gyro), new MRSOL(drive, gyro)}}};
+			{{{new LLSLS(drive, gyro, arm, intake), new LLSV(drive, gyro, arm, intake),
+				new LLSOL(drive, gyro, arm, intake), new LLSOR(drive, gyro, arm, intake)},
+			{new LRSRS(drive, gyro, arm, intake), new LRSV(drive, gyro, arm, intake), 
+				new LRSOL(drive, gyro, arm, intake), new LRSOR(drive, gyro, arm, intake)}},
+			{{new RLSLS(drive, gyro, arm, intake), new RLSV(drive, gyro, arm, intake), 
+				new RLSOL(drive, gyro, arm, intake), new RLSOR(drive, gyro, arm, intake)},
+			{new RRSRS(drive, gyro, arm, intake), new RRSV(drive, gyro, arm, intake), 
+				new RRSOL(drive, gyro, arm, intake), new RRSOR(drive, gyro, arm, intake)}},
+			{{new MLSLS(drive, gyro, arm, intake), new MLSV(drive, gyro, arm, intake),
+				new MLSOL(drive, gyro, arm, intake), new MLSOR(drive, gyro, arm, intake)},
+			{new MRSRS(drive, gyro, arm, intake), new MRSV(drive, gyro, arm, intake),
+				new MRSOL(drive, gyro, arm, intake), new MRSOL(drive, gyro, arm, intake)}}};
 		
 			String gameData;
 			int a=0,b=0,c=0;
