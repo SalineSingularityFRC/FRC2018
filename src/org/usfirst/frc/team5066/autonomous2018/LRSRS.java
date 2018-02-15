@@ -18,20 +18,23 @@ public class LRSRS extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(114+super.CenterRobotWidth, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		//raise PC
-		super.vertical(107-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		super.rotate(90, true,Arm.Position.SWITCH);
+		//Get to the right switch by going around the back
+		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.rotate(90,false);
+		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		super.rotate(90,false, Arm.Position.TRAVEL);
+		super.vertical(45, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(5, Arm.Position.SWITCH, false);
+		//release PC onto switch and reverse
 		intake.autonOuttake();
-		super.vertical(- (32.5-super.CenterRobotLength));
-		super.rotate(90, true);
-		//Lower PC manipulator
-		super.vertical(54-super.CenterRobotLength,Arm.Position.PICKUP, true);
-		//Pick up PC
-		super.vertical(54-super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.verticalReverse(5, Arm.Position.SWITCH, false);
+		//go over to pyramid of PCs
+		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(90, false, Arm.Position.PICKUP);
+		//arm is lowered, activate intake
+		super.vertical(61, Arm.Position.PICKUP, true);
 		super.rotate(90, false);
 		super.vertical(32.5-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		intake.controlIntake(false, true, false, true);
