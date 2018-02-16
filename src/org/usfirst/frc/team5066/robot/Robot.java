@@ -170,7 +170,7 @@ public class Robot extends IterativeRobot {
 				front.setResolution(320, 240);
 				
 				rear = CameraServer.getInstance().startAutomaticCapture();
-				front.setResolution(320, 240);
+				rear.setResolution(320, 240);
 				/*
 				CvSink cvSink = CameraServer.getInstance().getVideo();
 				CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
