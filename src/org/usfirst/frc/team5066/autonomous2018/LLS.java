@@ -14,13 +14,13 @@ public class LLS extends AutonControlScheme{
 
 	public LLS(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
+		//dog leg to left switch
 		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(0.5, 90, false, Arm.Position.SWITCH);
+		super.rotate(90, false, Arm.Position.SWITCH);
 		//lift arm
 		super.vertical(58.56-super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();

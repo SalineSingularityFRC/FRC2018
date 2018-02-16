@@ -28,6 +28,7 @@ public class RRSOR extends AutonControlScheme {
 		super.vertical(-(32.5-super.CenterRobotLength));
 		super.rotate(90, true, Arm.Position.PICKUP);
 		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//go to null zone
 		super.vertical(-(95.25+super.CenterRobotWidth-super.CenterRobotLength), Arm.Position.TRAVEL, false);//back up to clear switch
 		super.rotate(90, false);//turn toward opp switch
 		super.vertical(153.47-super.CenterRobotLength);//go up 12 away from edge of null zone

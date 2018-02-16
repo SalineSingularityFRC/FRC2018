@@ -18,23 +18,22 @@ public class LLSOL extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		//raise arm and release PC
+		//lightning bolt to switch
+		super.vertical(70-(super.CenterRobotLength/2));
+		super.rotate(90, true);
+		super.vertical(72.31-super.CenterRobotWidth);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(5, Arm.Position.SWITCH, false);
+		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		//head to PC pyramid
-		super.vertical(-0.5, 5, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		//lower arm
-		super.vertical(28-2*super.CenterRobotWidth, Arm.Position.TRAVEL, false);//don't know exactly
-		super.rotate(90,true, Arm.Position.PICKUP);
-		//pick up block
-		super.vertical(61, Arm.Position.PICKUP, true);
+		super.vertical(-32.5);
+		super.rotate(90, false, Arm.Position.PICKUP);
+		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(90, false);
 		//head over to left null zone
-		super.vertical(-0.5, 61, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(120-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(-(95.25+super.CenterRobotWidth-super.CenterRobotLength), Arm.Position.TRAVEL, false);//back up to clear switch
+		super.rotate(90, true);//turn toward opp switch
+		super.vertical(153.47-super.CenterRobotLength);//go up 12 away from edge of null zone
 	}
 
 }
