@@ -35,9 +35,11 @@ public class LRSRS extends AutonControlScheme {
 		super.rotate(90, false, Arm.Position.PICKUP);
 		//arm is lowered, activate intake
 		super.vertical(61, Arm.Position.PICKUP, true);
+		super.verticalReverse(61, Arm.Position.TRAVEL, false);
 		super.rotate(90, false);
 		super.vertical(32.5-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		intake.controlIntake(false, true, false, true);
+		super.rotate(90, true, Arm.Position.SWITCH);
+		intake.autonOuttake();
 	}
 
 }
