@@ -18,21 +18,24 @@ public class LLSLS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		//lightning bolt to switch
-		super.vertical(70-(super.CenterRobotLength/2));
-		super.rotate(90, true);
-		super.vertical(72.31-super.CenterRobotWidth);
+		//dog leg to switch
+		super.vertical(168-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		//Pick up PC
-		super.vertical(-32.5);
+		//reverse a distance so that we can rotate without hitting side of switch
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//go for PC that is second farthest out of the pyramid
+		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
+		super.rotate(90, true, Arm.Position.PICKUP);
+		super.vertical(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		//Put PC in the Switch
-		super.vertical(-(60.5-super.CenterRobotLength), Arm.Position.PICKUP, true);
+		super.verticalReverse(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(90, true);
-		super.vertical(32.5);
+		super.vertical(49-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.SWITCH);
 		intake.autonOuttake();
 	}
 

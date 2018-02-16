@@ -18,23 +18,28 @@ public class LLSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		//lightning bolt to switch
-		super.vertical(70-(super.CenterRobotLength/2));
-		super.rotate(90, true);
-		super.vertical(72.31-super.CenterRobotWidth);
+		//dog leg to switch
+		super.vertical(168-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		//head to PC pyramid
-		super.vertical(-32.5);
+		//Pick up PC
+		//reverse a distance so that we can rotate without hitting side of switch
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//go for PC that is second farthest out of the pyramid
+		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
+		super.rotate(90, true, Arm.Position.PICKUP);
+		super.vertical(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		//Head behind the switch to get to right switch
-		super.vertical(-60.5, Arm.Position.TRAVEL, false);//back up to previous position
+		super.verticalReverse(60.5, Arm.Position.TRAVEL, false);//back up to previous position
 		super.rotate(180, false, Arm.Position.TRAVEL);//do a 180
 		super.vertical(34.75+super.CenterRobotWidth);//clear the switch
 		super.rotate(90, false);//turn toward opp side
-		super.vertical(240.5);//go up to 12 away from edge of null zone
+		//go around the back of switch
+		super.vertical(110, Arm.Position.TRAVEL, false); 
+		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(240.5);//go all the way across the field to get to OR
 	}
 
 }
