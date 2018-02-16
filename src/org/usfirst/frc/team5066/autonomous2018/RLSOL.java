@@ -17,18 +17,21 @@ public class RLSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		//lightning bolt to switch
 		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90,true);
-		super.vertical(170.685-super.CenterRobotWidth);
+		super.vertical(180.31-super.CenterRobotWidth);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		//pick up PC
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(44.875-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		super.vertical(-44.875, Arm.Position.TRAVEL, false);
-		super.rotate(180, false, Arm.Position.TRAVEL);
-		super.vertical(50.375+super.CenterRobotWidth);
+		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//head toward opponet left switch
+		super.vertical(-60.5, Arm.Position.TRAVEL, false);//back up to previous position
+		super.rotate(180, false, Arm.Position.TRAVEL);//turn around
+		super.vertical(50.375+super.CenterRobotWidth);//move width+buffer(12) away from edge of switch
 		super.rotate(90, false);
 		super.vertical(240.5 - super.CenterRobotLength*2);
 	}

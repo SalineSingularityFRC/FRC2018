@@ -17,21 +17,20 @@ public class RLSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		//lightning bolt to switch
 		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90,true);
-		super.vertical(170.685-super.CenterRobotWidth);
+		super.vertical(180.31-super.CenterRobotWidth);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		//pick up PC
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90, false, Arm.Position.PICKUP);
+		//power through cube tower
 		super.vertical(127.125-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(114+ super.CenterRobotWidth, Arm.Position.TRAVEL, false);
-		super.rotate(90, true);
-		super.vertical(177.5+ super.CenterRobotWidth*2);
-		super.rotate(90, false);
-		super.vertical(100.47-super.CenterRobotWidth);
+		super.vertical(240.5 -super.CenterRobotLength, Arm.Position.TRAVEL, false);
 	}
 
 }

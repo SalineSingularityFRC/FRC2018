@@ -17,19 +17,21 @@ public class RLSV extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		//lightning bolt to switch
 		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90,true);
-		super.vertical(170.685-super.CenterRobotWidth);
+		super.vertical(180.31-super.CenterRobotWidth);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		//pick up PC
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90,false, Arm.Position.PICKUP);
-		super.vertical(44.875-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		super.rotate(180, false, Arm.Position.TRAVEL);
-		super.vertical(24-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90, true);
-		super.vertical(63.5-super.CenterRobotLength);
+		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//go to vault
+		super.vertical(-24, Arm.Position.TRAVEL, false);
+		super.rotate(90, false);
+		super.vertical(59.5-super.CenterRobotLength*2);
 	}
 
 }

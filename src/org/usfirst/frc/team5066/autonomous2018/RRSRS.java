@@ -18,16 +18,19 @@ public class RRSRS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
+		//lightning bolt to switch
 		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90,true);
-		super.vertical(73.56-super.CenterRobotWidth);
+		super.vertical(72.31-super.CenterRobotWidth);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		//pick up PC
 		super.vertical(-(32.5-super.CenterRobotLength));
 		super.rotate(90, true, Arm.Position.PICKUP);
-		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		super.vertical(- (54-super.CenterRobotLength), Arm.Position.TRAVEL, false);
+		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//back up to put PC in switch
+		super.vertical(- (60.5-super.CenterRobotLength), Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
