@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class SingDrive {
@@ -55,6 +57,9 @@ public abstract class SingDrive {
 	private static double error = 0.0;
 	private static final double KP = 5;
 	private static double leftEncVal, rightEncVal;
+	
+	SendableChooser<Double> speedChooser;
+	
 	
 	//AHRS gyro;
 
@@ -146,7 +151,7 @@ public abstract class SingDrive {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
 		}
 
-		this.velocityMultiplier = normalSpeedConstant;
+		this.velocityMultiplier = DEFAULT_FAST_SPEED_CONSTANT;
 		this.talonType = talonType;
 		this.slowSpeedConstant = slowSpeedConstant;
 		this.normalSpeedConstant = normalSpeedConstant;
@@ -156,6 +161,15 @@ public abstract class SingDrive {
 		//this.gyro = gyro;
 		
 		this.resetAll();
+		
+		speedChooser = new SendableChooser<Double>();
+		speedChooser.addDefault("1.0", 1.0);
+		speedChooser.addDefault("0.8", 0.8);
+		speedChooser.addDefault("0.6", 0.6);
+		speedChooser.addDefault("0.4", 0.4);
+		speedChooser.addDefault("0.2", 0.2);
+		
+		SmartDashboard.putData("Speed Chooser:", speedChooser);
 	}
 	
 	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,
@@ -171,7 +185,7 @@ public abstract class SingDrive {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
 		}
 
-		this.velocityMultiplier = normalSpeedConstant;
+		this.velocityMultiplier = fastSpeedConstant;
 		this.talonType = talonType;
 		this.slowSpeedConstant = slowSpeedConstant;
 		this.normalSpeedConstant = normalSpeedConstant;
@@ -434,6 +448,10 @@ public abstract class SingDrive {
 			SmartDashboard.putString("DB/String 8", "Using fast speed constant");
 			break;
 		}
+	}
+	
+	protected double getSendableSpeed() {
+		return speedChooser.getSelected();
 	}
 	
 	public abstract void drive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode);

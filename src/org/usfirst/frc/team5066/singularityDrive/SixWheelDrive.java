@@ -69,7 +69,7 @@ public class SixWheelDrive extends SingDrive{
 		leftVelocity = threshold(leftVelocity);
 		rightVelocity = threshold(rightVelocity);
 		
-		setVelocityMultiplierBasedOnSpeedMode(speedMode);
+		//setVelocityMultiplierBasedOnSpeedMode(speedMode);
 		
 		// Do squared inputs if necessary
 		left *= Math.abs(Math.pow(left, inputExponent - 1));
@@ -79,24 +79,24 @@ public class SixWheelDrive extends SingDrive{
 		// Guard against illegal values
 		double leftMaximum = Math.max(1, Math.abs(leftVelocity));
 		double rightMaximum = Math.max(1, Math.abs(rightVelocity));
-
+		
+		/*
 		if (velocityReduceActivated) {
 			leftMaximum *= 1 / reducedVelocity;
 			rightMaximum *= 1 / reducedVelocity;
 		}
-
-		leftVelocity = threshold(leftVelocity);
-		rightVelocity = threshold(rightVelocity);
-
+		 */
+		
 		// Set the motors
-	    m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((leftVelocity) / leftMaximum));
-		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((rightVelocity) / rightMaximum));
+		//In the past, We've had this.velocityMultiplier instead of this.getSendableSpeed()
+	    m_leftMiddleMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((rightVelocity) / rightMaximum));
 	
-		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((leftVelocity) / leftMaximum));
-		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -((rightVelocity) / rightMaximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
 
-		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((leftVelocity) / leftMaximum));
-		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * -((rightVelocity) / rightMaximum));
+		m_frontLeftMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
+		m_frontRightMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
 		
 		//SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
 		//SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
