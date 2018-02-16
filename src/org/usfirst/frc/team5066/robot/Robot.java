@@ -167,7 +167,10 @@ public class Robot extends IterativeRobot {
 				*/
 				//Next two lines are the normal way to instantiate a camera
 				front = CameraServer.getInstance().startAutomaticCapture();
-				front.setResolution(640, 480);
+				front.setResolution(320, 240);
+				
+				rear = CameraServer.getInstance().startAutomaticCapture();
+				rear.setResolution(320, 240);
 				/*
 				CvSink cvSink = CameraServer.getInstance().getVideo();
 				CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);

@@ -108,7 +108,7 @@ public class Lift {
 			//right2.set(ControlMode.PercentOutput, -highSpeed);
 		}
 		
-		if (rightLiftUpNormal){
+		else if (rightLiftUpNormal){
 			right1.set(ControlMode.PercentOutput, normalSpeed);
 			//right2.set(ControlMode.PercentOutput, normalSpeed);
 		}
@@ -139,7 +139,7 @@ public class Lift {
 			//right2.set(ControlMode.PercentOutput, -highSpeed);
 		}
 		
-		if (leftLiftUpNormal){
+		else if (leftLiftUpNormal){
 			left1.set(ControlMode.PercentOutput, normalSpeed);
 			//left2.set(ControlMode.PercentOutput, normalSpeed);
 		}

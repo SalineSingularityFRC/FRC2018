@@ -91,18 +91,33 @@ public abstract class AutonControlScheme {
 		drive.rampVoltage();
 	}
 	
+	/**
+	 * The preferred method of moving in a straight line for 2018
+	 * 
+	 * @param verticalSpeed the speed we want to move in voltage percentage, make negative to go backwards
+	 * @param distance the distance in inches
+	 * @param armPosition the position of the arm we should move to while traveling
+	 * @param intakeOn write true if we want to intake while traveling
+	 */
 	public void vertical(double verticalSpeed, double distance, Arm.Position armPosition, boolean intakeOn) {
+		
+		//ramp voltage to accelerate smoothly
 		drive.rampVoltage();
 		
+		//record initial data to compare to while driving
 		initialEncoderPos = drive.getRightPosition();
 		initialAngle = gyro.getAngle();
 			
 		//normal speed 3072
+		//while the position is less than what we want to travel
 		while (Math.abs(drive.getRightPosition() - initialEncoderPos) < 
 				distance * encoderTicks / DistancePerRevolution &&
 				DriverStation.getInstance().isAutonomous()) {
 			
+			//Move the arm towards the preferred position
 			arm.setArm(armPosition);
+			
+			//intake if wanted
 			if (intakeOn) {
 				this.intake.controlIntake(true, false, true, false);
 			}
@@ -113,11 +128,14 @@ public abstract class AutonControlScheme {
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
+			//unramp the voltage once we get halfway to avoid rolling through the stop
 			if (Math.abs(drive.getRightPosition() - initialEncoderPos) > 0.5 * distance * encoderTicks / DistancePerRevolution) {
 				drive.rampVoltage(0.0);
 			}
 			
 			//drive.encoderDriveStraight(verticalSpeed);
+			
+			//Drive at the intended speed, with correction from the gyro
 			((SixWheelDrive)drive).tankDrive(-verticalSpeed + 0.07 * (gyro.getAngle() - initialAngle),
 					-verticalSpeed, 1.0, SpeedMode.FAST);
 		}
@@ -128,8 +146,10 @@ public abstract class AutonControlScheme {
 			drive.drive(vertSpeed / 2, vertSpeed / 2, 0.0, false, SpeedMode.NORMAL);
 		}*/
 		
+		//turn off motors
 		((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
 		
+		//ramp the voltage again and turn off the intake
 		drive.rampVoltage();
 		this.intake.controlIntake(false, false, false, false);
 	}
@@ -138,10 +158,26 @@ public abstract class AutonControlScheme {
 		vertical(speed, distance);
 	}
 	
+	/**
+	 * The preferred method of moving in a straight line for 2018 with default speed
+	 * 
+	 * 
+	 * @param distance the distance in inches
+	 * @param armPosition the position of the arm we should move to while traveling
+	 * @param intakeOn write true if we want to intake while traveling
+	 */
 	public void vertical(double distance, Arm.Position armPosition, boolean intakeOn) {
 		vertical(speed, distance, armPosition, intakeOn);
 	}
 	
+	/**
+	 * The preferred method of moving backwards in a straight line for 2018 with default speed
+	 * 
+	 * 
+	 * @param distance the distance in inches
+	 * @param armPosition the position of the arm we should move to while traveling
+	 * @param intakeOn write true if we want to intake while traveling
+	 */
 	public void verticalReverse(double distance, Arm.Position armPosition, boolean intakeOn) {
 		
 		vertical(-speed, distance, armPosition, intakeOn);
@@ -180,33 +216,50 @@ public abstract class AutonControlScheme {
 		
 	}
 	
+	/**
+	 * The preferred method of rotating for 2018
+	 * 
+	 * @param rotationSpeed the speed in voltage percentage
+	 * @param angle the angle to turn
+	 * @param counterClockwise true if we want to turn counterclockwise
+	 * @param armPosition the arm position to set to while moving
+	 */
 	public void rotate(double rotationSpeed, double angle, boolean counterClockwise, 
 			Arm.Position armPosition) {
+		
+		//ramp voltage to accelerate smoothly
 		drive.rampVoltage();
+		
+		//record the initial angle
 		initialAngle = gyro.getAngle();
 		
 		System.out.println(gyro.getAngle());
 		
+		//account for moving counterclockwise
 		if(counterClockwise) rotationSpeed*= -1;
+		
+		//while the current angle is less than the desired angle
 		while(Math.abs(gyro.getAngle() - initialAngle) < angle &&
 				DriverStation.getInstance().isAutonomous()) {
 			
+			//set the arm to the desired position
 			arm.setArm(armPosition);
-			
-			//accelerate motors slowly
-			//drive.rampVoltage();
 
 			System.out.println(gyro.getAngle());
 			
+			//stop ramping voltage once halfway there
 			if (Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
 				drive.rampVoltage(0.0);
 			}
 			
+			//drive the motors the proper way
 			drive.drive(0.0, 0.0, -rotationSpeed, false, SpeedMode.FAST);
 		}
 		
+		//stop the motors
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
 		
+		//ramp the motors again for the future
 		drive.rampVoltage();
 		
 	}
@@ -215,6 +268,13 @@ public abstract class AutonControlScheme {
 		rotate(speed, angle, counterClockwise);
 	}
 	
+	/**
+	 * The preferred method of rotating for 2018 with default speed
+	 * 
+	 * @param angle the angle to turn
+	 * @param counterClockwise true if we want to turn counterclockwise
+	 * @param armPosition the arm position to set to while moving
+	 */
 	public void rotate(double angle, boolean counterClockwise, Arm.Position armPosition) {
 		rotate(speed, angle, counterClockwise, armPosition);
 	}
