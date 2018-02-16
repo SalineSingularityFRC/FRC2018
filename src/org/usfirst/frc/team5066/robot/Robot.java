@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 	int armPneumaticsForward;
 	int armPneumaticsReverse;
 	
-	final double LIFT_SPEED = 1.0;
+	final double LIFT_SPEED = 0.5;
 	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
