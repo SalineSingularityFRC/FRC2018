@@ -1,4 +1,4 @@
-dpackage org.usfirst.frc.team5066.autonomous2018;
+package org.usfirst.frc.team5066.autonomous2018;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.robot.Arm;
@@ -18,12 +18,12 @@ public class MRSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35, Arm.Position.TRAVEL, false);
+		super.vertical(48, Arm.Position.TRAVEL, false);
 		super.rotate( 90, false, Arm.Position.TRAVEL);
-		super.vertical(42-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		super.vertical(48-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate( 90, true, Arm.Position.SWITCH);
 		//raise PC
-		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(95-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		super.verticalReverse((32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
 		//Lower PC manipulator

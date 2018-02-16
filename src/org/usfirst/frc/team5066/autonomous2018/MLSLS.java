@@ -24,13 +24,14 @@ public class MLSLS extends AutonControlScheme {
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(84-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90, false,Arm.Position.TRAVEL);
-		super.vertical(43-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(95-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.verticalReverse((55-super.CenterRobotWidth),Arm.Position.TRAVEL, false);
+		super.verticalReverse ((35.5-super.CenterRobotWidth),Arm.Position.TRAVEL, false);
 		super.rotate(90, false,Arm.Position.TRAVEL);
 		//Lower PC manipulator
-		super.vertical(67-super.CenterRobotLength,Arm.Position.PICKUP, true);
-		super.verticalReverse((60-super.CenterRobotLength),Arm.Position.TRAVEL,false);
+		// If end PC is grabbed from side piramid will be pushed
+		super.vertical(63-super.CenterRobotLength,Arm.Position.PICKUP, true);
+		super.verticalReverse ((63-super.CenterRobotLength),Arm.Position.TRAVEL,false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(32.5-super.CenterRobotWidth,Arm.Position.TRAVEL, false);
 		intake.autonOuttake();
