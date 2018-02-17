@@ -23,7 +23,7 @@ public class LRS extends AutonControlScheme{
 		super.rotate(90,false);
 		//TODO check the following distance
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
-		super.rotate(90,false, Arm.Position.TRAVEL);
+		super.rotate(90,false, Arm.Position.SWITCH);
 		//lift arm
 		//TODO check the following distance
 		super.vertical(45, Arm.Position.SWITCH, false);
