@@ -7,17 +7,19 @@ import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
-public class RRSL extends AutonControlScheme {
+public class RightRightDogLeg extends AutonControlScheme {
 
-	public RRSL(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+	public RightRightDogLeg(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
-		// TODO Auto-generated method stub
-
+		//dog leg to switch
+		super.vertical(166-super.CenterRobotLength);
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		intake.autonOuttake();
 	}
 
 }
