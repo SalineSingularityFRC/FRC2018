@@ -20,10 +20,10 @@ public class LLS extends AutonControlScheme{
 	public void moveAuton() {
 		//dog leg to left switch
 		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		//rotate so robot is facing backwards
-		super.rotate(90, true, Arm.Position.SWITCH);
+		//rotate so robot is facing the switch
+		super.rotate(90, false, Arm.Position.SWITCH);
 		//lift arm
-		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 	}
 

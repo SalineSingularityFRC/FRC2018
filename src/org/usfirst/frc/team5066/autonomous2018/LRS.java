@@ -21,13 +21,12 @@ public class LRS extends AutonControlScheme{
 		//go around behind the switch to get to right switch
 		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90,false);
+		//TODO check the following distance
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90,false, Arm.Position.TRAVEL);
 		//lift arm
+		//TODO check the following distance
 		super.vertical(45, Arm.Position.SWITCH, false);
-		//rotating to face backwards to drop off cube
-		super.rotate(90, true, Arm.Position.SWITCH);
-		super.verticalReverse(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//release PC
 		intake.autonOuttake();
 	}

@@ -20,21 +20,24 @@ public class LLSOR extends AutonControlScheme {
 	public void moveAuton() {
 		//dog leg to switch
 		super.vertical(168-super.CenterRobotLength);
-		//rotating to face backwards to drop off cube
-		super.rotate(90, true, Arm.Position.SWITCH);
-		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		//rotating to face to drop off cube
+		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		//Pick up PC
 		//reverse a distance so that we can rotate without hitting side of switch
-		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		super.rotate(90, true, Arm.Position.PICKUP);
 		//go for PC that is second farthest out of the pyramid
 		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
 		super.rotate(90, true, Arm.Position.PICKUP);
 		super.vertical(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		//Head behind the switch to get to right switch
+		
+		//TODO What is happening here
+		
 		super.verticalReverse(60.5, Arm.Position.TRAVEL, false);//back up to previous position
-		super.rotate(180, false, Arm.Position.TRAVEL);//do a 180
+		super.rotate(180, false, Arm.Position.TRAVEL);//do a 180 //Why????
 		super.vertical(34.75+super.CenterRobotWidth);//clear the switch
 		super.rotate(90, false);//turn toward opp side
 		//go around the back of switch
