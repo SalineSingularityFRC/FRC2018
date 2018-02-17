@@ -18,10 +18,11 @@ public class LRSOL extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		//TODO call LRS.moveAuton()
+		LRS lrs = new LRS(super.drive, super.gyro, super.arm, super.intake);
+		lrs.moveAuton();
 		
 		//go around behind the switch to get to right switch
-		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		/*super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90,false);
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90,false, Arm.Position.TRAVEL);
@@ -32,6 +33,8 @@ public class LRSOL extends AutonControlScheme {
 		super.vertical(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//release PC
 		intake.autonOuttake();
+		*/
+		
 		super.verticalReverse(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//go over to pyramid of PCs
 		super.rotate(90, false, Arm.Position.TRAVEL);

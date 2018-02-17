@@ -17,6 +17,11 @@ public class LRSV extends AutonControlScheme {
 
 	@Override
 	public void moveAuton(){
+		
+		LRS lrs = new LRS(super.drive, super.gyro, super.arm, super.intake);
+		lrs.moveAuton();
+		
+		/*
 		//go around behind the switch to get to right switch
 		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90,false);
@@ -29,6 +34,8 @@ public class LRSV extends AutonControlScheme {
 		super.vertical(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//release PC
 		intake.autonOuttake();
+		*/
+		
 		super.verticalReverse(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//go over to pyramid of PCs
 		super.rotate(90, true, Arm.Position.TRAVEL);

@@ -18,12 +18,18 @@ public class LLSLS extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
+		
+		LLS lls = new LLS(super.drive, super.gyro, super.arm, super.intake);
+		lls.moveAuton();
+		
+		/*
 		//dog leg to switch
 		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		//rotating to face to drop off cube
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
-		intake.autonOuttake();
+		intake.autonOuttake();*/
+		
 		//Pick up PC
 		//reverse a distance so that we can rotate without hitting side of switch
 		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
