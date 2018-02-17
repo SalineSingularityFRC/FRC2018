@@ -75,6 +75,7 @@ public class Robot extends IterativeRobot {
 	
 	SendableChooser<Double> side;
 	SendableChooser<String> priority;
+	private double a, b, c;
 	
 	Timer timer;
 	
@@ -187,7 +188,6 @@ public class Robot extends IterativeRobot {
 			*/
 			timer = new Timer();
 			
-			side = new SendableChooser<Double>();
 			priority = new SendableChooser<String>();
 			priority.addDefault("Default program", new String("Default program"));
 			priority.addObject("Our Switch", new String("Our Switch"));
@@ -195,12 +195,17 @@ public class Robot extends IterativeRobot {
 			priority.addObject("Vault", new String("Vault"));
 			priority.addObject("Scale", new String("Scale"));
 			
+			side = new SendableChooser<Double>();
 			side.addDefault("Left", 0.0);
 			side.addObject("Middle", 2.0);
 			side.addObject("Right", 1.0);
 			
 			SmartDashboard.putData("Side:", side);
 			SmartDashboard.putData("Priority:", priority);
+			
+			a = 0.0;
+			b = 0.0;
+			c = 0.0;
 		}
 	}
 
@@ -221,69 +226,81 @@ public class Robot extends IterativeRobot {
 			{new LRSRS(drive, gyro, arm, intake), new LRSV(drive, gyro, arm, intake), 
 				new LRSOL(drive, gyro, arm, intake), new LRSOR(drive, gyro, arm, intake)},
 			{new LLT(drive, gyro, arm, intake), new LRT(drive, gyro, arm, intake)}},
+					
 			{{new RLSLS(drive, gyro, arm, intake), new RLSV(drive, gyro, arm, intake), 
 				new RLSOL(drive, gyro, arm, intake), new RLSOR(drive, gyro, arm, intake)},
 			{new RRSRS(drive, gyro, arm, intake), new RRSV(drive, gyro, arm, intake), 
 				new RRSOL(drive, gyro, arm, intake), new RRSOR(drive, gyro, arm, intake)},
 			{new RRT(drive, gyro, arm, intake), new RLT(drive, gyro, arm, intake)}},
+			
 			{{new MLSLS(drive, gyro, arm, intake), new MLSV(drive, gyro, arm, intake),
 				new MLSOL(drive, gyro, arm, intake), new MLSOR(drive, gyro, arm, intake)},
 			{new MRSRS(drive, gyro, arm, intake), new MRSV(drive, gyro, arm, intake),
 				new MRSOL(drive, gyro, arm, intake), new MRSOL(drive, gyro, arm, intake)}}};
 		
-			String gameData;
-			double a=0, b=0,c=0;
-			gameData = DriverStation.getInstance().getGameSpecificMessage();		
-			
-			a = side.getSelected();
-			
-			/*
-			if(side.getSelected().equals("Right")){
-				a=1;
-				SmartDashboard.putString("Starting Position", "Starting Right");
+		
+		//(new SideStraight(drive, gyro)).moveAuton();
+		this.chooseAuton();	
+		autonPrograms[(int) a][(int) b][(int) c].moveAuton();
+		
+	}
+	
+	private void chooseAuton() {
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();		
+		
+		this.a = side.getSelected();
+		
+		/*
+		if(side.getSelected().equals("Right")){
+			a=1;
+			SmartDashboard.putString("Starting Position", "Starting Right");
+		}
+		else if(side.getSelected().equals("Middle")){
+			a=2;
+			SmartDashboard.putString("Starting Position", "Starting Middle");
+		}
+		else SmartDashboard.putString("Starting Position", "Starting Left");*/
+		
+		
+		
+		if (priority.getSelected().equals("Our Vault")){
+			c = 1.0;
+			SmartDashboard.putString("Priorities", "The robot is going toward the vault");
+		}
+		
+		else if(priority.getSelected().equals("Opponent Switch")){
+			if(gameData.charAt(2) == 'R') {
+				c = 3.0;
+				SmartDashboard.putString("Priorities", "The robot is going toward the opponents Right Switch");
 			}
-			else if(side.getSelected().equals("Middle")){
-				a=2;
-				SmartDashboard.putString("Starting Position", "Starting Middle");
+			else {
+				c = 2.0;
+				SmartDashboard.putString("Priorities", "The robot is going toward the opponents Left Switch");
 			}
-			else SmartDashboard.putString("Starting Position", "Starting Left");*/
-			
-			if (priority.getSelected().equals("Scale")) {
-				if (gameData.charAt(1) == 'L') {
-					b = 2;
-				}
-				else {
-					b
-				}
+		}
+		
+		else if (priority.getSelected().equals("Scale") && a != 2.0) {
+			b = 2.0;
+			if (gameData.charAt(1) == 'L') {
+				c = 0.0;
 			}
-			else if(gameData.charAt(0) == 'R'){
-				b=1;
-				SmartDashboard.putString("Switch", "Our Switch is on the right");
+			else {
+				c = 1.0;
 			}
-			else SmartDashboard.putString("Switch", "Our Switch is on the left");
-			
-			if(priority.getSelected().equals("Our Vault")){
-				c=1;
-				SmartDashboard.putString("Priorities", "The robot is going toward the vault");
-			}
-			else if(priority.getSelected().equals("Opponent Switch")){
-				if(gameData.charAt(2) == 'R') {
-					c=3;
-					SmartDashboard.putString("Priorities", "The robot is going toward the opponents Right Switch");
-				}
-				else {
-					c=2;
-					SmartDashboard.putString("Priorities", "The robot is going toward the opponents Left Switch");
-				}
-			}
-			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
-			
-			//(new SideStraight(drive, gyro)).moveAuton();
-			autonPrograms[(int) a][(int) b][(int) c].moveAuton();
-			
-			
-				//autonomousCommand = (Command) side.getSelected();
-				//autonomousCommand.start();
+			return;
+		}
+		
+		else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
+		
+		
+		if(gameData.charAt(0) == 'R'){
+			b = 1.0;
+			SmartDashboard.putString("Switch", "Our Switch is on the right");
+		}
+		else SmartDashboard.putString("Switch", "Our Switch is on the left");
+		
 	}
 
 	/**
