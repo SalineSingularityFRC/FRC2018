@@ -7,9 +7,9 @@ import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
-public class LeftSwitchFrontLeftSwitch extends AutonControlScheme {
+public class LeftSwitchFrontVault extends AutonControlScheme {
 
-	public LeftSwitchFrontLeftSwitch(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+	public LeftSwitchFrontVault(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
 	}
 
@@ -18,10 +18,8 @@ public class LeftSwitchFrontLeftSwitch extends AutonControlScheme {
 		super.verticalReverse(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(60.5-super.CenterRobotLengthWithArm, Arm.Position.PICKUP, true);
-		super.verticalReverse(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.SWITCH);
-		super.vertical(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		intake.autonOuttake();
+		super.verticalReverse(42.5, Arm.Position.TRAVEL, false);
+		super.rotate(90, false, Arm.Position.TRAVEL);
 	}
 
 }

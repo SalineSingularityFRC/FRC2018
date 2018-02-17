@@ -19,7 +19,7 @@ public class LeftSwitchFrontLeftScale extends AutonControlScheme {
 		super.rotate(90, true,Arm.Position.TRAVEL);
 		super.vertical(30+super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90, false);
-		super.vertical(86+super.CenterRobotCorner+super.CenterRobotWidth);
+		super.vertical(86+super.CenterRobotCorner+super.CenterRobotLengthWithArm);
 		super.rotate(90, false);
 		super.vertical(18.5);
 		super.rotate(90, false, Arm.Position.PICKUP);
