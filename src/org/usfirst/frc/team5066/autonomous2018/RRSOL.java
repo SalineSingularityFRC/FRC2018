@@ -17,19 +17,24 @@ public class RRSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		//lightning bolt to switch
-		super.vertical(70-(super.CenterRobotLength/2));
-		super.rotate(90, true);
-		super.vertical(72.31-super.CenterRobotWidth);
+		//dog leg to switch
+		super.vertical(166-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		//pick up PC
-		super.vertical(-32.5);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.PICKUP);
+		//Pick up PC
+		//reverse a distance so that we can rotate without hitting side of switch
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		super.rotate(90, true, Arm.Position.PICKUP);
+		//go for PC that is second farthest out of the pyramid
+		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
+		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(60.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
-		//head towards opponet left switch
-		super.vertical(-(60.5-super.CenterRobotLength), Arm.Position.TRAVEL, true);//go back to previous position
+		//head towards opponent left switch
+		super.verticalReverse(60.5-super.CenterRobotLength, Arm.Position.TRAVEL, true);//go back to previous position
 		super.rotate(180, true, Arm.Position.TRAVEL);//rotate 180
 		super.vertical(40.25+super.CenterRobotWidth);//clear the edge of switch
 		super.rotate(90, true);//turn toward opp side

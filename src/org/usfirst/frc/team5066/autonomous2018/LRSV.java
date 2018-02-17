@@ -17,19 +17,21 @@ public class LRSV extends AutonControlScheme {
 
 	@Override
 	public void moveAuton(){
-		//Get to the right switch by going around the back
+		//go around behind the switch to get to right switch
 		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
 		super.rotate(90,false);
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90,false, Arm.Position.TRAVEL);
+		//lift arm
 		super.vertical(45, Arm.Position.SWITCH, false);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(5, Arm.Position.SWITCH, false);
-		//release PC onto switch and reverse
+		//rotating to face backwards to drop off cube
+		super.rotate(90, true, Arm.Position.SWITCH);
+		super.verticalReverse(super.CenterRobotLength, Arm.Position.SWITCH, false);
+		//release PC
 		intake.autonOuttake();
-		super.verticalReverse(5, Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//go over to pyramid of PCs
-		super.rotate(90, true, Arm.Position.TRAVEL);
+		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		//arm is lowered, activate intake
