@@ -13,8 +13,7 @@ public class RightLeftScale extends AutonControlScheme {
 		super(drive, gyro, arm, intake);
 
 	@Override
-	public void moveAuton() {
-		// TODO Auto-generated method stub
+	public void moveAuton() {		
 		super.vertical(120+(45/2)+56+13+super.CenterRobotLength);
 		super.rotate(90,true);
 		super.vertical(132-29.69+90);
