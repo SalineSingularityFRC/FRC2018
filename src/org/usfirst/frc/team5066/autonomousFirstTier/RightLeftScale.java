@@ -11,14 +11,17 @@ public class RightLeftScale extends AutonControlScheme {
 	
 	public RightLeftScale(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
+	}
 
 	@Override
 	public void moveAuton() {		
 		super.vertical(120+(45/2)+56+13+super.CenterRobotLength);
 		super.rotate(90,true);
-		super.vertical(132-29.69+90);
+		super.vertical((132-29.69+90+super.CenterRobotLengthWithArm), Arm.Position.TRAVEL, false);
 		super.rotate(90, true);
-		super.verticalReverse(299.65-(120+(45/2)+56+13+super.CenterRobotLength), Arm.Position.LEVELSCALE, false);
+		super.verticalReverse(299.65-(120+(45/2)+56+13+super.CenterRobotLength), Arm.Position.HIGHSCALE, false);
+		super.rotate(90, false, Arm.Position.HIGHSCALE);
+		super.verticalReverse(super.CenterRobotLength, Arm.Position.HIGHSCALE, false);
 		intake.autonOuttake();
 	}
 
