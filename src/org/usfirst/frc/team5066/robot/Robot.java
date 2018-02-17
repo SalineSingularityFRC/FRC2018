@@ -206,6 +206,8 @@ public class Robot extends IterativeRobot {
 			a = 0.0;
 			b = 0.0;
 			c = 0.0;
+			
+			port = 10;
 		}
 	}
 
@@ -327,7 +329,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-		//currentScheme.lift(lift, timer);
+		currentScheme.lift(lift, timer);
 		//currentScheme.arm(arm);
 		//currentScheme.intake(intake);
 		
@@ -340,7 +342,7 @@ public class Robot extends IterativeRobot {
 		
 		testMode = TestMode.TALON;
 		
-		port = 1;
+		
 		prevRb = false;
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
@@ -484,7 +486,10 @@ public class Robot extends IterativeRobot {
 		//dPneumatics.setOff();
 		//System.out.println("right: " + drive.getRightPosition());
 		//System.out.println("left: " + drive.getLeftPosition());
-		System.out.println(gyro.getAngle());
+		//System.out.println(gyro.getAngle());
+		
+		System.out.println("left:" + lift.getLeftUltra());
+		System.out.println("    right:" + lift.getRightUltra());
 	}
 	
 	private void loadProperties() {
@@ -537,11 +542,11 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
 		
-		properties.addDefaultProp("liftLeft1", 8);
-		properties.addDefaultProp("liftRight1", 5);
+		properties.addDefaultProp("liftLeft1", 10);
+		properties.addDefaultProp("liftRight1", 2);
 		
-		properties.addDefaultProp("ultraRightInput", 6);
-		properties.addDefaultProp("ultraRightOutput", 7);
+		properties.addDefaultProp("ultraRightInput", 1);
+		properties.addDefaultProp("ultraRightOutput", 2);
 		properties.addDefaultProp("ultraLeftInput", 8);
 		properties.addDefaultProp("ultraLeftOutput", 9);
 		
@@ -549,9 +554,9 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
-		properties.addDefaultProp("intakeRight", 3);
-		properties.addDefaultProp("intakeLeft", 6);
-		properties.addDefaultProp("intakeSensorPort", 2);
+		properties.addDefaultProp("intakeRight", 4);
+		properties.addDefaultProp("intakeLeft", 8);
+		properties.addDefaultProp("intakeSensorPort", 5);
 		
 	}
 }

@@ -92,7 +92,7 @@ public class Lift {
 	public boolean controlRightLift (double control){
 		
 		ctrl = control;
-		
+		/*
 		if (ultraRight.getRangeInches() < FINISHDISTANCE && ctrl > CLOSEENOUGHSPEED) {
 			ctrl = CLOSEENOUGHSPEED;
 		}
@@ -100,7 +100,7 @@ public class Lift {
 		if (ctrl < 0) {
 			ctrl /= 4;
 		}
-		
+		*/
 		right1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
 		
 		/*
@@ -128,14 +128,15 @@ public class Lift {
 		}
 		*/
 		//return right limit high switch
-		return ultraRight.getRangeInches() < FINISHDISTANCE;
+		return false;
+		//return ultraRight.getRangeInches() < FINISHDISTANCE;
 		
 	}
 	
 	public boolean controlLeftLift (double control) {
 		
 		ctrl = control;
-		
+		/*
 		if (ultraRight.getRangeInches() < FINISHDISTANCE && ctrl > CLOSEENOUGHSPEED) {
 			ctrl = CLOSEENOUGHSPEED;
 		}
@@ -143,8 +144,8 @@ public class Lift {
 		if (ctrl < 0) {
 			ctrl /= 4;
 		}
-		
-		right1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
+		*/
+		left1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
 		
 		/*
 		//raise or lower lift with controls
@@ -171,7 +172,8 @@ public class Lift {
 		}
 		*/
 		//return left limit high switch
-		return ultraLeft.getRangeInches() < FINISHDISTANCE;
+		return false;
+		//return ultraLeft.getRangeInches() < FINISHDISTANCE;
 	}
 	
 	public void resetLeft(boolean reset){
@@ -188,6 +190,14 @@ public class Lift {
 			right1.set(ControlMode.PercentOutput, -normalSpeed);
 			//right2.set(ControlMode.PercentOutput, -normalSpeed);
 		}
+	}
+	
+	public double getRightUltra() {
+		return ultraRight.getRangeInches();
+	}
+	
+	public double getLeftUltra() {
+		return ultraLeft.getRangeInches();
 	}
 
 }

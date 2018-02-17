@@ -81,25 +81,39 @@ public class TankDrive implements ControlScheme {
 		if (timer.get() >= 105.0 || safetyDisabled) {
 			
 			//release left lift until lower limit switch is pressed
-			if (!leftLowLimit && lift.releaseLiftLeft(logitechSystems.getL3())) {
-				leftLowLimit = true;
-				DriverStation.reportError("left lower limit reached", true);
+			if (!leftLowLimit) {
+				if (lift.releaseLiftLeft(logitechSystems.getL3())) {
+			
+					leftLowLimit = true;
+					DriverStation.reportError("left lower limit reached", true);
+			
+				}
 			}
 			
 			//release right lift until lower limit switch is pressed
-			if (!rightLowLimit && lift.releaseLiftRight(logitechSystems.getR3())) {
+			if (!rightLowLimit) {
+				if (lift.releaseLiftRight(logitechSystems.getR3())) {
+			
 				rightLowLimit = true;
 				DriverStation.reportError("right lower limit reached", true);
+				}
 			}
 		}
+		
 		//lifts right lift. When reached upper limit switch, ping driver
-		if (rightLowLimit && lift.controlRightLift(logitechSystems.getRS_Y())) {
-			DriverStation.reportError("right upper limit reached", true);
+		if (rightLowLimit) {
+			if (lift.controlRightLift(-logitechSystems.getRS_Y())) {
+		
+				DriverStation.reportError("right upper limit reached", true);
+			}
 		}
 				
 		//lifts left lift. When reached upper limit switch, ping driver
-		if (leftLowLimit && lift.controlLeftLift(logitechSystems.getLS_Y())) {
+		if (leftLowLimit) {
+			if (lift.controlLeftLift(-logitechSystems.getLS_Y())) {
+		
 			DriverStation.reportError("left upper limit reached", true);
+			}
 		}
 		
 		
