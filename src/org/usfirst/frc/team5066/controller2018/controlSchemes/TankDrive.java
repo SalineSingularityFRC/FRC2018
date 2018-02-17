@@ -52,17 +52,6 @@ public class TankDrive implements ControlScheme {
 	
 	@Override
 	public void drive(SingDrive sd, DrivePneumatics dPneu) {
-		
-		/*
-		//set speedMode
-		if(logitechDrive.getLB()) {
-			speedMode = SpeedMode.SLOW;
-		} else if(logitechDrive.getRB()) {
-			speedMode = SpeedMode.FAST;
-		} else {
-			speedMode = SpeedMode.NORMAL;
-		}*/
-		
 
 		if (logitechDrive.getRB())
 			speed = true;
@@ -92,32 +81,30 @@ public class TankDrive implements ControlScheme {
 		if (timer.get() >= 105.0 || safetyDisabled) {
 			
 			//release left lift until lower limit switch is pressed
-			if (!leftLowLimit && lift.releaseLiftLeft(logitechDrive.getPOVDown(), logitechDrive.getPOVLeft())) {
+			if (!leftLowLimit && lift.releaseLiftLeft(logitechSystems.getL3())) {
 				leftLowLimit = true;
 				DriverStation.reportError("left lower limit reached", true);
 			}
 			
 			//release right lift until lower limit switch is pressed
-			if (!rightLowLimit && lift.releaseLiftRight(logitechDrive.getAButton(), logitechDrive.getBButton())) {
+			if (!rightLowLimit && lift.releaseLiftRight(logitechSystems.getR3())) {
 				rightLowLimit = true;
 				DriverStation.reportError("right lower limit reached", true);
 			}
 		}
 		//lifts right lift. When reached upper limit switch, ping driver
-		if (rightLowLimit && lift.controlRightLift(logitechDrive.getYButton(), logitechDrive.getAButton(),
-				logitechDrive.getBButton(), logitechDrive.getXButton())) {
+		if (rightLowLimit && lift.controlRightLift(logitechSystems.getRS_Y())) {
 			DriverStation.reportError("right upper limit reached", true);
 		}
 				
 		//lifts left lift. When reached upper limit switch, ping driver
-		if (leftLowLimit && lift.controlLeftLift(logitechDrive.getPOVUp(), logitechDrive.getPOVDown(),
-				logitechDrive.getPOVRight(), logitechDrive.getPOVLeft())) {
+		if (leftLowLimit && lift.controlLeftLift(logitechSystems.getLS_Y())) {
 			DriverStation.reportError("left upper limit reached", true);
 		}
 		
 		
-		lift.resetLeft(logitechDrive.getBackButton());
-		lift.resetRight(logitechDrive.getStartButton());
+		//lift.resetLeft(logitechDrive.getBackButton());
+		//lift.resetRight(logitechDrive.getStartButton());
 		
 		
 	}

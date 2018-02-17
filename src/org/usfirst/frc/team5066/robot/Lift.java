@@ -27,7 +27,10 @@ public class Lift {
 	private final double RELEASEDISTANCE = 20.0;
 	private final double FINISHDISTANCE = 5.0;
 	
+	private final double CLOSEENOUGHSPEED = 0.6;
+	
 	double normalSpeed, highSpeed;
+	double ctrl;
 	
 	
 	public Lift(int right1, int left1, int ultraRightInput, int ultraRightOutput,
@@ -38,6 +41,7 @@ public class Lift {
 		this.left1 = new VictorSPX(left1);
 		//this.left2 = new TalonSRX(left2);
 		
+		
 		this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
 		this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
 		
@@ -47,16 +51,11 @@ public class Lift {
 		
 	}
 	
-	public boolean releaseLiftRight(boolean rightReleaseNormal, boolean rightReleaseHigh) {
+	public boolean releaseLiftRight(boolean rightReleaseNormal) {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (rightReleaseHigh && ultraRight.getRangeInches() > RELEASEDISTANCE) {
-			right1.set(ControlMode.PercentOutput, highSpeed);
-			//right2.set(ControlMode.PercentOutput, highSpeed);
-		}
-		
-		else if (rightReleaseNormal && ultraRight.getRangeInches() > RELEASEDISTANCE) {
+		if (rightReleaseNormal && ultraRight.getRangeInches() > RELEASEDISTANCE) {
 			right1.set(ControlMode.PercentOutput, normalSpeed);
 			//right2.set(ControlMode.PercentOutput, normalSpeed);
 		}	
@@ -71,16 +70,11 @@ public class Lift {
 		
 	}
 	
-	public boolean releaseLiftLeft(boolean leftReleaseNormal, boolean leftReleaseHigh) {
+	public boolean releaseLiftLeft(boolean leftReleaseNormal) {
 		
 		//release lift if button is pressed 
 		//and not touching lower limit switch
-		if (leftReleaseHigh && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
-			left1.set(ControlMode.PercentOutput, highSpeed);
-			//left2.set(ControlMode.PercentOutput, highSpeed);
-		}
-		
-		else if (leftReleaseHigh && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
+		if (leftReleaseNormal && ultraLeft.getRangeInches() > RELEASEDISTANCE) {
 			left1.set(ControlMode.PercentOutput, normalSpeed);
 			//left2.set(ControlMode.PercentOutput, normalSpeed);
 		
@@ -95,9 +89,21 @@ public class Lift {
 		
 	}
 	
-	public boolean controlRightLift (boolean rightLiftUpNormal, boolean rightLiftDownNormal, 
-			boolean rightLiftUpHigh, boolean rightLiftDownHigh){
+	public boolean controlRightLift (double control){
 		
+		ctrl = control;
+		
+		if (ultraRight.getRangeInches() < FINISHDISTANCE && ctrl > CLOSEENOUGHSPEED) {
+			ctrl = CLOSEENOUGHSPEED;
+		}
+		
+		if (ctrl < 0) {
+			ctrl /= 4;
+		}
+		
+		right1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
+		
+		/*
 		//raise or lower lift with controls
 		if (rightLiftUpHigh && ultraRight.getRangeInches() > FINISHDISTANCE){
 			right1.set(ControlMode.PercentOutput, highSpeed);
@@ -120,15 +126,27 @@ public class Lift {
 			right1.set(ControlMode.PercentOutput, 0.0);
 			//right2.set(ControlMode.PercentOutput, 0.0);
 		}
-		
+		*/
 		//return right limit high switch
 		return ultraRight.getRangeInches() < FINISHDISTANCE;
 		
 	}
 	
-	public boolean controlLeftLift (boolean leftLiftUpNormal, boolean leftLiftDownNormal,
-			boolean leftLiftUpHigh, boolean leftLiftDownHigh) {
+	public boolean controlLeftLift (double control) {
 		
+		ctrl = control;
+		
+		if (ultraRight.getRangeInches() < FINISHDISTANCE && ctrl > CLOSEENOUGHSPEED) {
+			ctrl = CLOSEENOUGHSPEED;
+		}
+		
+		if (ctrl < 0) {
+			ctrl /= 4;
+		}
+		
+		right1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
+		
+		/*
 		//raise or lower lift with controls
 		if (leftLiftUpHigh && ultraRight.getRangeInches() > FINISHDISTANCE){
 			right1.set(ControlMode.PercentOutput, highSpeed);
@@ -151,7 +169,7 @@ public class Lift {
 			left1.set(ControlMode.PercentOutput, 0.0);
 			//left2.set(ControlMode.PercentOutput, 0.0);
 		}
-		
+		*/
 		//return left limit high switch
 		return ultraLeft.getRangeInches() < FINISHDISTANCE;
 	}
