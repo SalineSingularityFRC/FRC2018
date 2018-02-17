@@ -21,13 +21,15 @@ public class MLSOL extends AutonControlScheme {
 		super.vertical(48, Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(84-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		//rotate so that robot is facing backwards
 		super.rotate(90, true, Arm.Position.SWITCH);
 		super.verticalReverse(95-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		super.vertical((32.5-super.CenterRobotWidth), Arm.Position.TRAVEL, false);
-		super.rotate(90,true, Arm.Position.PICKUP);
+		super.rotate(90, true, Arm.Position.PICKUP);
 		//Lower PC manipulator
-		super.verticalReverse(100-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.vertical(63-super.CenterRobotLength,Arm.Position.PICKUP, true);
+		super.verticalReverse(63-super.CenterRobotLength, Arm.Position.PICKUP, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(201-super.CenterRobotWidth, Arm.Position.SWITCH, false);
 	}

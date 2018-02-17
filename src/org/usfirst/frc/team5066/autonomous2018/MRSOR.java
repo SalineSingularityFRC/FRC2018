@@ -18,17 +18,18 @@ public class MRSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(35, Arm.Position.TRAVEL, false);
+		super.vertical(48, Arm.Position.TRAVEL, false);
 		super.rotate( 90, false, Arm.Position.TRAVEL);
-		super.vertical(42-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
-		super.rotate( 90, true, Arm.Position.SWITCH);
+		super.vertical(48-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		//rotate so robot is facing backwards
+		super.rotate( 90, false, Arm.Position.SWITCH);
 		//raise PC
-		super.vertical(105-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.verticalReverse(95-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//Drop the PC
 		intake.autonOuttake();
-		super.verticalReverse((32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
+		super.vertical((32.5-super.CenterRobotLength), Arm.Position.SWITCH, false);
 		//Lower PC manipulator
-		super.rotate(90, true, Arm.Position.PICKUP);
+		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(54-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		//Pick up PC
 		super.rotate(180, true, Arm.Position.TRAVEL);
