@@ -20,13 +20,14 @@ public class LLSLS extends AutonControlScheme{
 	public void moveAuton() {
 		//dog leg to switch
 		super.vertical(168-super.CenterRobotLength);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		//rotating to face backwards to drop off cube
+		super.rotate(90, true, Arm.Position.SWITCH);
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		//Pick up PC
 		//reverse a distance so that we can rotate without hitting side of switch
-		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
-		super.rotate(90, false, Arm.Position.PICKUP);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.rotate(90, true, Arm.Position.PICKUP);
 		//go for PC that is second farthest out of the pyramid
 		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
 		super.rotate(90, true, Arm.Position.PICKUP);
@@ -35,7 +36,7 @@ public class LLSLS extends AutonControlScheme{
 		super.verticalReverse(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(90, true);
 		super.vertical(49-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		super.rotate(90, false, Arm.Position.SWITCH);
+		super.rotate(90, true, Arm.Position.SWITCH);
 		intake.autonOuttake();
 	}
 
