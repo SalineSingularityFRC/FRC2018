@@ -15,7 +15,8 @@ public class RightRightScale extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(324-super.CenterRobotLength);//go to the null zone
+		super.vertical(100-super.CenterRobotLength, Arm.Position.TRAVEL, false);//go to the null zone
+		super.vertical(224, Arm.Position.HIGHSCALE, false);
 		super.rotate(90, true, Arm.Position.HIGHSCALE);//turn toward center
 		super.vertical(36.31-super.CenterRobotWidth, Arm.Position.HIGHSCALE, false);//position to be in front of switch
 		intake.autonOuttake();
