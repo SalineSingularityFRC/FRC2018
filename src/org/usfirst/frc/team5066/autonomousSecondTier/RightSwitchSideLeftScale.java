@@ -11,7 +11,7 @@ public class RightSwitchSideLeftScale extends AutonControlScheme {
 	
 	public RightSwitchSideLeftScale(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
-	
+	}
 	@Override
 	public void moveAuton() {
 		// TODO Auto-generated method stub
