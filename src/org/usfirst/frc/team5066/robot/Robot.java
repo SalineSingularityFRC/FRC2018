@@ -73,8 +73,8 @@ public class Robot extends IterativeRobot {
 	
 	ControlScheme currentScheme;
 	
-	SendableChooser side;
-	SendableChooser priority;
+	SendableChooser<Double> side;
+	SendableChooser<String> priority;
 	
 	Timer timer;
 	
@@ -187,16 +187,16 @@ public class Robot extends IterativeRobot {
 			*/
 			timer = new Timer();
 			
-			side = new SendableChooser();
-			priority = new SendableChooser();
+			side = new SendableChooser<Double>();
+			priority = new SendableChooser<String>();
 			priority.addDefault("Default program", new String("Default program"));
 			priority.addObject("Our Switch", new String("Our Switch"));
 			priority.addObject("Opponent Switch", new String("Opponent Switch"));
 			priority.addObject("Our Vault", new String("Our Vault"));
 			
-			side.addDefault("Left", new String("Left"));
-			side.addObject("Middle", new String("Middle"));
-			side.addObject("Right", new String("Right"));
+			side.addDefault("Left", 0.0);
+			side.addObject("Middle", 2.0);
+			side.addObject("Right", 1.0);
 			
 			SmartDashboard.putData("Side:", side);
 			SmartDashboard.putData("Priority:", priority);
@@ -229,9 +229,12 @@ public class Robot extends IterativeRobot {
 				new MRSOL(drive, gyro, arm, intake), new MRSOL(drive, gyro, arm, intake)}}};
 		
 			String gameData;
-			int a=0,b=0,c=0;
+			double a=0, b=0,c=0;
 			gameData = DriverStation.getInstance().getGameSpecificMessage();		
 			
+			a = side.getSelected();
+			
+			/*
 			if(side.getSelected().equals("Right")){
 				a=1;
 				SmartDashboard.putString("Starting Position", "Starting Right");
@@ -240,7 +243,7 @@ public class Robot extends IterativeRobot {
 				a=2;
 				SmartDashboard.putString("Starting Position", "Starting Middle");
 			}
-			else SmartDashboard.putString("Starting Position", "Starting Left");
+			else SmartDashboard.putString("Starting Position", "Starting Left");*/
 			
 			if(gameData.charAt(0) == 'R'){
 				b=1;
@@ -265,7 +268,7 @@ public class Robot extends IterativeRobot {
 			else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
 			
 			//(new SideStraight(drive, gyro)).moveAuton();
-			autonPrograms[a][b][c].moveAuton();
+			autonPrograms[(int) a][(int) b][(int) c].moveAuton();
 			
 			
 				//autonomousCommand = (Command) side.getSelected();
