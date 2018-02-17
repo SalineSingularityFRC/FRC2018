@@ -20,6 +20,7 @@ public abstract class AutonControlScheme {
 	public static final double encoderTicks = 30720;
 	public static final double CenterRobotWidth = 27.5;//TODO change if have bumpers
 	public final double CenterRobotLength = 32.5;//TODO change if have bumpers (16.3 is half-way w/o bumpers)
+	public final double CenterRobotLengthWithArm = 33;
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
 	private static final double speed = 0.5;
 	
