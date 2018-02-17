@@ -17,11 +17,14 @@ public class RRSOL extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		//dog leg to switch
+		RRS rrs = new RRS(super.drive, super.gyro, super.arm, super.intake);
+		rrs.moveAuton();
+		/*//dog leg to switch
 		super.vertical(166-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		*/
 		//pick up PC
 		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);

@@ -18,13 +18,16 @@ public class RLSLS extends AutonControlScheme {
 	
 	@Override
 	public void moveAuton() {
-		//lightning bolt to switch
+		RLS rls = new RLS(super.drive, super.gyro, super.arm, super.intake);
+		rls.moveAuton();
+		/*//lightning bolt to switch
 		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90,true);
 		super.vertical(180.31-super.CenterRobotWidth);
 		super.rotate(90,false, Arm.Position.SWITCH);
 		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
+		*/
 		//pick up power cube
 		super.vertical(- (32.5-super.CenterRobotWidth));
 		super.rotate(90,false, Arm.Position.PICKUP);
