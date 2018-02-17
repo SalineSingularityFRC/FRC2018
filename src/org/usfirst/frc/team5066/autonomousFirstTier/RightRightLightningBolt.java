@@ -17,7 +17,7 @@ public class RightRightLightningBolt extends AutonControlScheme {
 	public void moveAuton() {
 		super.vertical(70-(super.CenterRobotLength/2));
 		super.rotate(90, true);
-		super.vertical(72.31);
+		super.vertical(85.25-29.69+18);
 		super.rotate(90, false, Arm.Position.SWITCH);
 		super.vertical(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
