@@ -15,6 +15,7 @@ public class RRS extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		//dog leg to switch
 		super.vertical(166-super.CenterRobotLength);
 		super.rotate(90, true, Arm.Position.SWITCH);
 		super.vertical(43.81-super.CenterRobotWidth, Arm.Position.SWITCH, false);

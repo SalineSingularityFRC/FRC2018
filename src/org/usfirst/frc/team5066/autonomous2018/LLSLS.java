@@ -14,27 +14,28 @@ public class LLSLS extends AutonControlScheme{
 
 	public LLSLS(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168-super.CenterRobotLength, Arm.Position.SWITCH, false);
-		//raise arm
+		//dog leg to switch
+		super.vertical(168-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.vertical(-0.5, 5, Arm.Position.SWITCH, false);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(28 + 2*super.CenterRobotWidth, Arm.Position.TRAVEL, false);//don't know exactly
+		//Pick up PC
+		//reverse a distance so that we can rotate without hitting side of switch
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.PICKUP);
+		//go for PC that is second farthest out of the pyramid
+		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
 		super.rotate(90, true, Arm.Position.PICKUP);
-		//pick up block
-		super.vertical(61, Arm.Position.PICKUP, true);//don't know exactly
-		super.vertical(-0.5, 61, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(30, Arm.Position.SWITCH, false);
-		//lift arm
+		super.vertical(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//Put PC in the Switch
+		super.verticalReverse(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		super.rotate(90, true);
+		super.vertical(49-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(5, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 	}
 

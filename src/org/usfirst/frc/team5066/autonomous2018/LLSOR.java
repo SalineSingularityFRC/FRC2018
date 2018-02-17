@@ -18,25 +18,28 @@ public class LLSOR extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(168-super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		//raise arm
+		//dog leg to switch
+		super.vertical(168-super.CenterRobotLength);
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(5, Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
-		super.vertical(-0.5, 5, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		//lower arm
-		super.vertical(28-2*super.CenterRobotWidth, Arm.Position.TRAVEL, false);//don't know exactly
-		super.rotate(90,true, Arm.Position.PICKUP);
-		//pick up block
-		super.vertical(61, Arm.Position.PICKUP, true);
-		super.vertical(-0.5, 61, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(50-super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		//Pick up PC
+		//reverse a distance so that we can rotate without hitting side of switch
+		super.verticalReverse(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.rotate(90, false, Arm.Position.PICKUP);
+		//go for PC that is second farthest out of the pyramid
+		super.vertical(49-super.CenterRobotLength, Arm.Position.PICKUP, false);
+		super.rotate(90, true, Arm.Position.PICKUP);
+		super.vertical(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.PICKUP, true);
+		//Head behind the switch to get to right switch
+		super.verticalReverse(60.5, Arm.Position.TRAVEL, false);//back up to previous position
+		super.rotate(180, false, Arm.Position.TRAVEL);//do a 180
+		super.vertical(34.75+super.CenterRobotWidth);//clear the switch
+		super.rotate(90, false);//turn toward opp side
+		//go around the back of switch
+		super.vertical(110, Arm.Position.TRAVEL, false); 
 		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(264-super.CenterRobotWidth, Arm.Position.SWITCH, false);
-		super.rotate(90, false, Arm.Position.SWITCH);
-		intake.autonOuttake();
+		super.vertical(240.5);//go all the way across the field to get to OR
 	}
 
 }

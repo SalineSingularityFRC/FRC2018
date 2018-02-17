@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 	int armPneumaticsForward;
 	int armPneumaticsReverse;
 	
-	final double LIFT_SPEED = 1.0;
+	final double LIFT_SPEED = 0.5;
 	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
@@ -167,7 +167,10 @@ public class Robot extends IterativeRobot {
 				*/
 				//Next two lines are the normal way to instantiate a camera
 				front = CameraServer.getInstance().startAutomaticCapture();
-				front.setResolution(640, 480);
+				front.setResolution(320, 240);
+				
+				rear = CameraServer.getInstance().startAutomaticCapture();
+				rear.setResolution(320, 240);
 				/*
 				CvSink cvSink = CameraServer.getInstance().getVideo();
 				CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
@@ -294,6 +297,9 @@ public class Robot extends IterativeRobot {
 		
 		currentScheme.drive(drive, dPneumatics);
 		//currentScheme.lift(lift, timer);
+		//currentScheme.arm(arm);
+		//currentScheme.intake(intake);
+		
 	}
 	
 	/**

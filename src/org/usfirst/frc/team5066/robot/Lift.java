@@ -99,7 +99,7 @@ public class Lift {
 			boolean rightLiftUpHigh, boolean rightLiftDownHigh){
 		
 		//raise or lower lift with controls
-		if (rightLiftUpHigh){
+		if (rightLiftUpHigh && ultraRight.getRangeInches() > FINISHDISTANCE){
 			right1.set(ControlMode.PercentOutput, highSpeed);
 			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
@@ -108,7 +108,7 @@ public class Lift {
 			//right2.set(ControlMode.PercentOutput, -highSpeed);
 		}
 		
-		if (rightLiftUpNormal){
+		else if (rightLiftUpNormal){
 			right1.set(ControlMode.PercentOutput, normalSpeed);
 			//right2.set(ControlMode.PercentOutput, normalSpeed);
 		}
@@ -130,7 +130,7 @@ public class Lift {
 			boolean leftLiftUpHigh, boolean leftLiftDownHigh) {
 		
 		//raise or lower lift with controls
-		if (leftLiftUpHigh){
+		if (leftLiftUpHigh && ultraRight.getRangeInches() > FINISHDISTANCE){
 			right1.set(ControlMode.PercentOutput, highSpeed);
 			//right2.set(ControlMode.PercentOutput, highSpeed);
 		}
@@ -139,7 +139,7 @@ public class Lift {
 			//right2.set(ControlMode.PercentOutput, -highSpeed);
 		}
 		
-		if (leftLiftUpNormal){
+		else if (leftLiftUpNormal){
 			left1.set(ControlMode.PercentOutput, normalSpeed);
 			//left2.set(ControlMode.PercentOutput, normalSpeed);
 		}
