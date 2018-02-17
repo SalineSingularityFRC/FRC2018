@@ -20,7 +20,7 @@ public class LRS extends AutonControlScheme{
 	public void moveAuton() {
 		//go around behind the switch to get to right switch
 		super.vertical(229 + super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90,false);
+		super.rotate(90, false, Arm.Position.TRAVEL);
 		//TODO check the following distance
 		super.vertical(264-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		super.rotate(90,false, Arm.Position.SWITCH);
