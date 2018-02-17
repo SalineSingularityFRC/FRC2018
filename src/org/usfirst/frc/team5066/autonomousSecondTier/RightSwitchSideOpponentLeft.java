@@ -7,9 +7,9 @@ import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
-public class RightSwitchSideOpponentRight extends AutonControlScheme {
+public class RightSwitchSideOpponentLeft extends AutonControlScheme {
 
-	public RightSwitchSideOpponentRight(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+	public RightSwitchSideOpponentLeft(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
 		
 	}
@@ -26,11 +26,10 @@ public class RightSwitchSideOpponentRight extends AutonControlScheme {
 		super.vertical(23 - super.CenterRobotLengthWithArm + super.CenterRobotLength,
 				Arm.Position.PICKUP, true);
 		super.verticalReverse(super.CenterRobotCorner, Arm.Position.TRAVEL, false);
-		super.rotate(90.0, true, Arm.Position.TRAVEL);
-		super.vertical(super.CenterRobotCorner + 40, Arm.Position.TRAVEL, false);
-		super.rotate(90.0, true, Arm.Position.TRAVEL);
+		super.rotate(90.0, false, Arm.Position.TRAVEL);
+		super.vertical(15 * 12 + 20, Arm.Position.TRAVEL, false);
+		super.rotate(90.0, false, Arm.Position.TRAVEL);
 		super.vertical(100.0, Arm.Position.TRAVEL, false);
-		
 		
 	}
 	
