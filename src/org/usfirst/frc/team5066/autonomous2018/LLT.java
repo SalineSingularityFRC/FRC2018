@@ -5,6 +5,8 @@ import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 
+import com.kauailabs.navx.frc.AHRS;
+
 
 public class LLT extends AutonControlScheme{
 

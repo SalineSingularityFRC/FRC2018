@@ -192,7 +192,8 @@ public class Robot extends IterativeRobot {
 			priority.addDefault("Default program", new String("Default program"));
 			priority.addObject("Our Switch", new String("Our Switch"));
 			priority.addObject("Opponent Switch", new String("Opponent Switch"));
-			priority.addObject("Our Vault", new String("Our Vault"));
+			priority.addObject("Vault", new String("Vault"));
+			priority.addObject("Scale", new String("Scale"));
 			
 			side.addDefault("Left", 0.0);
 			side.addObject("Middle", 2.0);
@@ -218,11 +219,13 @@ public class Robot extends IterativeRobot {
 			{{{new LLSLS(drive, gyro, arm, intake), new LLSV(drive, gyro, arm, intake),
 				new LLSOL(drive, gyro, arm, intake), new LLSOR(drive, gyro, arm, intake)},
 			{new LRSRS(drive, gyro, arm, intake), new LRSV(drive, gyro, arm, intake), 
-				new LRSOL(drive, gyro, arm, intake), new LRSOR(drive, gyro, arm, intake)}},
+				new LRSOL(drive, gyro, arm, intake), new LRSOR(drive, gyro, arm, intake)},
+			{new LLT(drive, gyro, arm, intake), new LRT(drive, gyro, arm, intake)}},
 			{{new RLSLS(drive, gyro, arm, intake), new RLSV(drive, gyro, arm, intake), 
 				new RLSOL(drive, gyro, arm, intake), new RLSOR(drive, gyro, arm, intake)},
 			{new RRSRS(drive, gyro, arm, intake), new RRSV(drive, gyro, arm, intake), 
-				new RRSOL(drive, gyro, arm, intake), new RRSOR(drive, gyro, arm, intake)}},
+				new RRSOL(drive, gyro, arm, intake), new RRSOR(drive, gyro, arm, intake)},
+			{new RRT(drive, gyro, arm, intake), new RLT(drive, gyro, arm, intake)}},
 			{{new MLSLS(drive, gyro, arm, intake), new MLSV(drive, gyro, arm, intake),
 				new MLSOL(drive, gyro, arm, intake), new MLSOR(drive, gyro, arm, intake)},
 			{new MRSRS(drive, gyro, arm, intake), new MRSV(drive, gyro, arm, intake),
@@ -245,7 +248,15 @@ public class Robot extends IterativeRobot {
 			}
 			else SmartDashboard.putString("Starting Position", "Starting Left");*/
 			
-			if(gameData.charAt(0) == 'R'){
+			if (priority.getSelected().equals("Scale")) {
+				if (gameData.charAt(1) == 'L') {
+					b = 2;
+				}
+				else {
+					b
+				}
+			}
+			else if(gameData.charAt(0) == 'R'){
 				b=1;
 				SmartDashboard.putString("Switch", "Our Switch is on the right");
 			}
