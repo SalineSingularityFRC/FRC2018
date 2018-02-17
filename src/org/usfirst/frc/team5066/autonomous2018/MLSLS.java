@@ -31,8 +31,8 @@ public class MLSLS extends AutonControlScheme {
 		// If end PC is grabbed from side, pyramid will be pushed
 		super.vertical(63-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.verticalReverse ((63-super.CenterRobotLength), Arm.Position.TRAVEL,false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(32.5-super.CenterRobotWidth,Arm.Position.TRAVEL, false);
+		super.rotate(90, true, Arm.Position.SWITCH);
+		super.vertical(32.5-super.CenterRobotWidth,Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 	}
 }

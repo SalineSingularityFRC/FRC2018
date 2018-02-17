@@ -31,7 +31,7 @@ public class LRSOR extends AutonControlScheme {
 		intake.autonOuttake();
 		super.vertical(super.CenterRobotLength, Arm.Position.SWITCH, false);
 		//go over to pyramid of PCs
-		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(41.5-super.CenterRobotLength, Arm.Position.PICKUP, true);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		//arm is lowered, activate intake
