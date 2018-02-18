@@ -31,7 +31,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javafx.scene.Camera;
-import src.org.usfirst.frc.team5066.autonomousSecondTier.RightSwitchFrontRightSwitch;
 
 
 /**
