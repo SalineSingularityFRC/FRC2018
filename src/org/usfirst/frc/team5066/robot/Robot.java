@@ -7,6 +7,8 @@ import org.usfirst.frc.team5066.controller2018.*;
 import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
 import org.usfirst.frc.team5066.library.*;
 import org.usfirst.frc.team5066.singularityDrive.*;
+import org.usfirst.frc.team5066.autonomousFirstTier.*;
+import org.usfirst.frc.team5066.autonomousSecondTier.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -29,6 +31,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javafx.scene.Camera;
+import src.org.usfirst.frc.team5066.autonomousSecondTier.RightSwitchFrontRightSwitch;
 
 
 /**
@@ -73,7 +76,17 @@ public class Robot extends IterativeRobot {
 	
 	ControlScheme currentScheme;
 	
+	//used to find the side we start on
 	SendableChooser<Double> side;
+	
+	//Sendable choosers to find the first and second steps
+	//depending on the game data
+	SendableChooser<String> LLFirst, LLSecond;
+	SendableChooser<String> LRFirst, LRSecond;
+	SendableChooser<String> RLFirst, RLSecond;
+	SendableChooser<String> RRFirst, RRSecond;
+	
+	
 	SendableChooser<String> priority;
 	private double a, b, c;
 	
@@ -188,6 +201,7 @@ public class Robot extends IterativeRobot {
 			*/
 			timer = new Timer();
 			
+			/*
 			priority = new SendableChooser<String>();
 			priority.addDefault("Default program", new String("Default program"));
 			priority.addObject("Our Switch", new String("Our Switch"));
@@ -206,8 +220,75 @@ public class Robot extends IterativeRobot {
 			a = 0.0;
 			b = 0.0;
 			c = 0.0;
+			*/
 			
-			port = 10;
+			side = new SendableChooser<Double>();
+			side.addDefault("Left", 0.0);
+			side.addObject("Middle", 2.0);
+			side.addObject("Right", 1.0);
+			SmartDashboard.putData("Side:", side);
+			
+			
+			LLFirst = new SendableChooser<String>();
+			LLFirst.addDefault("Switch", "Switch");
+			LLFirst.addDefault("Scale", "Scale");
+			LLFirst.addDefault("Forward", "Forward");
+			SmartDashboard.putData("LLFirst:", LLFirst);
+			
+			LLSecond = new SendableChooser<String>();
+			LLSecond.addDefault("Nothing", "Nothing");
+			LLSecond.addDefault("Switch", "Switch");
+			LLSecond.addDefault("Scale", "Scale");
+			LLSecond.addDefault("Vault", "Vault");
+			LLSecond.addDefault("Opponent", "Opponent");
+			SmartDashboard.putData("LLSecond:", LLSecond);
+			
+			
+			LRFirst = new SendableChooser<String>();
+			LRFirst.addDefault("Switch", "Switch");
+			LRFirst.addDefault("Scale", "Scale");
+			LRFirst.addDefault("Forward", "Forward");
+			SmartDashboard.putData("LRFirst:", LRFirst);
+			
+			LRSecond = new SendableChooser<String>();
+			LRSecond.addDefault("Nothing", "Nothing");
+			LRSecond.addDefault("Switch", "Switch");
+			LRSecond.addDefault("Scale", "Scale");
+			LRSecond.addDefault("Vault", "Vault");
+			LRSecond.addDefault("Opponent", "Opponent");
+			SmartDashboard.putData("LRSecond:", LRSecond);
+			
+			
+			RLFirst = new SendableChooser<String>();
+			RLFirst.addDefault("Switch", "Switch");
+			RLFirst.addDefault("Scale", "Scale");
+			RLFirst.addDefault("Forward", "Forward");
+			SmartDashboard.putData("RLFirst:", RLFirst);
+			
+			RLSecond = new SendableChooser<String>();
+			RLSecond.addDefault("Nothing", "Nothing");
+			RLSecond.addDefault("Switch", "Switch");
+			RLSecond.addDefault("Scale", "Scale");
+			RLSecond.addDefault("Vault", "Vault");
+			RLSecond.addDefault("Opponent", "Opponent");
+			SmartDashboard.putData("RLSecond:", RLSecond);
+			
+			
+			RRFirst = new SendableChooser<String>();
+			RRFirst.addDefault("Switch", "Switch");
+			RRFirst.addDefault("Scale", "Scale");
+			RRFirst.addDefault("Forward", "Forward");
+			SmartDashboard.putData("RRFirst:", RRFirst);
+			
+			RRSecond = new SendableChooser<String>();
+			RRSecond.addDefault("Nothing", "Nothing");
+			RRSecond.addDefault("Switch", "Switch");
+			RRSecond.addDefault("Scale", "Scale");
+			RRSecond.addDefault("Vault", "Vault");
+			RRSecond.addDefault("Opponent", "Opponent");
+			SmartDashboard.putData("RRSecond:", RRSecond);
+			
+			
 		}
 	}
 
@@ -220,7 +301,13 @@ public class Robot extends IterativeRobot {
 		dPneumatics.setReverse();
 		drive.setControlMode(false);
 		
+		///////////////////////////////////////////////////////////////////////////////
+		//NEW AUTON CODE WITH FIRST AND SECOND TIERS///////////////////////////////////
+		this.chooseAutonNew();/////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////
 		
+		//OLD AUTON LOGIC::::::
+		/*
 		AutonControlScheme[][][] autonPrograms = 
 			
 			{{{new LLSLS(drive, gyro, arm, intake), new LLSV(drive, gyro, arm, intake),
@@ -244,8 +331,269 @@ public class Robot extends IterativeRobot {
 		//(new SideStraight(drive, gyro)).moveAuton();
 		this.chooseAuton();	
 		autonPrograms[(int) a][(int) b][(int) c].moveAuton();
+		*/
+		
 		
 	}
+	
+	
+	public void chooseAutonNew() {
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		SmartDashboard.putString("Game Data: ", gameData);
+		
+		AutonControlScheme autonFirstTier;
+		AutonControlScheme autonSecondTier;
+		
+		double startingPosition = side.getSelected();
+		String firstOption, secondOption;
+		
+		//if the switch and scale are on the left
+		if (gameData.startsWith("LL")) {
+			
+			firstOption = LLFirst.getSelected();
+			secondOption = LLSecond.getSelected();
+		}
+		else if (gameData.startsWith("LR")) {
+			
+			firstOption = LRFirst.getSelected();
+			secondOption = LRSecond.getSelected();
+		}
+		else if (gameData.startsWith("RL")) {
+			
+			firstOption = RLFirst.getSelected();
+			secondOption = RLSecond.getSelected();
+		}
+		else {
+			
+			firstOption = RRFirst.getSelected();
+			secondOption = RRSecond.getSelected();
+		}
+		
+		
+
+		// if we're on the left
+		if (startingPosition == 0.0) {
+			
+			//if we want to go to the scale
+			if (firstOption.equals("Scale")) {
+				
+				//if the scale is on the left
+				if (gameData.charAt(1) == 'L') {
+					autonFirstTier = new LeftLeftScale(drive, gyro, arm, intake);
+
+					if (secondOption.equals("Scale"))
+						autonSecondTier = new LeftScaleLeftScale(drive, gyro, arm, intake);
+
+					else if (secondOption.equals("Opponent")) {
+						if (gameData.charAt(2) == 'L')
+							autonSecondTier = new LeftScaleOpponentLeft(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new LeftScaleOpponetRight(drive, gyro, arm, intake);
+					}
+
+					else
+						autonSecondTier = null;
+				}
+				
+				//if the scale is on the right
+				else {
+					autonFirstTier = new LeftRightScale(drive, gyro, arm, intake);
+
+					if (secondOption.equals("Scale"))
+						autonSecondTier = new RightScaleRightScale(drive, gyro, arm, intake);
+
+					else if (secondOption.equals("Opponent")) {
+						if (gameData.charAt(2) == 'L')
+							autonSecondTier = new RightScaleOpponentLeft(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new RightScaleOpponentRight(drive, gyro, arm, intake);
+					}
+
+					else
+						autonSecondTier = null;
+				}
+			}
+
+			else if (firstOption.equals("Forward")) {
+				autonFirstTier = new DriveForward(drive, gyro, arm, intake);
+				autonSecondTier = null;
+			}
+
+			// The first option must be Switch
+			else {
+				
+				//if the switch is on the left
+				if (gameData.startsWith("L")) {
+					if (secondOption.equals("Switch")) {
+						autonFirstTier = new LeftLeftLightningBolt(drive, gyro, arm, intake);
+						autonSecondTier = new LeftSwitchFrontLeftSwitch(drive, gyro, arm, intake);
+					}
+					else if (secondOption.equals("Scale")) {
+						autonFirstTier = new LeftLeftDogLeg(drive, gyro, arm, intake);
+						if (gameData.charAt(1) == 'L')
+							autonSecondTier = new LeftSwitchSideLeftScale(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new LeftSwitchSideRightScale(drive, gyro, arm, intake);
+					}
+					else if (secondOption.equals("Vault")) {
+						autonFirstTier = new LeftLeftLightningBolt(drive, gyro, arm, intake);
+						autonSecondTier = new LeftSwitchFrontVault(drive, gyro, arm, intake);
+					}
+					else if (secondOption.equals("Opponent")) {
+						autonFirstTier = new LeftLeftDogLeg(drive, gyro, arm, intake);
+						if (gameData.charAt(2) == 'L')
+							autonSecondTier = new LeftSwitchsideOpponentLeft(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new LeftSwitchSideOpponentRight(drive, gyro, arm, intake);
+					} 
+					else {
+						autonFirstTier = new LeftLeftDogLeg(drive, gyro, arm, intake);
+						autonSecondTier = null;
+					}
+				}
+				
+				//the switch must be on the right
+				else {
+					autonFirstTier = new LeftRightHook(drive, gyro, arm, intake);
+					autonSecondTier = null;
+				}
+			}//switch
+			
+		}//left starting position
+		
+		//if we're on the right
+		else if (startingPosition == 1.0) {
+			
+			//if we want to go to the scale
+			if (firstOption.equals("Scale")) {
+				
+				//if the scale is on the left
+				if (gameData.charAt(1) == 'L') {
+					autonFirstTier = new RightLeftScale(drive, gyro, arm, intake);
+
+					if (secondOption.equals("Scale"))
+						autonSecondTier = new LeftScaleLeftScale(drive, gyro, arm, intake);
+
+					else if (secondOption.equals("Opponent")) {
+						if (gameData.charAt(2) == 'L')
+							autonSecondTier = new LeftScaleOpponentLeft(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new LeftScaleOpponetRight(drive, gyro, arm, intake);
+					}
+
+					else
+						autonSecondTier = null;
+				}
+				
+				//if the scale is on the right
+				else {
+					autonFirstTier = new RightRightScale(drive, gyro, arm, intake);
+
+					if (secondOption.equals("Scale"))
+						autonSecondTier = new RightScaleRightScale(drive, gyro, arm, intake);
+
+					else if (secondOption.equals("Opponent")) {
+						if (gameData.charAt(2) == 'L')
+							autonSecondTier = new RightScaleOpponentLeft(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new RightScaleOpponentRight(drive, gyro, arm, intake);
+					}
+
+					else
+						autonSecondTier = null;
+				}
+			}
+
+			else if (firstOption.equals("Forward")) {
+				autonFirstTier = new DriveForward(drive, gyro, arm, intake);
+				autonSecondTier = null;
+			}
+
+			// The first option must be Switch
+			else {
+				
+				//if the switch is on the left
+				if (gameData.startsWith("R")) {
+					if (secondOption.equals("Switch")) {
+						autonFirstTier = new RightRightLightningBolt(drive, gyro, arm, intake);
+						autonSecondTier = new RightSwitchFrontRightSwitch(drive, gyro, arm, intake);
+					}
+					else if (secondOption.equals("Scale")) {
+						autonFirstTier = new RightRightDogLeg(drive, gyro, arm, intake);
+						if (gameData.charAt(1) == 'L')
+							autonSecondTier = new RightSwitchSideLeftScale(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new RightSwitchSideRightScale(drive, gyro, arm, intake);
+					}
+					else if (secondOption.equals("Vault")) {
+						autonFirstTier = new RightRightLightningBolt(drive, gyro, arm, intake);
+						autonSecondTier = new RightSwitchFrontVault(drive, gyro, arm, intake);
+					}
+					else if (secondOption.equals("Opponent")) {
+						autonFirstTier = new RightRightDogLeg(drive, gyro, arm, intake);
+						if (gameData.charAt(2) == 'L')
+							autonSecondTier = new RightSwitchSideOpponentLeft(drive, gyro, arm, intake);
+						else
+							autonSecondTier = new RightSwitchSideOpponentRight(drive, gyro, arm, intake);
+					} 
+					else {
+						autonFirstTier = new RightRightDogLeg(drive, gyro, arm, intake);
+						autonSecondTier = null;
+					}
+				}
+				
+				//the switch must be on the left
+				else {
+					autonFirstTier = new RightLeftHook(drive, gyro, arm, intake);
+					autonSecondTier = null;
+				}
+			}//switch
+			
+		}//right starting position
+		
+		//if we're in the middle
+		else {
+			
+			if (firstOption.equals("Switch")) {
+				
+				//if the switch is on the left
+				if (gameData.charAt(0) == 'L') {
+					autonFirstTier = new MiddleLeftLightningBolt(drive, gyro, arm, intake);
+					
+					if (secondOption.equals("Switch"))
+						autonSecondTier = new LeftSwitchFrontLeftSwitch(drive, gyro, arm, intake);
+					else
+						autonSecondTier = new LeftSwitchFrontVault(drive, gyro, arm, intake);
+				}
+				//if the switch is on the right
+				else {
+					autonFirstTier = new MiddleRightSwitchLightningBolt(drive, gyro, arm, intake);
+					
+					if (secondOption.equals("Switch"))
+						autonSecondTier = new RightSwitchFrontRightSwitch(drive, gyro, arm, intake);
+					else
+						autonSecondTier = new RightSwitchFrontVault(drive, gyro, arm, intake);
+				}
+			
+			}//first option is switch
+			
+			//probably won't be used, but if we want to drive straight ahead
+			else {
+				
+				autonFirstTier = new DriveForward(drive, gyro, arm, intake);
+				autonSecondTier = null;
+				
+			}
+		}//in the middle
+		
+		autonFirstTier.moveAuton();
+		if (autonSecondTier != null)
+			autonSecondTier.moveAuton();
+		
+	}
+	
 	
 	private void chooseAuton() {
 		
