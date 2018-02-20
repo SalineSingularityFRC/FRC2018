@@ -75,7 +75,7 @@ public class Arm {
 	}
 	
 	public void controlArm (double armStick, double exponent) {
-			
+		/*
 		if (talonMotor.getSensorCollection().getQuadraturePosition() < LOWERLIMIT && armStick < 0) {
 			speed = 0.0;
 		}
@@ -84,10 +84,10 @@ public class Arm {
 			speed = 0.0;
 		}
 		else {
-			
+			*/
 			speed = Math.pow(armStick, exponent);
 			speed *= speedConstant;
-		}
+		//}
 		
 		talonMotor.set(ControlMode.PercentOutput, speed);
 		System.out.println("        Arm:" + talonMotor.getSensorCollection().getPulseWidthPosition());

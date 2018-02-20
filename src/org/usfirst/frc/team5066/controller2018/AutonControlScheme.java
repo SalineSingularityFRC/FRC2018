@@ -105,7 +105,7 @@ public abstract class AutonControlScheme {
 	public void vertical(double verticalSpeed, double distance, Arm.Position armPosition, boolean intakeOn) {
 		
 		//ramp voltage to accelerate smoothly
-		drive.rampVoltage();
+		drive.rampVoltage(0.8);
 		
 		drive.resetEncoders();
 		
