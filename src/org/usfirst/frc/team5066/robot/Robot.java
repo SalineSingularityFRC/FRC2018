@@ -222,6 +222,7 @@ public class Robot extends IterativeRobot {
 			*/
 			
 			side = new SendableChooser<Double>();
+			side.addObject("Side", -1.0);
 			side.addDefault("Left", 0.0);
 			side.addObject("Middle", 2.0);
 			side.addObject("Right", 1.0);
@@ -229,62 +230,70 @@ public class Robot extends IterativeRobot {
 			
 			
 			LLFirst = new SendableChooser<String>();
+			LLFirst.addObject("LLFirst", "LLFirst");
 			LLFirst.addDefault("Switch", "Switch");
-			LLFirst.addDefault("Scale", "Scale");
-			LLFirst.addDefault("Forward", "Forward");
+			LLFirst.addObject("Scale", "Scale");
+			LLFirst.addObject("Forward", "Forward");
 			SmartDashboard.putData("LLFirst:", LLFirst);
 			
 			LLSecond = new SendableChooser<String>();
+			LLSecond.addObject("LLSecond", "LLSecond");
 			LLSecond.addDefault("Nothing", "Nothing");
-			LLSecond.addDefault("Switch", "Switch");
-			LLSecond.addDefault("Scale", "Scale");
-			LLSecond.addDefault("Vault", "Vault");
-			LLSecond.addDefault("Opponent", "Opponent");
+			LLSecond.addObject("Switch", "Switch");
+			LLSecond.addObject("Scale", "Scale");
+			LLSecond.addObject("Vault", "Vault");
+			LLSecond.addObject("Opponent", "Opponent");
 			SmartDashboard.putData("LLSecond:", LLSecond);
 			
 			
 			LRFirst = new SendableChooser<String>();
+			LRFirst.addObject("LRFirst", "LRFirst");
 			LRFirst.addDefault("Switch", "Switch");
-			LRFirst.addDefault("Scale", "Scale");
-			LRFirst.addDefault("Forward", "Forward");
+			LRFirst.addObject("Scale", "Scale");
+			LRFirst.addObject("Forward", "Forward");
 			SmartDashboard.putData("LRFirst:", LRFirst);
 			
 			LRSecond = new SendableChooser<String>();
+			LRSecond.addObject("LRSecond", "LRSecond");
 			LRSecond.addDefault("Nothing", "Nothing");
-			LRSecond.addDefault("Switch", "Switch");
-			LRSecond.addDefault("Scale", "Scale");
-			LRSecond.addDefault("Vault", "Vault");
-			LRSecond.addDefault("Opponent", "Opponent");
+			LRSecond.addObject("Switch", "Switch");
+			LRSecond.addObject("Scale", "Scale");
+			LRSecond.addObject("Vault", "Vault");
+			LRSecond.addObject("Opponent", "Opponent");
 			SmartDashboard.putData("LRSecond:", LRSecond);
 			
 			
 			RLFirst = new SendableChooser<String>();
+			RLFirst.addObject("RLFirst", "RLFirst");
 			RLFirst.addDefault("Switch", "Switch");
-			RLFirst.addDefault("Scale", "Scale");
-			RLFirst.addDefault("Forward", "Forward");
+			RLFirst.addObject("Scale", "Scale");
+			RLFirst.addObject("Forward", "Forward");
 			SmartDashboard.putData("RLFirst:", RLFirst);
 			
 			RLSecond = new SendableChooser<String>();
+			RLSecond.addObject("RLSecond", "RLSecond");
 			RLSecond.addDefault("Nothing", "Nothing");
-			RLSecond.addDefault("Switch", "Switch");
-			RLSecond.addDefault("Scale", "Scale");
-			RLSecond.addDefault("Vault", "Vault");
-			RLSecond.addDefault("Opponent", "Opponent");
+			RLSecond.addObject("Switch", "Switch");
+			RLSecond.addObject("Scale", "Scale");
+			RLSecond.addObject("Vault", "Vault");
+			RLSecond.addObject("Opponent", "Opponent");
 			SmartDashboard.putData("RLSecond:", RLSecond);
 			
 			
 			RRFirst = new SendableChooser<String>();
+			RRFirst.addObject("RRFirst", "RRFirst");
 			RRFirst.addDefault("Switch", "Switch");
-			RRFirst.addDefault("Scale", "Scale");
-			RRFirst.addDefault("Forward", "Forward");
+			RRFirst.addObject("Scale", "Scale");
+			RRFirst.addObject("Forward", "Forward");
 			SmartDashboard.putData("RRFirst:", RRFirst);
 			
 			RRSecond = new SendableChooser<String>();
+			RRSecond.addObject("RRSecond", "RRSecond");
 			RRSecond.addDefault("Nothing", "Nothing");
-			RRSecond.addDefault("Switch", "Switch");
-			RRSecond.addDefault("Scale", "Scale");
-			RRSecond.addDefault("Vault", "Vault");
-			RRSecond.addDefault("Opponent", "Opponent");
+			RRSecond.addObject("Switch", "Switch");
+			RRSecond.addObject("Scale", "Scale");
+			RRSecond.addObject("Vault", "Vault");
+			RRSecond.addObject("Opponent", "Opponent");
 			SmartDashboard.putData("RRSecond:", RRSecond);
 			
 			
@@ -563,8 +572,10 @@ public class Robot extends IterativeRobot {
 					
 					if (secondOption.equals("Switch"))
 						autonSecondTier = new LeftSwitchFrontLeftSwitch(drive, gyro, arm, intake);
-					else
+					else if (secondOption.equals("Vault"))
 						autonSecondTier = new LeftSwitchFrontVault(drive, gyro, arm, intake);
+					else
+						autonSecondTier = null;
 				}
 				//if the switch is on the right
 				else {
@@ -572,8 +583,10 @@ public class Robot extends IterativeRobot {
 					
 					if (secondOption.equals("Switch"))
 						autonSecondTier = new RightSwitchFrontRightSwitch(drive, gyro, arm, intake);
-					else
+					else if (secondOption.equals("Vault"))
 						autonSecondTier = new RightSwitchFrontVault(drive, gyro, arm, intake);
+					else
+						autonSecondTier = null;
 				}
 			
 			}//first option is switch
@@ -676,7 +689,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-		currentScheme.lift(lift, timer);
+		//currentScheme.lift(lift, timer);
 		//currentScheme.arm(arm);
 		//currentScheme.intake(intake);
 		
@@ -832,11 +845,11 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		//dPneumatics.setOff();
 		//System.out.println("right: " + drive.getRightPosition());
-		//System.out.println("left: " + drive.getLeftPosition());
+		System.out.println("left: " + drive.getLeftPosition());
 		//System.out.println(gyro.getAngle());
 		
-		System.out.println("left:" + lift.getLeftUltra());
-		System.out.println("    right:" + lift.getRightUltra());
+		//System.out.println("left:" + lift.getLeftUltra());
+		//System.out.println("    right:" + lift.getRightUltra());
 	}
 	
 	private void loadProperties() {

@@ -1,4 +1,4 @@
-package src.org.usfirst.frc.team5066.autonomousFirstTier;
+package org.usfirst.frc.team5066.autonomousFirstTier;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.robot.Arm;
@@ -16,12 +16,12 @@ public class MiddleLeftLightningBolt extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(70-(super.CenterRobotLength), Arm.Position.TRAVEL, false);
+		super.vertical(48, Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(42+super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		super.vertical(72 - super.CenterRobotWidth, Arm.Position.TRAVEL, false);
 		//rotate so robot is facing switch
 		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(70-(super.CenterRobotLength), Arm.Position.SWITCH, false);
+		super.vertical(85 - (super.CenterRobotLength), Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 	}
 

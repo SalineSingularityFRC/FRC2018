@@ -51,6 +51,10 @@ public class SixWheelDrive extends SingDrive{
 		// Set the motors
 		m_frontLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 		m_frontRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_rearLeftMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_rightMiddleMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 		
 		SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
 		SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
@@ -64,7 +68,8 @@ public class SixWheelDrive extends SingDrive{
 	 * @param speedMode
 	 */
 	public void tankDrive(double left, double right, double inputExponent, SpeedMode speedMode) {
-		double leftVelocity = left, rightVelocity = right;
+		double leftVelocity = left;
+		double rightVelocity = right;
 		
 		leftVelocity = threshold(leftVelocity);
 		rightVelocity = threshold(rightVelocity);
@@ -72,8 +77,8 @@ public class SixWheelDrive extends SingDrive{
 		//setVelocityMultiplierBasedOnSpeedMode(speedMode);
 		
 		// Do squared inputs if necessary
-		left *= Math.abs(Math.pow(left, inputExponent - 1));
-		right *= Math.abs(Math.pow(right, inputExponent - 1));
+		leftVelocity *= Math.abs(Math.pow(leftVelocity, inputExponent - 1));
+		rightVelocity *= Math.abs(Math.pow(rightVelocity, inputExponent - 1));
 		
 		
 		// Guard against illegal values

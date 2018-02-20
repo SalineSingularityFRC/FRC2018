@@ -164,10 +164,10 @@ public abstract class SingDrive {
 		
 		speedChooser = new SendableChooser<Double>();
 		speedChooser.addDefault("1.0", 1.0);
-		speedChooser.addDefault("0.8", 0.8);
-		speedChooser.addDefault("0.6", 0.6);
-		speedChooser.addDefault("0.4", 0.4);
-		speedChooser.addDefault("0.2", 0.2);
+		speedChooser.addObject("0.8", 0.8);
+		speedChooser.addObject("0.6", 0.6);
+		speedChooser.addObject("0.4", 0.4);
+		speedChooser.addObject("0.2", 0.2);
 		
 		SmartDashboard.putData("Speed Chooser:", speedChooser);
 	}
@@ -206,11 +206,16 @@ public abstract class SingDrive {
 	}
 	
 	public double getLeftPosition(){
-		return m_frontLeftMotor.getSensorCollection().getQuadraturePosition();
+		return m_frontLeftMotor.getSensorCollection().getPulseWidthPosition();
 	}
 	
 	public double getRightPosition(){
 		return m_frontRightMotor.getSensorCollection().getPulseWidthPosition();
+	}
+	
+	public void resetEncoders() {
+		m_frontLeftMotor.getSensorCollection().setPulseWidthPosition(0, 10);
+		m_frontLeftMotor.getSensorCollection().setPulseWidthPosition(0, 10);
 	}
 	
 	public double getMiddlePosition(){

@@ -1,4 +1,4 @@
-package src.org.usfirst.frc.team5066.autonomousSecondTier;
+package org.usfirst.frc.team5066.autonomousSecondTier;
 
 import org.usfirst.frc.team5066.controller2018.AutonControlScheme;
 import org.usfirst.frc.team5066.robot.Arm;

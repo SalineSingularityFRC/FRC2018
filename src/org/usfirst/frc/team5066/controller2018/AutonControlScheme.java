@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class AutonControlScheme {
@@ -23,7 +24,7 @@ public abstract class AutonControlScheme {
 	public final double CenterRobotLengthWithArm = 33;
 	//TODO make sure ^^this^^ distance is from the Center of the Robot to the end of the cube when it's loaded
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
-	private static final double speed = 0.5;
+	private static final double speed = 0.35;
 	
 	
 	//PIDController turnController;
@@ -106,16 +107,23 @@ public abstract class AutonControlScheme {
 		//ramp voltage to accelerate smoothly
 		drive.rampVoltage();
 		
+		drive.resetEncoders();
+		
 		//record initial data to compare to while driving
-		initialEncoderPos = drive.getRightPosition();
+		initialEncoderPos = this.getAverage();
 		initialAngle = gyro.getAngle();
+		
+		Timer distanceTimer = new Timer();
+		distanceTimer.start();
 			
 		//normal speed 3072
 		//while the position is less than what we want to travel
-		while (Math.abs(drive.getRightPosition() - initialEncoderPos) < 
-				distance * encoderTicks / DistancePerRevolution &&
-				DriverStation.getInstance().isAutonomous()) {
+		while (this.getAverage() - initialEncoderPos < 
+				(distance - 2)  * encoderTicks / DistancePerRevolution &&
+				DriverStation.getInstance().isAutonomous()
+				&& distanceTimer.get() < distance * 2.2 / 48) {
 			
+			/*
 			//Move the arm towards the preferred position
 			arm.setArm(armPosition);
 			
@@ -126,12 +134,13 @@ public abstract class AutonControlScheme {
 			else {
 				this.intake.controlIntake(false, false, false, false);
 			}
+			*/
 			
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
 			//unramp the voltage once we get halfway to avoid rolling through the stop
-			if (Math.abs(drive.getRightPosition() - initialEncoderPos) > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+			if (this.getAverage() - initialEncoderPos > 0.5 * distance * encoderTicks / DistancePerRevolution) {
 				drive.rampVoltage(0.0);
 			}
 			
@@ -154,6 +163,7 @@ public abstract class AutonControlScheme {
 		//ramp the voltage again and turn off the intake
 		drive.rampVoltage();
 		this.intake.controlIntake(false, false, false, false);
+		Timer.delay(0.25);
 	}
 	
 	public void vertical(double distance) {
@@ -187,7 +197,9 @@ public abstract class AutonControlScheme {
 
 	
 	
-	//private double getAverage() { return Math.abs(drive.getLeftPosition()) + Math.abs(drive.getRightPosition()) / 2; }
+	private double getAverage() {
+		return (Math.abs(drive.getLeftPosition()) + Math.abs(drive.getRightPosition())) / 2;
+	}
 
 	//TODO Figure out AHRS gyro to get this method to work
 	public void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
@@ -209,7 +221,7 @@ public abstract class AutonControlScheme {
 				drive.rampVoltage(0.0);
 			}
 			
-			drive.drive(0.0, 0.0, -rotationSpeed, false, SpeedMode.FAST);
+			((SixWheelDrive)drive).tankDrive(-rotationSpeed, rotationSpeed, 1.0, SpeedMode.FAST);
 		}
 		
 		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
@@ -241,12 +253,13 @@ public abstract class AutonControlScheme {
 		if(counterClockwise) rotationSpeed*= -1;
 		
 		//while the current angle is less than the desired angle
-		while(Math.abs(gyro.getAngle() - initialAngle) < angle &&
+		while(Math.abs(gyro.getAngle() - initialAngle) < angle - 15 &&
 				DriverStation.getInstance().isAutonomous()) {
 			
+			/*
 			//set the arm to the desired position
 			arm.setArm(armPosition);
-
+			*/
 			System.out.println(gyro.getAngle());
 			
 			//stop ramping voltage once halfway there
@@ -255,14 +268,15 @@ public abstract class AutonControlScheme {
 			}
 			
 			//drive the motors the proper way
-			drive.drive(0.0, 0.0, -rotationSpeed, false, SpeedMode.FAST);
+			((SixWheelDrive)drive).tankDrive(-rotationSpeed, rotationSpeed, 1.0, SpeedMode.FAST);
 		}
 		
 		//stop the motors
-		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
+		((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
 		
 		//ramp the motors again for the future
 		drive.rampVoltage();
+		Timer.delay(0.25);
 		
 	}
 	

@@ -15,10 +15,10 @@ public class LeftSwitchFrontLeftSwitch extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.verticalReverse(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.verticalReverse(super.CenterRobotCorner / 2, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(60.5-super.CenterRobotLengthWithArm, Arm.Position.PICKUP, true);
-		super.verticalReverse(60.5+super.CenterRobotCorner-super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.vertical(55.5-super.CenterRobotLengthWithArm, Arm.Position.PICKUP, true);
+		super.verticalReverse(50.5-super.CenterRobotLengthWithArm, Arm.Position.TRAVEL, false);
 		super.rotate(90, true, Arm.Position.SWITCH);
 		super.vertical(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
