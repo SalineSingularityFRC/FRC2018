@@ -18,8 +18,12 @@ public class LeftSwitchFrontVault extends AutonControlScheme {
 		super.verticalReverse(32.5-super.CenterRobotLength, Arm.Position.SWITCH, false);
 		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(60.5-super.CenterRobotLengthWithArm, Arm.Position.PICKUP, true);
-		super.verticalReverse(42.5, Arm.Position.TRAVEL, false);
+		super.verticalReverse(30, Arm.Position.TRAVEL, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
+		super.vertical(super.CenterFieldPortal);
+		super.rotate(90, false);
+		super.vertical(107.5-super.CenterRobotLengthWithArm);
+		intake.autonOuttake();
 	}
 
 }
