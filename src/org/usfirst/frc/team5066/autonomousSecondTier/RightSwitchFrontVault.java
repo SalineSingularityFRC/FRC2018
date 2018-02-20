@@ -17,7 +17,7 @@ public class RightSwitchFrontVault extends AutonControlScheme {
 		// TODO Auto-generated method stub
 		super.verticalReverse(70-(super.CenterRobotLength/2), Arm.Position.SWITCH, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(162-(85.25-29.69+18) + 12+(48/2));
+		super.vertical(50);//162-(85.25-29.69+18) + 12+(48/2));
 		super.rotate(90,true, Arm.Position.EXCHANGE);
 		super.vertical(70-(super.CenterRobotLength/2),Arm.Position.EXCHANGE,false);
 	}
