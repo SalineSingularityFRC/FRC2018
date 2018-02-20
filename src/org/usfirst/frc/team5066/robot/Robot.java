@@ -107,7 +107,7 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	VictorSPX cantalon;
+	VictorSPX[] cantalon;
 	double speed;
 	
 	//pneumatics
@@ -707,7 +707,10 @@ public class Robot extends IterativeRobot {
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
 
-		cantalon = new VictorSPX(port);
+		cantalon = new VictorSPX[15];
+		for (int i = 0; i < 15; i++) {
+			cantalon[i] = new VictorSPX(i);
+		}
 		
 		//solenoidDrive = new DoubleSolenoid(0, 1);
 		//solenoidArm = new DoubleSolenoid(2, 3);
@@ -730,22 +733,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		
 		compressor.start();
-		
-		/*
-		//press right on the d-pad to switch to cantalon
-		if (xbox.getPOVRight()) {
-			testMode = TestMode.TALON;
-		}
-		
-		//press left on the d-pad to switch to pneumatic
-		else if (xbox.getPOVLeft()) {
-			testMode = TestMode.PNEUMATIC;
-		}*/
 
-		
-		 /* Code to test the port numbers of cantalons
-		 */
-		 
+		//Code to test the port numbers of cantalons 
 		 
 		if (testMode == TestMode.TALON) {
 
@@ -755,13 +744,13 @@ public class Robot extends IterativeRobot {
 			// use Right Bumper to toggle up a cantalon port
 			// use Left Bumper to toggle down a cantalon port
 			if (currentRb && !prevRb) {
-				cantalon.set(ControlMode.PercentOutput, 0.0);
+				cantalon[port].set(ControlMode.PercentOutput, 0.0);
 				port++;
-				cantalon = new VictorSPX(port);
+				
 			} else if (currentLb && !prevLb) {
-				cantalon.set(ControlMode.PercentOutput, 0.0);
+				cantalon[port].set(ControlMode.PercentOutput, 0.0);
 				port--;
-				cantalon = new VictorSPX(port);
+				
 			}
 
 			prevRb = currentRb;
@@ -781,16 +770,8 @@ public class Robot extends IterativeRobot {
 			else
 				speed = 0.0;
 
-			cantalon.set(ControlMode.PercentOutput, speed);
-			/*
-			if (xbox.getPOVUp()) solenoidDrive.set(DoubleSolenoid.Value.kForward);
-			else if (xbox.getPOVDown()) solenoidDrive.set(DoubleSolenoid.Value.kReverse);
-			else solenoidDrive.set(DoubleSolenoid.Value.kOff);
+			cantalon[port].set(ControlMode.PercentOutput, speed);
 			
-			if (xbox.getPOVRight()) solenoidArm.set(DoubleSolenoid.Value.kForward);
-			else if (xbox.getPOVLeft()) solenoidArm.set(DoubleSolenoid.Value.kReverse);
-			else solenoidArm.set(DoubleSolenoid.Value.kOff);
-*/
 			// log information to keep track of port number and speed
 			SmartDashboard.putNumber("port: ", (double) port);
 			SmartDashboard.putNumber("Speed: ", speed);
