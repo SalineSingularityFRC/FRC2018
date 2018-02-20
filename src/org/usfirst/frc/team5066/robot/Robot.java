@@ -226,6 +226,7 @@ public class Robot extends IterativeRobot {
 			side.addDefault("Left", 0.0);
 			side.addObject("Middle", 2.0);
 			side.addObject("Right", 1.0);
+			side.addObject("Exchange", 3.0);
 			SmartDashboard.putData("Side:", side);
 			
 			
@@ -234,6 +235,7 @@ public class Robot extends IterativeRobot {
 			LLFirst.addDefault("Switch", "Switch");
 			LLFirst.addObject("Scale", "Scale");
 			LLFirst.addObject("Forward", "Forward");
+			LLFirst.addObject("Exchange", "Exchange");
 			SmartDashboard.putData("LLFirst:", LLFirst);
 			
 			LLSecond = new SendableChooser<String>();
@@ -251,6 +253,7 @@ public class Robot extends IterativeRobot {
 			LRFirst.addDefault("Switch", "Switch");
 			LRFirst.addObject("Scale", "Scale");
 			LRFirst.addObject("Forward", "Forward");
+			LRFirst.addObject("Exchange", "Exchange");
 			SmartDashboard.putData("LRFirst:", LRFirst);
 			
 			LRSecond = new SendableChooser<String>();
@@ -268,6 +271,7 @@ public class Robot extends IterativeRobot {
 			RLFirst.addDefault("Switch", "Switch");
 			RLFirst.addObject("Scale", "Scale");
 			RLFirst.addObject("Forward", "Forward");
+			RLFirst.addObject("Exchange", "Exchange");
 			SmartDashboard.putData("RLFirst:", RLFirst);
 			
 			RLSecond = new SendableChooser<String>();
@@ -285,6 +289,7 @@ public class Robot extends IterativeRobot {
 			RRFirst.addDefault("Switch", "Switch");
 			RRFirst.addObject("Scale", "Scale");
 			RRFirst.addObject("Forward", "Forward");
+			RRFirst.addObject("Exchange", "Exchange");
 			SmartDashboard.putData("RRFirst:", RRFirst);
 			
 			RRSecond = new SendableChooser<String>();
@@ -562,7 +567,7 @@ public class Robot extends IterativeRobot {
 		}//right starting position
 		
 		//if we're in the middle
-		else {
+		else if (startingPosition == 2.0){
 			
 			if (firstOption.equals("Switch")) {
 				
@@ -599,6 +604,17 @@ public class Robot extends IterativeRobot {
 				
 			}
 		}//in the middle
+		
+		//in the exchange
+		else {
+			autonFirstTier = new Exchange(drive, gyro, arm, intake);
+			
+			if (gameData.startsWith("L"))
+				autonSecondTier = new ExchangeLeftSwitch(drive, gyro, arm, intake);
+			else
+				autonSecondTier = new ExchangeRightSwitch(drive, gyro, arm, intake);
+		}
+		
 		
 		autonFirstTier.moveAuton();
 		if (autonSecondTier != null)
