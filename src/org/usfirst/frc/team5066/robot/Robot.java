@@ -615,6 +615,10 @@ public class Robot extends IterativeRobot {
 				autonSecondTier = new ExchangeRightSwitch(drive, gyro, arm, intake);
 		}
 		
+		arm.setArm(Arm.Position.SWITCH);
+		Timer.delay(0.25);
+		arm.setArm(Arm.Position.TRAVEL);
+		
 		
 		autonFirstTier.moveAuton();
 		if (autonSecondTier != null)
@@ -696,6 +700,9 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		timer.start();
 		drive.setControlMode(true);
+		
+		
+		
 	}
 
 	/**
@@ -705,8 +712,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-		currentScheme.lift(lift, timer);
-		//currentScheme.arm(arm);
+		//currentScheme.lift(lift, timer);
+		currentScheme.arm(arm);
 		//currentScheme.intake(intake);
 		
 	}

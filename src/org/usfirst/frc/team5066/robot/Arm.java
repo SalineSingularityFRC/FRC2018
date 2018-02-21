@@ -34,10 +34,13 @@ public class Arm {
 	
 	private DoubleSolenoid doubleSolenoid;
 	
+	private int initialEncoderPosition;
+	
 	
 	public Arm(int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
-		talonMotor.getSensorCollection().setPulseWidthPosition(0, 10);
+		
+		this.setIntitialEncoderPosition();
 		/*
 		//figure out if this is the right feedback device
 		talonMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, 10);
@@ -85,40 +88,52 @@ public class Arm {
 		}
 		else {
 			*/
-			speed = Math.pow(armStick, exponent);
+			speed = armStick;
+			speed *= Math.abs(Math.pow(speed, exponent - 1));
 			speed *= speedConstant;
 		//}
 		
 		talonMotor.set(ControlMode.PercentOutput, speed);
-		System.out.println("        Arm:" + talonMotor.getSensorCollection().getPulseWidthPosition());
+		System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
 	}
 	
 	public void setArm(Position setTo) {
 		if(setTo == Position.PICKUP) {
-			talonMotor.set(ControlMode.Position, 10);
+			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
 			this.setArmReverse();
-		} else if(setTo == Position.SWITCH || setTo == Position.PORTAL) {
-			talonMotor.set(ControlMode.Position, 25);
+		}
+		else if(setTo == Position.SWITCH || setTo == Position.PORTAL) {
+			talonMotor.set(ControlMode.Position, degreesToPosition(45) - initialEncoderPosition);
 			this.setArmReverse();
-		} else if(setTo == Position.HIGHSCALE) {
-			talonMotor.set(ControlMode.Position, 90);
+		}
+		else if(setTo == Position.HIGHSCALE) {
+			talonMotor.set(ControlMode.Position, degreesToPosition(135) - initialEncoderPosition);
 			this.setArmReverse();
-		} else if(setTo == Position.LEVELSCALE) {
-			talonMotor.set(ControlMode.Position, 88);
+		}
+		else if(setTo == Position.LEVELSCALE) {
+			talonMotor.set(ControlMode.Position, degreesToPosition(135) - initialEncoderPosition);
 			this.setArmReverse();
-		} else if(setTo == Position.LOWSCALE) {
-			talonMotor.set(ControlMode.Position, 85);
+		}
+		else if(setTo == Position.LOWSCALE) {
+			talonMotor.set(ControlMode.Position, degreesToPosition(135) - initialEncoderPosition);
 			this.setArmReverse();
-		} else if(setTo == Position.EXCHANGE) {
-			talonMotor.set(ControlMode.Position, 15);
+		}
+		else if(setTo == Position.EXCHANGE) {
+			talonMotor.set(ControlMode.Position, degreesToPosition(2) - initialEncoderPosition);
 			this.setArmReverse();
-		} else if (setTo == Position.START){
-			talonMotor.set(ControlMode.Position, 30);
+		}
+		else if (setTo == Position.START){
+			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
 			this.setArmReverse();
-		} else {
-			talonMotor.set(ControlMode.Position, 30);
+		}
+		else {
+			//comment
+			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
 			this.setArmForward();
 		}
+		
+		System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
+
 		
 		
 	}
@@ -133,6 +148,19 @@ public class Arm {
 	
 	public void setArmOff() {
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+	}
+	
+	public void resetEncoder() {
+		this.talonMotor.getSensorCollection().setPulseWidthPosition(0, 0);
+	}
+	
+	public void setIntitialEncoderPosition() {
+		initialEncoderPosition = this.talonMotor.getSensorCollection().getPulseWidthPosition();
+	}
+	
+	public double degreesToPosition(int degrees) {
+		
+		return degrees * 40.45;
 	}
 
 }

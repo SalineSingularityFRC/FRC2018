@@ -125,7 +125,7 @@ public class TankDrive implements ControlScheme {
 
 	@Override
 	public void arm(Arm arm) {
-		/*
+		
 		if(logitechSystems.getAButton()){
 			lastPressed = Arm.Position.PICKUP;
 		}
@@ -155,9 +155,10 @@ public class TankDrive implements ControlScheme {
 		}
 		
 		arm.setArm(lastPressed);
-		*/
 		
-		arm.controlArm(logitechSystems.getLS_Y(), 3.0);
+		
+		//arm.controlArm(logitechSystems.getLS_Y() * 0.8, 2.0);
+		
 		/*
 		if (logitechSystems.getAButton())
 			arm.setArmForward();

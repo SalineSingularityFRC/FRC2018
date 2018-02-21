@@ -100,11 +100,12 @@ public class SixWheelDrive extends SingDrive{
 		m_rearLeftMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
 		m_rearRightMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
 
-		m_frontLeftMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
-		m_frontRightMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
+		//m_frontLeftMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
+		//m_frontRightMotor.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
 		
-		//SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
-		//SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
+		//SmartDashboard.putNumber("left speed", leftVelocity);
+		//SmartDashboard.putNumber("right speed", rightVelocity);
+	
 	}
 }
 
