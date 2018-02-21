@@ -712,9 +712,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-		//currentScheme.lift(lift, timer);
+		currentScheme.lift(lift, timer);
 		currentScheme.arm(arm);
-		//currentScheme.intake(intake);
+		currentScheme.intake(intake);
 		
 	}
 	
@@ -919,8 +919,8 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
-		properties.addDefaultProp("intakeRight", 4);
-		properties.addDefaultProp("intakeLeft", 10);
+		properties.addDefaultProp("intakeRight", 10);
+		properties.addDefaultProp("intakeLeft", 2);
 		properties.addDefaultProp("intakeSensorPort", 5);
 		
 	}

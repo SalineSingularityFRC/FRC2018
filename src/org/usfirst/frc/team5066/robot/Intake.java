@@ -23,7 +23,7 @@ public class Intake {
 	private final double AUTONOUTTAKE = 1.0;
 
 	private final double INSPEED = 1.0;
-	private final double OUTSPEED = 1.0;
+	private final double OUTSPEED = -1.0;
 	private final double ROTATESPEED = 0.5;
 
 	public Intake(int leftPort, int rightPort, int inputPort) {
@@ -73,12 +73,12 @@ public class Intake {
 			else {
 
 				if (leftIn) {
-					left.set(ControlMode.PercentOutput, INSPEED);
+					left.set(ControlMode.PercentOutput, -INSPEED);
 
 				}
 
 				else if (leftOut) {
-					left.set(ControlMode.PercentOutput, OUTSPEED);
+					left.set(ControlMode.PercentOutput, -OUTSPEED);
 
 				}
 

@@ -128,7 +128,7 @@ public class Arm {
 		}
 		else {
 			//comment
-			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
+			talonMotor.set(ControlMode.Position, degreesToPosition(60) - initialEncoderPosition);
 			this.setArmForward();
 		}
 		
