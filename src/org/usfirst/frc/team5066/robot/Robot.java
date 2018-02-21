@@ -107,7 +107,7 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	VictorSPX[] cantalon;
+	TalonSRX[] cantalon;
 	double speed;
 	
 	//pneumatics
@@ -723,15 +723,16 @@ public class Robot extends IterativeRobot {
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
 
-		cantalon = new VictorSPX[15];
+		cantalon = new TalonSRX[15];
 		for (int i = 0; i < 15; i++) {
-			cantalon[i] = new VictorSPX(i);
+			cantalon[i] = new TalonSRX(i);
 		}
 		
 		//solenoidDrive = new DoubleSolenoid(0, 1);
 		//solenoidArm = new DoubleSolenoid(2, 3);
 		
 		compressor.getPressureSwitchValue();
+		port = 0;
 		
 
 	}
@@ -889,8 +890,8 @@ public class Robot extends IterativeRobot {
 	
 	private void setDefaultProperties() {
 		
-		properties.addDefaultProp("frontRightMotor", 13);
-		properties.addDefaultProp("frontLeftMotor", 9);
+		properties.addDefaultProp("frontRightMotor", 14);
+		properties.addDefaultProp("frontLeftMotor",11);
 		properties.addDefaultProp("backRightMotor", 3);
 		properties.addDefaultProp("backLeftMotor", 6);
 		properties.addDefaultProp("middleRightMotor", 5);
@@ -899,20 +900,20 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
 		
-		properties.addDefaultProp("liftLeft1", 10);
-		properties.addDefaultProp("liftRight1", 2);
+		properties.addDefaultProp("liftLeft1", 4);
+		properties.addDefaultProp("liftRight1", 8);
 		
 		properties.addDefaultProp("ultraRightInput", 1);
 		properties.addDefaultProp("ultraRightOutput", 2);
 		properties.addDefaultProp("ultraLeftInput", 8);
 		properties.addDefaultProp("ultraLeftOutput", 9);
 		
-		properties.addDefaultProp("talonArmMotor", 7);
+		properties.addDefaultProp("talonArmMotor", 13);
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
 		properties.addDefaultProp("intakeRight", 4);
-		properties.addDefaultProp("intakeLeft", 8);
+		properties.addDefaultProp("intakeLeft", 10);
 		properties.addDefaultProp("intakeSensorPort", 5);
 		
 	}
