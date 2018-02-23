@@ -32,8 +32,6 @@ public class Arm {
 	double speedConstant;
 	double speed;
 	
-	private DoubleSolenoid doubleSolenoid;
-	
 	private int initialEncoderPosition;
 	
 	
@@ -74,8 +72,7 @@ public class Arm {
 		*/
 		
 		speedConstant = s;
-		doubleSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
-	}
+		}
 	
 	public void controlArm (double armStick, double exponent) {
 		/*
@@ -100,54 +97,32 @@ public class Arm {
 	public void setArm(Position setTo) {
 		if(setTo == Position.PICKUP) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else if(setTo == Position.SWITCH || setTo == Position.PORTAL) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(45) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else if(setTo == Position.HIGHSCALE) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(135) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else if(setTo == Position.LEVELSCALE) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(135) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else if(setTo == Position.LOWSCALE) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(135) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else if(setTo == Position.EXCHANGE) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(2) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else if (setTo == Position.START){
 			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
-			this.setArmReverse();
 		}
 		else {
 			//comment
 			talonMotor.set(ControlMode.Position, degreesToPosition(60) - initialEncoderPosition);
-			this.setArmForward();
 		}
 		
-		System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
-
+		System.out.println("Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
 		
-		
-	}
-	
-	public void setArmForward() {
-		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-	}
-	
-	public void setArmReverse() {
-		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-	}
-	
-	public void setArmOff() {
-		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 	
 	public void resetEncoder() {
@@ -158,8 +133,7 @@ public class Arm {
 		initialEncoderPosition = this.talonMotor.getSensorCollection().getPulseWidthPosition();
 	}
 	
-	public double degreesToPosition(int degrees) {
-		
+	public double degreesToPosition(int degrees) {	
 		return degrees * 40.45;
 	}
 
