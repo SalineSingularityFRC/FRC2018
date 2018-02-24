@@ -18,9 +18,11 @@ public abstract class SingDrive {
 	public double slowSpeedConstant, normalSpeedConstant, fastSpeedConstant;
 	public int mode = 0;
 	
-	protected VictorSPX m_rearLeftMotor, m_rearRightMotor, m_leftMiddleMotor, m_rightMiddleMotor;
+	protected VictorSPX m_leftVictor1, m_leftVictor2, m_leftVictor3, m_rightVictor1, m_rightVictor2, m_rightVictor3;
 	 
-	protected TalonSRX m_frontLeftMotor, m_frontRightMotor;
+	protected TalonSRX m_leftTalon, m_rightTalon;
+	
+	
 	
 
 	private final static double DEFAULT_VELOCITY_MULTIPLIER = 1.0;
@@ -77,15 +79,20 @@ public abstract class SingDrive {
 	 * @param rearRightMotor
 	 *            Channel for rear right motor
 	 */
-	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor,int midRightMotor,
-			int midLeftMotor) {
-		this(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor,
-				midLeftMotor, DEFAULT_TALON_TYPE,
+	public SingDrive(int leftVictor1, int leftVictor2, int leftVictor3, int leftTalon,
+			int rightVictor1, int rightVictor2, int rightVictor3, int rightTalon) {
+		this(leftVictor1, leftVictor2, leftVictor3, leftTalon, rightVictor1, rightVictor2,
+				rightVictor3, rightTalon, DEFAULT_TALON_TYPE,
 				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
 	}
 	
 	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor) {
 		this(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor,  DEFAULT_TALON_TYPE,
+				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
+	}
+	
+	public SingDrive(int frontLeftMotor, int rearLeftMotor, int middleRightMotor, int frontRightMotor, int rearRightMotor, int middleLeftMotor) {
+		this(frontLeftMotor, rearLeftMotor, middleLeftMotor, frontRightMotor, rearRightMotor, middleRightMotor, DEFAULT_TALON_TYPE,
 				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
 	}
 
@@ -107,9 +114,9 @@ public abstract class SingDrive {
 	/*
 	 * public SingularityDrive(SpeedController frontLeftMotor, SpeedController
 	 * rearLeftMotor, SpeedController frontRightMotor, SpeedController
-	 * rearRightMotor, double velocityMultiplier) { m_frontLeftMotor =
-	 * frontLeftMotor; m_rearLeftMotor = rearLeftMotor; m_frontRightMotor =
-	 * frontRightMotor; m_rearRightMotor = rearRightMotor;
+	 * rearRightMotor, double velocityMultiplier) { m_leftTalon =
+	 * frontLeftMotor; m_leftVictor1 = rearLeftMotor; m_rightTalon =
+	 * frontRightMotor; m_rightVictor1 = rearRightMotor;
 	 * this.velocityMultiplier = velocityMultiplier; }
 	 * 
 	 * 
@@ -127,25 +134,25 @@ public abstract class SingDrive {
 	 * pidGet
 	 */
 	
-	public SingDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int rightMiddleMotor, int leftMiddleMotor,
+	public SingDrive(int leftVictor1, int leftVictor2, int leftVictor3, int leftTalon,
+			int rightVictor1, int rightVictor2, int rightVictor3, int rightTalon,
 			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) {//Six wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {
 			
-			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
-			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
-
-			//m_frontLeftMotor.set(ControlMode.Follower, frontLeftMotor);
-
-			m_leftMiddleMotor = new VictorSPX(leftMiddleMotor);
-			//m_leftMiddleMotor.set(ControlMode.Follower, frontLeftMotor);
+			m_leftTalon = new TalonSRX(leftTalon);
+			m_leftVictor1 = new VictorSPX(leftVictor1);
+			//m_leftTalon.set(ControlMode.Follower, frontLeftMotor);
+			m_leftVictor2 = new VictorSPX(leftVictor2);
+			//m_leftVictor2.set(ControlMode.Follower, frontLeftMotor);
+			m_leftVictor3 = new VictorSPX(leftVictor3);
 			
-			m_frontRightMotor = new TalonSRX(frontRightMotor);
-			
-			m_rearRightMotor = new VictorSPX(rearRightMotor);
-			//m_frontRightMotor.set(ControlMode.Follower, frontRightMotor);
-			m_rightMiddleMotor = new VictorSPX(rightMiddleMotor);
-			//m_rightMiddleMotor.set(ControlMode.Follower, frontRightMotor);
+			m_rightTalon = new TalonSRX(rightTalon);
+			m_rightVictor1 = new VictorSPX(rightVictor1);
+			//m_rightTalon.set(ControlMode.Follower, frontRightMotor);
+			m_rightVictor2 = new VictorSPX(rightVictor2);
+			//m_rightVictor2.set(ControlMode.Follower, frontRightMotor);
+			m_rightVictor3 = new VictorSPX(rightVictor3);
 
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
@@ -176,10 +183,36 @@ public abstract class SingDrive {
 			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) { //Four wheel constructor
 
 		if (talonType == CANTALON_DRIVE) {
-			m_frontLeftMotor = new TalonSRX(frontLeftMotor);
-			m_rearLeftMotor = new VictorSPX(rearLeftMotor);
-			m_frontRightMotor = new TalonSRX(frontRightMotor);
-			m_rearRightMotor = new VictorSPX(rearRightMotor);
+			m_leftTalon = new TalonSRX(frontLeftMotor);
+			m_leftVictor1 = new VictorSPX(rearLeftMotor);
+			m_rightTalon = new TalonSRX(frontRightMotor);
+			m_rightVictor1 = new VictorSPX(rearRightMotor);
+
+		} else {
+			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
+		}
+
+		this.velocityMultiplier = fastSpeedConstant;
+		this.talonType = talonType;
+		this.slowSpeedConstant = slowSpeedConstant;
+		this.normalSpeedConstant = normalSpeedConstant;
+		this.fastSpeedConstant = fastSpeedConstant;
+		this.driveStraight = driveStraight;
+		timer = new Timer();
+		
+		//this.gyro = gyro;
+	}
+	
+	public SingDrive(int frontLeftMotor, int rearLeftMotor, int middleLeftMotor, int frontRightMotor, int rearRightMotor, int middleRightMotor,
+			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) { //Four wheel constructor
+
+		if (talonType == CANTALON_DRIVE) {
+			m_leftTalon = new TalonSRX(frontLeftMotor);
+			m_leftVictor1 = new VictorSPX(rearLeftMotor);
+			m_leftVictor2 = new VictorSPX(middleLeftMotor);
+			m_rightTalon = new TalonSRX(frontRightMotor);
+			m_rightVictor1 = new VictorSPX(rearRightMotor);
+			m_rightVictor2 = new VictorSPX(middleRightMotor);
 
 		} else {
 			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
@@ -200,26 +233,26 @@ public abstract class SingDrive {
 	//Encoder code:
 	public void resetAll(){
 		
-		m_frontLeftMotor.getSensorCollection().setPulseWidthPosition(0, 0);
-		//m_leftMiddleMotor.getSensorCollection().setQuadraturePosition(0, 10);
-		m_frontRightMotor.getSensorCollection().setPulseWidthPosition(0, 0);
+		m_leftTalon.getSensorCollection().setPulseWidthPosition(0, 0);
+		//m_leftVictor2.getSensorCollection().setQuadraturePosition(0, 10);
+		m_rightTalon.getSensorCollection().setPulseWidthPosition(0, 0);
 	}
 	
 	public double getLeftPosition(){
-		return m_frontLeftMotor.getSensorCollection().getPulseWidthPosition();
+		return m_leftTalon.getSensorCollection().getPulseWidthPosition();
 	}
 	
 	public double getRightPosition(){
-		return m_frontRightMotor.getSensorCollection().getPulseWidthPosition();
+		return m_rightTalon.getSensorCollection().getPulseWidthPosition();
 	}
 	
 	public void resetEncoders() {
-		m_frontLeftMotor.getSensorCollection().setPulseWidthPosition(0, 10);
-		m_frontLeftMotor.getSensorCollection().setPulseWidthPosition(0, 10);
+		m_leftTalon.getSensorCollection().setPulseWidthPosition(0, 10);
+		m_leftTalon.getSensorCollection().setPulseWidthPosition(0, 10);
 	}
 	
 	public double getMiddlePosition(){
-		return m_leftMiddleMotor.getSensorCollection().getQuadraturePosition();
+		return m_leftVictor2.getSensorCollection().getQuadraturePosition();
 	}
 	
 	public double leftOverRight() {
@@ -228,19 +261,23 @@ public abstract class SingDrive {
 	
 	public void setControlMode(boolean coast) {
 		if(coast) {
-			m_frontRightMotor.setNeutralMode(NeutralMode.Coast);
-			m_rightMiddleMotor.setNeutralMode(NeutralMode.Coast);
-			m_rearRightMotor.setNeutralMode(NeutralMode.Coast);
-			m_frontLeftMotor.setNeutralMode(NeutralMode.Coast);
-			m_leftMiddleMotor.setNeutralMode(NeutralMode.Coast);
-			m_rearLeftMotor.setNeutralMode(NeutralMode.Coast);
+			m_rightTalon.setNeutralMode(NeutralMode.Coast);
+			m_rightVictor1.setNeutralMode(NeutralMode.Coast);
+			m_rightVictor2.setNeutralMode(NeutralMode.Coast);
+			m_rightVictor3.setNeutralMode(NeutralMode.Coast);
+			m_leftTalon.setNeutralMode(NeutralMode.Coast);
+			m_leftVictor1.setNeutralMode(NeutralMode.Coast);
+			m_leftVictor2.setNeutralMode(NeutralMode.Coast);
+			m_leftVictor3.setNeutralMode(NeutralMode.Coast);
 		} else {
-			m_frontRightMotor.setNeutralMode(NeutralMode.Brake);
-			m_rightMiddleMotor.setNeutralMode(NeutralMode.Brake);
-			m_rearRightMotor.setNeutralMode(NeutralMode.Brake);
-			m_frontLeftMotor.setNeutralMode(NeutralMode.Brake);
-			m_leftMiddleMotor.setNeutralMode(NeutralMode.Brake);
-			m_rearLeftMotor.setNeutralMode(NeutralMode.Brake);
+			m_rightTalon.setNeutralMode(NeutralMode.Brake);
+			m_rightVictor1.setNeutralMode(NeutralMode.Brake);
+			m_rightVictor2.setNeutralMode(NeutralMode.Brake);
+			m_rightVictor3.setNeutralMode(NeutralMode.Brake);
+			m_leftTalon.setNeutralMode(NeutralMode.Brake);
+			m_leftVictor1.setNeutralMode(NeutralMode.Brake);
+			m_leftVictor2.setNeutralMode(NeutralMode.Brake);
+			m_leftVictor3.setNeutralMode(NeutralMode.Brake);
 		}
 	}
 	
@@ -282,23 +319,28 @@ public abstract class SingDrive {
 	
 	public void rampVoltage() {
 		
-		m_frontRightMotor.configOpenloopRamp(RAMP_RATE, 10);
-		m_frontLeftMotor.configOpenloopRamp(RAMP_RATE, 10);
-		m_rearRightMotor.configOpenloopRamp(RAMP_RATE, 10);
-		m_rearLeftMotor.configOpenloopRamp(RAMP_RATE, 10);
-		m_rightMiddleMotor.configOpenloopRamp(RAMP_RATE, 10);
-		m_leftMiddleMotor.configOpenloopRamp(RAMP_RATE, 10);
+		m_leftTalon.configOpenloopRamp(RAMP_RATE, 10);
+		m_leftVictor1.configOpenloopRamp(RAMP_RATE, 10);
+		m_leftVictor2.configOpenloopRamp(RAMP_RATE, 10);
+		m_leftVictor3.configOpenloopRamp(RAMP_RATE, 10);
 		
+		m_rightTalon.configOpenloopRamp(RAMP_RATE, 10);
+		m_rightVictor1.configOpenloopRamp(RAMP_RATE, 10);
+		m_rightVictor2.configOpenloopRamp(RAMP_RATE, 10);
+		m_rightVictor3.configOpenloopRamp(RAMP_RATE, 10);
 	}
 	
 	public void rampVoltage(double rampRate) {
 		
-		m_frontRightMotor.configOpenloopRamp(rampRate, 10);
-		m_frontLeftMotor.configOpenloopRamp(rampRate, 10);
-		m_rearRightMotor.configOpenloopRamp(rampRate, 10);
-		m_rearLeftMotor.configOpenloopRamp(rampRate, 10);
-		m_rightMiddleMotor.configOpenloopRamp(rampRate, 10);
-		m_leftMiddleMotor.configOpenloopRamp(rampRate, 10);
+		m_leftTalon.configOpenloopRamp(rampRate, 10);
+		m_leftVictor1.configOpenloopRamp(rampRate, 10);
+		m_leftVictor2.configOpenloopRamp(rampRate, 10);
+		m_leftVictor3.configOpenloopRamp(rampRate, 10);
+		
+		m_rightTalon.configOpenloopRamp(rampRate, 10);
+		m_rightVictor1.configOpenloopRamp(rampRate, 10);
+		m_rightVictor2.configOpenloopRamp(rampRate, 10);
+		m_rightVictor3.configOpenloopRamp(rampRate, 10);
 	}
 	
 	// reverse drive method for booleans. You have to hold the button to
@@ -334,8 +376,8 @@ public abstract class SingDrive {
 	}
 	
 	public void displayEncoder() {
-		SmartDashboard.putNumber("encoder inches", encTicToInches(m_leftMiddleMotor.getSensorCollection().getQuadraturePosition()));
-		SmartDashboard.putNumber("encoder ticks", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("encoder inches", encTicToInches(m_leftVictor2.getSensorCollection().getQuadraturePosition()));
+		SmartDashboard.putNumber("encoder ticks", m_leftVictor2.getSensorCollection().getQuadraturePosition());
 		
 	}
 	
@@ -356,29 +398,29 @@ public abstract class SingDrive {
 		t.start();
 		
 		
-		 double origPosition = ((CANTalon) m_leftMiddleMotor).getEncPosition();
+		 double origPosition = ((CANTalon) m_leftVictor2).getEncPosition();
 		// copy and paste into while loop:
-		 //((CANTalon) m_leftMiddleMotor).getEncPosition() - origPosition
+		 //((CANTalon) m_leftVictor2).getEncPosition() - origPosition
 		
 		
-		//((CANTalon) m_leftMiddleMotor).setEncPosition(0);
+		//((CANTalon) m_leftVictor2).setEncPosition(0);
 		
 		Timer.delay(0.2);
 		
 		SmartDashboard.putNumber("Distance - (speed * 30)", distance - speed * 30);
 		
 		
-		while (t.get() < maxTime && Math.abs(encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition() - origPosition)) < distance - (Math.abs(speed) * 30)) {
+		while (t.get() < maxTime && Math.abs(encTicToInches(((CANTalon) m_leftVictor2).getEncPosition() - origPosition)) < distance - (Math.abs(speed) * 30)) {
 			this.drive(speed, 0.0, gyroRotationConstant * (origAngle - gyro.getAngle()), false, SpeedMode.FAST);
-			SmartDashboard.putNumber("abs value inch distance", Math.abs(encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition())));
-			SmartDashboard.putBoolean("FirstLoop excluding time", Math.abs(encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition())) < distance - (speed * 30));
+			SmartDashboard.putNumber("abs value inch distance", Math.abs(encTicToInches(((CANTalon) m_leftVictor2).getEncPosition())));
+			SmartDashboard.putBoolean("FirstLoop excluding time", Math.abs(encTicToInches(((CANTalon) m_leftVictor2).getEncPosition())) < distance - (speed * 30));
 			this.displayEncoder();
 		}
 		
-		while (t.get() < maxTime && Math.abs(encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition() - origPosition)) < distance) {
+		while (t.get() < maxTime && Math.abs(encTicToInches(((CANTalon) m_leftVictor2).getEncPosition() - origPosition)) < distance) {
 
-			SmartDashboard.putNumber("abs value inch distance", Math.abs(encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition())));
-			SmartDashboard.putBoolean("SecondLoop excluding time", Math.abs(encTicToInches(((CANTalon) m_leftMiddleMotor).getEncPosition())) < distance);
+			SmartDashboard.putNumber("abs value inch distance", Math.abs(encTicToInches(((CANTalon) m_leftVictor2).getEncPosition())));
+			SmartDashboard.putBoolean("SecondLoop excluding time", Math.abs(encTicToInches(((CANTalon) m_leftVictor2).getEncPosition())) < distance);
 			this.drive(0.25, 0.0, gyroRotationConstant * (origAngle - gyro.getAngle()), false, SpeedMode.FAST);
 		}
 		
