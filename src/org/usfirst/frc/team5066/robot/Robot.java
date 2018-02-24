@@ -167,10 +167,10 @@ public class Robot extends IterativeRobot {
 			
 			lift = new Lift(liftRight1, liftLeft1, ultraRightInput, ultraRightOutput,
 					ultraLeftInput, ultraLeftOutput, LIFT_SPEED);
-			
+			/*
 			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			intake = new Intake(intakeLeft, intakeRight, intakeSensorPort);
-			
+			*/
 			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
 			/*
 			new Thread(() -> {
@@ -561,8 +561,8 @@ public class Robot extends IterativeRobot {
 		
 		currentScheme.drive(drive, dPneumatics);
 		currentScheme.lift(lift, timer);
-		currentScheme.arm(arm);
-		currentScheme.intake(intake);
+		//currentScheme.arm(arm);
+		//currentScheme.intake(intake);
 		
 	}
 	
@@ -751,8 +751,8 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("leftVictor1", 6);
 		properties.addDefaultProp("rightVictor2", 5);
 		properties.addDefaultProp("leftVictor2", 7);
-		properties.addDefaultProp("rightVictor3", 18);
-		properties.addDefaultProp("leftVictor3", 17);
+		properties.addDefaultProp("rightVictor3", 10);
+		properties.addDefaultProp("leftVictor3", 2);
 		
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
@@ -769,8 +769,8 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
-		properties.addDefaultProp("intakeRight", 10);
-		properties.addDefaultProp("intakeLeft", 2);
+		properties.addDefaultProp("intakeRight", 18);
+		properties.addDefaultProp("intakeLeft",17);
 		properties.addDefaultProp("intakeSensorPort", 5);
 		
 	}
