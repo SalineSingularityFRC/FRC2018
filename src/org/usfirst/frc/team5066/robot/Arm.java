@@ -4,6 +4,7 @@ import org.usfirst.frc.team5066.controller2018.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -38,6 +39,7 @@ public class Arm {
 	
 	public Arm(int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
+		talonMotor.setNeutralMode(NeutralMode.Brake);
 		
 		this.setIntitialEncoderPosition();
 		/*
@@ -94,9 +96,11 @@ public class Arm {
 		talonMotor.set(ControlMode.PercentOutput, speed);
 		System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
 	}
+	
+	
 	//Method to control new arm
 	public void setArmNew(boolean armPosSwitch, double speed) {
-		setIntitialEncoderPosition();
+		
 		//switch direction of motor if going for pickup/vault
 		if (armPosSwitch) {
 			this.speed=speed;
@@ -105,10 +109,15 @@ public class Arm {
 			this.speed=-speed;
 		}
 		
-		while(Math.abs(initialEncoderPosition - getArmEncoderPos()) < armDistance) {
-			talonMotor.set(ControlMode.PercentOutput, speed);
+		if (Math.abs(initialEncoderPosition - getArmEncoderPos()) < armDistance) {
+			talonMotor.set(ControlMode.PercentOutput, this.speed);
+		}
+		else {
+			talonMotor.set(ControlMode.PercentOutput, 0.0);
 		}
 	}
+	
+	
 	public void setArm(Position setTo) {
 		if(setTo == Position.PICKUP) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
