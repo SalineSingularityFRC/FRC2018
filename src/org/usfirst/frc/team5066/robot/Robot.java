@@ -43,7 +43,7 @@ import javafx.scene.Camera;
 
 public class Robot extends IterativeRobot {
 	
-	int frontRightMotor, frontLeftMotor, middleRightMotor, middleLeftMotor, backRightMotor, backLeftMotor;
+	int leftVictor1, leftVictor2, leftVictor3, leftTalon, rightVictor1, rightVictor2, rightVictor3, rightTalon;
 	int drivePneuForward, drivePneuReverse;
 	
 	int liftLeft1, liftRight1;
@@ -157,8 +157,8 @@ public class Robot extends IterativeRobot {
 			
 			gyro = new AHRS(SPI.Port.kMXP);
 		
-			drive = new SixWheelDrive(frontLeftMotor, backLeftMotor,
-					frontRightMotor, backRightMotor, middleRightMotor, middleLeftMotor);
+			drive = new SixWheelDrive(leftVictor1, leftVictor2, leftVictor3, leftTalon,
+					rightVictor1, rightVictor2, rightVictor3, rightTalon);
 					
 			//drive = new TankDrive(0, 1);
 			drive.rampVoltage();
@@ -708,12 +708,14 @@ public class Robot extends IterativeRobot {
 	private void loadProperties() {
 		
 		try {
-			frontRightMotor = properties.getInt("frontRightMotor");
-			frontLeftMotor = properties.getInt("frontLeftMotor");
-			backRightMotor = properties.getInt("backRightMotor");
-			backLeftMotor = properties.getInt("backLeftMotor");
-			middleRightMotor = properties.getInt("middleRightMotor");
-			middleLeftMotor = properties.getInt("middleLeftMotor");
+			rightTalon = properties.getInt("rightTalon");
+			leftTalon = properties.getInt("leftTalon");
+			rightVictor1 = properties.getInt("rightVictor1");
+			leftVictor1 = properties.getInt("leftVictor1");
+			rightVictor2 = properties.getInt("rightVictor2");
+			leftVictor2 = properties.getInt("leftVictor2");
+			rightVictor3 = properties.getInt("rightVictor3");
+			leftVictor3 = properties.getInt("leftVictor3");
 			
 			drivePneuForward = properties.getInt("drivePneuForward");
 			drivePneuReverse = properties.getInt("drivePneuReverse");
@@ -743,12 +745,14 @@ public class Robot extends IterativeRobot {
 	
 	private void setDefaultProperties() {
 		
-		properties.addDefaultProp("frontRightMotor", 14);
-		properties.addDefaultProp("frontLeftMotor",11);
-		properties.addDefaultProp("backRightMotor", 3);
-		properties.addDefaultProp("backLeftMotor", 6);
-		properties.addDefaultProp("middleRightMotor", 5);
-		properties.addDefaultProp("middleLeftMotor", 7);
+		properties.addDefaultProp("rightTalon", 14);
+		properties.addDefaultProp("leftTalon",11);
+		properties.addDefaultProp("rightVictor1", 3);
+		properties.addDefaultProp("leftVictor1", 6);
+		properties.addDefaultProp("rightVictor2", 5);
+		properties.addDefaultProp("leftVictor2", 7);
+		properties.addDefaultProp("rightVictor3", 18);
+		properties.addDefaultProp("leftVictor3", 17);
 		
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);

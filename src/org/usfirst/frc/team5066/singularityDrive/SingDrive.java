@@ -22,7 +22,7 @@ public abstract class SingDrive {
 	 
 	protected TalonSRX m_leftTalon, m_rightTalon;
 	
-	
+	protected VictorSPX m_frontRightMotor, m_frontLeftMotor, m_rightMiddleMotor, m_leftMiddleMotor, m_rearRightMotor, m_rearLeftMotor;
 	
 
 	private final static double DEFAULT_VELOCITY_MULTIPLIER = 1.0;
@@ -91,10 +91,7 @@ public abstract class SingDrive {
 				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
 	}
 	
-	public SingDrive(int frontLeftMotor, int rearLeftMotor, int middleRightMotor, int frontRightMotor, int rearRightMotor, int middleLeftMotor) {
-		this(frontLeftMotor, rearLeftMotor, middleLeftMotor, frontRightMotor, rearRightMotor, middleRightMotor, DEFAULT_TALON_TYPE,
-				DEFAULT_SLOW_SPEED_CONSTANT, DEFAULT_NORMAL_SPEED_CONSTANT, DEFAULT_FAST_SPEED_CONSTANT);
-	}
+	
 
 	/**
 	 * Constructor for {@link org.usfirst.frc.team5066.library.SingularityDrive
@@ -203,31 +200,7 @@ public abstract class SingDrive {
 		//this.gyro = gyro;
 	}
 	
-	public SingDrive(int frontLeftMotor, int rearLeftMotor, int middleLeftMotor, int frontRightMotor, int rearRightMotor, int middleRightMotor,
-			int talonType, double slowSpeedConstant, double normalSpeedConstant, double fastSpeedConstant) { //Four wheel constructor
-
-		if (talonType == CANTALON_DRIVE) {
-			m_leftTalon = new TalonSRX(frontLeftMotor);
-			m_leftVictor1 = new VictorSPX(rearLeftMotor);
-			m_leftVictor2 = new VictorSPX(middleLeftMotor);
-			m_rightTalon = new TalonSRX(frontRightMotor);
-			m_rightVictor1 = new VictorSPX(rearRightMotor);
-			m_rightVictor2 = new VictorSPX(middleRightMotor);
-
-		} else {
-			SmartDashboard.putNumber("INVALID VALUE FOR TALON TYPE.b\tvalue=", talonType);
-		}
-
-		this.velocityMultiplier = fastSpeedConstant;
-		this.talonType = talonType;
-		this.slowSpeedConstant = slowSpeedConstant;
-		this.normalSpeedConstant = normalSpeedConstant;
-		this.fastSpeedConstant = fastSpeedConstant;
-		this.driveStraight = driveStraight;
-		timer = new Timer();
-		
-		//this.gyro = gyro;
-	}
+	
 	
 	
 	//Encoder code:
