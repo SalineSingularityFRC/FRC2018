@@ -26,7 +26,7 @@ public class TankDrive implements ControlScheme {
 	boolean rBPrevious;
 	boolean lBCurrent;
 	boolean lBPrevious;
-	
+	boolean armNew;
 	boolean speed;
 	
 	boolean safetyDisabled;
@@ -47,6 +47,8 @@ public class TankDrive implements ControlScheme {
 		safetyDisabled = false;
 		leftLowLimit = false;
 		rightLowLimit = false;
+		
+		armNew = true;
 		
 	}
 	
@@ -125,7 +127,7 @@ public class TankDrive implements ControlScheme {
 
 	@Override
 	public void arm(Arm arm) {
-		
+		/*
 		if(logitechSystems.getAButton()){
 			lastPressed = Arm.Position.PICKUP;
 		}
@@ -155,9 +157,20 @@ public class TankDrive implements ControlScheme {
 		}
 		
 		arm.setArm(lastPressed);
+		*/
+		//man. control arm
+		if(logitechSystems.getXButton() && armNew == true) {
+			arm.setArmNew(armNew, 0.3);
+			armNew = false;
+		}
+		
+		else if(logitechSystems.getXButton() && armNew == false) {
+			arm.setArmNew(armNew, .3);
+			armNew = true;
+		}
+		arm.controlArm(logitechSystems.getLS_Y() * 0.8, 2.0);
 		
 		
-		//arm.controlArm(logitechSystems.getLS_Y() * 0.8, 2.0);
 		
 		/*
 		if (logitechSystems.getAButton())

@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Arm {
 
 	private TalonSRX talonMotor;
-	
+	//for new arm code
+	private final double armDistance = 1000;
 	private final double LOWERLIMIT = 10;
 	private final double UPPERLIMIT = 100;
 	
@@ -93,7 +94,21 @@ public class Arm {
 		talonMotor.set(ControlMode.PercentOutput, speed);
 		System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
 	}
-	
+	//Method to control new arm
+	public void setArmNew(boolean armPosSwitch, double speed) {
+		setIntitialEncoderPosition();
+		//switch direction of motor if going for pickup/vault
+		if (armPosSwitch) {
+			this.speed=speed;
+		}
+		else {
+			this.speed=-speed;
+		}
+		
+		while(Math.abs(initialEncoderPosition - getArmEncoderPos()) < armDistance) {
+			talonMotor.set(ControlMode.PercentOutput, speed);
+		}
+	}
 	public void setArm(Position setTo) {
 		if(setTo == Position.PICKUP) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
@@ -135,6 +150,11 @@ public class Arm {
 	
 	public double degreesToPosition(int degrees) {	
 		return degrees * 40.45;
+	}
+	
+	public double getArmEncoderPos() {
+		return this.talonMotor.getSensorCollection().getPulseWidthPosition();
+		
 	}
 
 }
