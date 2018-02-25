@@ -560,7 +560,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		currentScheme.drive(drive, dPneumatics);
-		currentScheme.lift(lift, timer);
+		//currentScheme.lift(lift, timer);
 		//currentScheme.arm(arm);
 		//currentScheme.intake(intake);
 		
