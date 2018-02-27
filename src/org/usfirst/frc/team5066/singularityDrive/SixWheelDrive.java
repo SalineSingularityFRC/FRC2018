@@ -22,19 +22,17 @@ public class SixWheelDrive extends SingDrive{
 	
 	//TODO gradual acceleration
 
-	public void drive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode) {
+	public void drive(double vertical, double horizontal, double rotation, double inputExponent, SpeedMode speedMode) {
 		double translationVelocity = vertical, rotationVelocity = rotation;
 		
 		translationVelocity = threshold(translationVelocity);
 		rotationVelocity = threshold(rotationVelocity);
 		
-		setVelocityMultiplierBasedOnSpeedMode(speedMode);
+		//setVelocityMultiplierBasedOnSpeedMode(speedMode);
 		
 		// Do squared inputs if necessary
-		if (squaredInputs) {
-			translationVelocity *= Math.abs(vertical);
-			rotationVelocity *= Math.abs(rotation);
-		}
+		translationVelocity *= Math.abs(Math.pow(translationVelocity, inputExponent - 1));
+		rotationVelocity *= Math.abs(Math.pow(rotationVelocity, inputExponent - 1));
 		
 		// Do reverse drive when necessary. There are methods above for different inputs.
 		/*if (reverse) {
@@ -49,20 +47,18 @@ public class SixWheelDrive extends SingDrive{
 			maximum *= 1 / reducedVelocity;
 		}
 
-		translationVelocity = threshold(translationVelocity);
-		rotationVelocity = threshold(rotationVelocity);
 
 		// Set the motors
-		m_leftTalon.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_rightTalon.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_rightTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		
-		m_leftVictor1.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_leftVictor2.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_leftVictor3.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		
-		m_rightVictor1.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_rightVictor2.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
-		m_rightVictor3.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
+		m_rightVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_rightVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_rightVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		
 		//SmartDashboard.putNumber("rightEncoder", m_rightMiddleMotor.getSensorCollection().getQuadraturePosition());
 		//SmartDashboard.putNumber("leftEncoder", m_leftMiddleMotor.getSensorCollection().getQuadraturePosition());

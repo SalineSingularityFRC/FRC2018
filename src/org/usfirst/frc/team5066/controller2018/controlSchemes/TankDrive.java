@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5066.controller2018.controlSchemes;
 
 import org.usfirst.frc.team5066.controller2018.ControlScheme;
+import org.usfirst.frc.team5066.controller2018.LogitechController;
 import org.usfirst.frc.team5066.controller2018.XboxController;
 import org.usfirst.frc.team5066.library.SingularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
@@ -17,7 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive implements ControlScheme {
 	
-	XboxController logitechDrive;
+	//XboxController logitechDrive;
+	LogitechController stickDrive;
 	XboxController logitechSystems;
 	SpeedMode speedMode;
 	boolean on, prevY;
@@ -40,9 +42,12 @@ public class TankDrive implements ControlScheme {
 	
 	Arm.Position lastPressed;
 	
-	public TankDrive(int logitechDrivePort, int logitechSystemsPort) {
-		logitechDrive = new XboxController(logitechDrivePort);
+	final double rotateMultiplier = 0.4;
+	
+	public TankDrive(int logitechJoyPort, int logitechSystemsPort) {
+		//logitechDrive = new XboxController(logitechDrivePort);
 		logitechSystems = new XboxController(logitechSystemsPort);
+		stickDrive = new LogitechController(logitechJoyPort);
 		
 		rBCurrent = false;
 		rBPrevious = false;
@@ -62,9 +67,9 @@ public class TankDrive implements ControlScheme {
 	@Override
 	public void drive(SingDrive sd, DrivePneumatics dPneu) {
 
-		if (logitechDrive.getRB())
+		if (stickDrive.getStickBackRight())
 			speed = true;
-		else if (logitechDrive.getLB())
+		else if (stickDrive.getStickBackLeft())
 			speed = false;
 
 		if (speed)
@@ -73,15 +78,15 @@ public class TankDrive implements ControlScheme {
 		else
 			dPneu.setReverse();
 		
-		((SixWheelDrive) sd).tankDrive(logitechDrive.getLS_Y(), logitechDrive.getRS_Y(), 3.0, speedMode.FAST);
-		
+		//((SixWheelDrive) sd).tankDrive(logitechDrive.getLS_Y(), logitechDrive.getRS_Y(), 3.0, speedMode.FAST);
+		sd.drive(-stickDrive.getStickY(), 0, stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), true, speedMode);
 	}
 
 	@Override
 	public void lift(Lift lift, Timer timer) {
 		
-		if (!safetyDisabled && logitechDrive.getPOVDown() && logitechDrive.getAButton() && logitechDrive.getLB() 
-				&& logitechDrive.getRB() && (logitechDrive.getTriggerLeft() > 0.1) && (logitechDrive.getTriggerRight() > 0.1)) {
+		if (!safetyDisabled && stickDrive.getBaseBackLeft() && stickDrive.getBaseBackRight() && stickDrive.getBaseFrontLeft() 
+				&& stickDrive.getBaseFrontRight() && stickDrive.getBaseMiddleLeft() && stickDrive.getBaseMiddleRight()) {
 			safetyDisabled = true;
 			DriverStation.reportError("SAFETY DISABLED", true);
 		}
