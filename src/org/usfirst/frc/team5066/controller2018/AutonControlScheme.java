@@ -27,6 +27,8 @@ public abstract class AutonControlScheme {
 	public final double CenterRobotCorner = Math.sqrt( Math.pow(CenterRobotWidth,2) + Math.pow(this.CenterRobotLength,2) );
 	private static final double speed = 0.35;
 	
+	private final double accelInGs = 0.15;
+	
 	
 	//PIDController turnController;
 	/*TODO Add PID Controller
@@ -122,7 +124,8 @@ public abstract class AutonControlScheme {
 		while (this.getAverage() - initialEncoderPos < 
 				(distance - 2)  * encoderTicks / DistancePerRevolution &&
 				DriverStation.getInstance().isAutonomous()
-				&& distanceTimer.get() < distance * 2.2 / 48) {
+				&& distanceTimer.get() < distance * 2.2 / 48
+				&& Math.abs(gyro.getRawAccelX()) < accelInGs) {
 			
 			/*
 			//Move the arm towards the preferred position
