@@ -32,19 +32,25 @@ public class Lift {
 	double normalSpeed, highSpeed;
 	double ctrl;
 	
+	DigitalInput rightRelease, leftRelease, rightFinished, leftFinished;
 	
-	public Lift(int right1, int left1, int ultraRightInput, int ultraRightOutput,
-			int ultraLeftInput, int ultraLeftOutput, double normalSpeed) {
+	
+	public Lift(int right1, int left1, double normalSpeed,
+			int ultraRightInput, int ultraRightOutput, int ultraLeftInput, int ultraLeftOutput,
+			int rightReleasePort, int leftReleasePort, int rightFinishedPort, int leftFinishedPort) {
 		
 		this.right1 = new VictorSPX(right1);
 		//this.right2 = new TalonSRX(right2);
 		this.left1 = new VictorSPX(left1);
 		//this.left2 = new TalonSRX(left2);
 		
-		
 		this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
 		this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
 		
+		this.rightRelease = new DigitalInput(rightReleasePort);
+		this.leftRelease = new DigitalInput(leftReleasePort);
+		this.rightFinished = new DigitalInput(rightFinishedPort);
+		this.leftFinished = new DigitalInput(leftFinishedPort);
 		
 		this.normalSpeed = normalSpeed;
 		this.highSpeed = 1.0;
@@ -70,6 +76,26 @@ public class Lift {
 		
 	}
 	
+	public boolean releaseLiftRightLimitSwitch(boolean rightReleaseNormal) {
+		
+		// release lift if button is pressed
+		// and not touching lower limit switch
+		if (!rightRelease.get()) {
+			if (rightReleaseNormal)
+				right1.set(ControlMode.PercentOutput, normalSpeed);
+			else
+				right1.set(ControlMode.PercentOutput, 0.0);
+
+			return false;
+
+		}
+		right1.set(ControlMode.PercentOutput, 0.0);
+
+		// return right limit switch value
+		return true;
+
+	}
+	
 	public boolean releaseLiftLeft(boolean leftReleaseNormal) {
 		
 		//release lift if button is pressed 
@@ -87,6 +113,25 @@ public class Lift {
 		//return left limit switch value
 		return ultraLeft.getRangeInches() < RELEASEDISTANCE;
 		
+	}
+	
+	public boolean releaseLiftLeftLimitSwitch(boolean leftReleaseNormal) {
+		
+		// release lift if button is pressed
+		// and not touching lower limit switch
+		if (!leftRelease.get()) {
+			if (leftReleaseNormal)
+				left1.set(ControlMode.PercentOutput, normalSpeed);
+			else
+				left1.set(ControlMode.PercentOutput, 0.0);
+			
+			return false;
+
+		}
+		left1.set(ControlMode.PercentOutput, 0.0);
+		
+		// return left limit switch value
+		return true;
 	}
 	
 	public boolean controlRightLift (double control){
@@ -133,6 +178,18 @@ public class Lift {
 		
 	}
 	
+	public boolean controlRightLiftLimitSwitch(double control) {
+		
+		if (!rightFinished.get()) {
+			right1.set(ControlMode.PercentOutput, control);
+			return false;
+		}
+		
+		right1.set(ControlMode.PercentOutput, 0.0);
+		return true;
+		
+	}
+	
 	public boolean controlLeftLift (double control) {
 		
 		ctrl = control;
@@ -174,6 +231,18 @@ public class Lift {
 		//return left limit high switch
 		return false;
 		//return ultraLeft.getRangeInches() < FINISHDISTANCE;
+	}
+	
+	public boolean controlLeftLiftLimitSwitch(double control) {
+		
+		if (!leftFinished.get()) {
+			left1.set(ControlMode.PercentOutput, control);
+			return false;
+		}
+		
+		left1.set(ControlMode.PercentOutput, 0.0);
+		return true;
+		
 	}
 	
 	public void resetLeft(boolean reset){
