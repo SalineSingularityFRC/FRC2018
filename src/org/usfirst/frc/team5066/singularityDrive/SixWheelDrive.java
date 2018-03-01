@@ -49,12 +49,12 @@ public class SixWheelDrive extends SingDrive{
 
 
 		// Set the motors
-		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
 		m_rightTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		
-		m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
-		m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
-		m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
 		
 		m_rightVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		m_rightVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
@@ -99,15 +99,15 @@ public class SixWheelDrive extends SingDrive{
 		// Set the motors
 		//In the past, We've had this.velocityMultiplier instead of this.getSendableSpeed()
 		
-		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
-	    //m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
-	    //m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
-	    //m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((leftVelocity) / leftMaximum));
+		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-leftVelocity) / leftMaximum));
+	    m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-leftVelocity) / leftMaximum));
+	    m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-leftVelocity) / leftMaximum));
+	    m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-leftVelocity) / leftMaximum));
 	    
 	    m_rightTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((rightVelocity) / rightMaximum));
-		//m_rightVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
-		//m_rightVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
-		//m_rightVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * -((rightVelocity) / rightMaximum));
+		m_rightVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((rightVelocity) / rightMaximum));
+		m_rightVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((rightVelocity) / rightMaximum));
+		m_rightVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((rightVelocity) / rightMaximum));
 		
 		//SmartDashboard.putNumber("left speed", leftVelocity);
 		//SmartDashboard.putNumber("right speed", rightVelocity);

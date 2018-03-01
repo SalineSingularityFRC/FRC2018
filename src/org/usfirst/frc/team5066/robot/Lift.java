@@ -44,14 +44,16 @@ public class Lift {
 		this.left1 = new VictorSPX(left1);
 		//this.left2 = new TalonSRX(left2);
 		
-		this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
-		this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
-		
+		//this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
+		//ultraRight.setAutomaticMode(true);
+		//this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
+		//ultraLeft.setAutomaticMode(true);
+		/*
 		this.rightRelease = new DigitalInput(rightReleasePort);
 		this.leftRelease = new DigitalInput(leftReleasePort);
 		this.rightFinished = new DigitalInput(rightFinishedPort);
 		this.leftFinished = new DigitalInput(leftFinishedPort);
-		
+		*/
 		this.normalSpeed = normalSpeed;
 		this.highSpeed = 1.0;
 		

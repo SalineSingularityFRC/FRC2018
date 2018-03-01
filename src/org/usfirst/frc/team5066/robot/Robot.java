@@ -48,6 +48,7 @@ public class Robot extends IterativeRobot {
 	
 	int liftLeft1, liftRight1;
 	int ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput;
+	int limitRightDown, limitRightUp, limitLeftDown, limitLeftUp;
 	
 	int talonArmMotor;
 	
@@ -165,13 +166,14 @@ public class Robot extends IterativeRobot {
 			
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
-			lift = new Lift(liftRight1, liftLeft1, ultraRightInput, ultraRightOutput,
-					ultraLeftInput, ultraLeftOutput, LIFT_SPEED);
+			lift = new Lift(liftRight1,	liftLeft1, LIFT_SPEED,
+					ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput, 
+					limitRightDown, limitLeftDown, limitRightUp, limitLeftUp);
 			/*
 			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			intake = new Intake(intakeLeft, intakeRight, intakeSensorPort);
 			*/
-			currentScheme = new TankDrive(XBOX_PORT, BIG_JOYSTICK_PORT);
+			currentScheme = new TankDrive(BIG_JOYSTICK_PORT, XBOX_PORT);
 			/*
 			new Thread(() -> {
 				*/
@@ -589,6 +591,8 @@ public class Robot extends IterativeRobot {
 		compressor.getPressureSwitchValue();
 		port = 0;
 		
+		dPneumatics.setOff();
+		
 
 	}
 	/*
@@ -698,7 +702,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		//dPneumatics.setOff();
 		//System.out.println("right: " + drive.getRightPosition());
-		System.out.println("left: " + drive.getLeftPosition());
+		//System.out.println("left: " + drive.getLeftPosition());
 		//System.out.println(gyro.getAngle());
 		
 		//System.out.println("left:" + lift.getLeftUltra());
@@ -728,6 +732,11 @@ public class Robot extends IterativeRobot {
 			ultraLeftInput = properties.getInt("ultraLeftInput");
 			ultraLeftOutput = properties.getInt("ultraLeftOutput");
 			
+			limitRightDown = properties.getInt("limitRightDown");
+			limitRightUp = properties.getInt("limitRightUp");
+			limitLeftDown = properties.getInt("limitLeftDown");
+			limitLeftUp = properties.getInt("limitLeftUp");
+			
 			talonArmMotor = properties.getInt("talonArmMotor");
 			
 			intakeRight = properties.getInt("intakeRight");
@@ -747,12 +756,12 @@ public class Robot extends IterativeRobot {
 		
 		properties.addDefaultProp("rightTalon", 14);
 		properties.addDefaultProp("leftTalon",11);
-		properties.addDefaultProp("rightVictor1", 3);
-		properties.addDefaultProp("leftVictor1", 6);
-		properties.addDefaultProp("rightVictor2", 5);
-		properties.addDefaultProp("leftVictor2", 7);
+		properties.addDefaultProp("rightVictor1", 5);
+		properties.addDefaultProp("leftVictor1", 2);
+		properties.addDefaultProp("rightVictor2", 7);
+		properties.addDefaultProp("leftVictor2", 3);
 		properties.addDefaultProp("rightVictor3", 10);
-		properties.addDefaultProp("leftVictor3", 2);
+		properties.addDefaultProp("leftVictor3", 6);
 		
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
@@ -762,8 +771,13 @@ public class Robot extends IterativeRobot {
 		
 		properties.addDefaultProp("ultraRightInput", 1);
 		properties.addDefaultProp("ultraRightOutput", 2);
-		properties.addDefaultProp("ultraLeftInput", 8);
-		properties.addDefaultProp("ultraLeftOutput", 9);
+		properties.addDefaultProp("ultraLeftInput", 3);
+		properties.addDefaultProp("ultraLeftOutput", 4);
+		
+		properties.addDefaultProp("limitRightDown", 1);
+		properties.addDefaultProp("limitRightUp", 2);
+		properties.addDefaultProp("limitLeftDown", 8);
+		properties.addDefaultProp("limitLeftUp", 9);
 		
 		properties.addDefaultProp("talonArmMotor", 13);
 		properties.addDefaultProp("armPneumaticsForward", 2);

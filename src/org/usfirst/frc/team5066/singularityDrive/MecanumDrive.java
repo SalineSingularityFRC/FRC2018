@@ -15,19 +15,17 @@ public class MecanumDrive extends SingDrive{
 	}
 
 	@Override
-	public void drive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode) {
+	public void drive(double vertical, double horizontal, double rotation, double inputExponent, SpeedMode speedMode) {
 		double translationVelocity, direction, maximum, rotationVelocity;
-
-		// Do squared inputs if necessary
-		if (squaredInputs) {
-			horizontal *= Math.abs(horizontal);
-			vertical *= Math.abs(vertical);
-			rotation *= Math.abs(rotation);
-		}
-
+		
 		// Use the Pythagorean theorem to find the speed of translation
 		translationVelocity = this.velocityMultiplier * Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
 		rotationVelocity = this.velocityMultiplier * rotation * rotationMultiplier;
+		
+		// Do squared inputs if necessary
+		translationVelocity *= Math.abs(Math.pow(translationVelocity, inputExponent - 1));
+		rotationVelocity *= Math.abs(Math.pow(rotationVelocity, inputExponent - 1));
+
 
 		// Use trigonometry to find the direction of travel
 		direction = Math.PI / 4 + Math.atan2(vertical, horizontal);

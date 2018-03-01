@@ -442,7 +442,7 @@ public abstract class SingDrive {
 		
 		error = rightEncVal - leftEncVal;
 		
-		this.drive(speed, 0.0, error/KP, false, SpeedMode.NORMAL);
+		this.drive(speed, 0.0, error/KP, 1.0, SpeedMode.NORMAL);
 		
 		leftEncVal = 0;
 		rightEncVal = 0;
@@ -474,5 +474,5 @@ public abstract class SingDrive {
 		return speedChooser.getSelected();
 	}
 	
-	public abstract void drive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode);
+	public abstract void drive(double vertical, double horizontal, double rotation, double inputExponent, SpeedMode speedMode);
 }

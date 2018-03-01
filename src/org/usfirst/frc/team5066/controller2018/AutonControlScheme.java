@@ -118,6 +118,9 @@ public abstract class AutonControlScheme {
 		
 		Timer distanceTimer = new Timer();
 		distanceTimer.start();
+		
+		Timer impactTimer = new Timer();
+		impactTimer.start();
 			
 		//normal speed 3072
 		//while the position is less than what we want to travel
@@ -125,7 +128,7 @@ public abstract class AutonControlScheme {
 				(distance - 2)  * encoderTicks / DistancePerRevolution &&
 				DriverStation.getInstance().isAutonomous()
 				&& distanceTimer.get() < distance * 2.2 / 48
-				&& Math.abs(gyro.getRawAccelX()) < accelInGs) {
+				&& !(Math.abs(gyro.getRawAccelX()) > accelInGs && impactTimer.get() > 0.5)) {
 			
 			/*
 			//Move the arm towards the preferred position
@@ -228,7 +231,7 @@ public abstract class AutonControlScheme {
 			((SixWheelDrive)drive).tankDrive(-rotationSpeed, rotationSpeed, 1.0, SpeedMode.FAST);
 		}
 		
-		drive.drive(0.0, 0.0, 0.0, false, SpeedMode.FAST);
+		drive.drive(0.0, 0.0, 0.0, 1.0, SpeedMode.FAST);
 		
 		drive.rampVoltage();
 		

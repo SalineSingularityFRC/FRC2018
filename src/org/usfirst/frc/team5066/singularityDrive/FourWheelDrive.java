@@ -15,9 +15,9 @@ public class FourWheelDrive extends SingDrive {
 		this.mode = mode;
 	}
 
-	public void drive(double vertical, double horizontal, double rotation, boolean squaredInputs, SpeedMode speedMode) {
+	public void drive(double vertical, double horizontal, double rotation, double inputExponent, SpeedMode speedMode) {
 		if (mode == 1) {
-			tank(vertical, horizontal, squaredInputs, speedMode);
+			tank(vertical, horizontal, inputExponent, speedMode);
 		}
 
 		double translationVelocity = vertical, rotationVelocity = rotation;
@@ -25,10 +25,8 @@ public class FourWheelDrive extends SingDrive {
 		setVelocityMultiplierBasedOnSpeedMode(speedMode);
 
 		// Do squared inputs if necessary
-		if (squaredInputs) {
-			translationVelocity *= Math.abs(vertical);
-			rotationVelocity *= Math.abs(rotation);
-		}
+		translationVelocity *= Math.abs(Math.pow(translationVelocity, inputExponent - 1));
+		rotationVelocity *= Math.abs(Math.pow(rotationVelocity, inputExponent - 1));
 
 		// Do reverse drive when necessary. There are methods above for
 		// different inputs.
@@ -53,16 +51,15 @@ public class FourWheelDrive extends SingDrive {
 		m_rearRightMotor.set(ControlMode.PercentOutput, this.velocityMultiplier * ((translationVelocity + rotationVelocity) / maximum));
 	}
 
-	private void tank(double left, double right, boolean squaredInputs, SpeedMode speedMode) {
+	private void tank(double left, double right, double inputExponent, SpeedMode speedMode) {
 		double leftVelocity = left, rightVelocity = right;
 
 		this.setVelocityMultiplierBasedOnSpeedMode(speedMode);
 
 		// Do squared inputs if necessary
-		if (squaredInputs) {
-			leftVelocity *= Math.abs(left);
-			rightVelocity *= Math.abs(right);
-		}
+		leftVelocity *= Math.abs(Math.pow(leftVelocity, inputExponent - 1));
+		rightVelocity *= Math.abs(Math.pow(rightVelocity, inputExponent - 1));
+		
 		SmartDashboard.putNumber("Post-sqaring inputs - Left Velocity", leftVelocity);
 		SmartDashboard.putNumber("Post-sqaring inputs - Right Velocity", rightVelocity);
 

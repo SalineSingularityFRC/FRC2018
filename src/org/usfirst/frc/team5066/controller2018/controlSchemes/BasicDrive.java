@@ -136,7 +136,7 @@ public class BasicDrive implements ControlScheme {
 
 	@Override
 	public void arm(Arm arm) {
-		
+		/*
 		arm.controlArm(logitech.getStickY(), 2.0);
 		if(logitech.getStickFrontRight()) {
 			arm.setArmForward();
@@ -144,7 +144,7 @@ public class BasicDrive implements ControlScheme {
 		
 		else if(logitech.getStickBackRight()) {
 			arm.setArmReverse();
-		}
+		}*/
 	}
 
 	@Override

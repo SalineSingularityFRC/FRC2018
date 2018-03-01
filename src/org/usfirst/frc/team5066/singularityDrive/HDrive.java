@@ -12,34 +12,31 @@ public class HDrive extends SingDrive {
 
 	public HDrive(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor, int midRightMotor,
 			int midLeftMotor, int mode) {
-		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor);
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor, midRightMotor, midLeftMotor, 0, 0);
 		this.mode=mode;
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void drive(double a, double b, double c, boolean squaredInputs, SpeedMode speedMode) {
+	public void drive(double a, double b, double c, double inputExponent, SpeedMode speedMode) {
 		if (mode == 0) {
-			notTank(a, b, c, squaredInputs, speedMode); // (vertical,horizontal,rotation)
+			notTank(a, b, c, inputExponent, speedMode); // (vertical,horizontal,rotation)
 														// mode 0
 			return;
 		}
 
-		tank(a, b, c, squaredInputs, speedMode); // (left,right,horizontal) mode
+		tank(a, b, c, inputExponent, speedMode); // (left,right,horizontal) mode
 													// 1
 	}
 
-	public void notTank(double vertical, double horizontal, double rotation, boolean squaredInputs,
+	public void notTank(double vertical, double horizontal, double rotation, double inputExponent,
 			SpeedMode speedMode) {
 
 		setVelocityMultiplierBasedOnSpeedMode(speedMode);
 
 		// Do squared inputs if necessary
-		if (squaredInputs) {
-			vertical *= Math.abs(vertical);
-			rotation *= Math.abs(rotation);
-			horizontal *= Math.abs(horizontal);
-		}
+		vertical *= Math.abs(Math.pow(vertical, inputExponent - 1));
+		rotation *= Math.abs(Math.pow(rotation, inputExponent - 1));
 
 		// Guard against illegal values
 		double mainWheelMaximum = Math.max(1, Math.abs(vertical) + Math.abs(rotation));
@@ -84,15 +81,12 @@ public class HDrive extends SingDrive {
 
 	}
 
-	public void tank(double left, double right, double horizontal, boolean squaredInputs, SpeedMode speedMode) {
+	public void tank(double left, double right, double horizontal, double inputExponent, SpeedMode speedMode) {
 		setVelocityMultiplierBasedOnSpeedMode(speedMode);
 
 		// Do squared inputs if necessary
-		if (squaredInputs) {
-			left *= Math.abs(left);
-			right *= Math.abs(right);
-			horizontal *= Math.abs(horizontal);
-		}
+		left *= Math.abs(Math.pow(left, inputExponent - 1));
+		right *= Math.abs(Math.pow(right, inputExponent - 1));
 
 		// Guard against illegal values
 		double rightWheelMaximum = Math.max(1, Math.abs(right));
