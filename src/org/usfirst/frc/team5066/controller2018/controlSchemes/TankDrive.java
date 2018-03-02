@@ -79,7 +79,7 @@ public class TankDrive implements ControlScheme {
 			dPneu.setReverse();
 		
 		//((SixWheelDrive) sd).tankDrive(logitechSystems.getLS_Y(), logitechSystems.getRS_Y(), 2.0, speedMode.FAST);
-		sd.drive(stickDrive.getStickY(), 0, stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2, speedMode);
+		sd.drive(stickDrive.getStickY(), 0, stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2.0, speedMode);
 	}
 
 	@Override

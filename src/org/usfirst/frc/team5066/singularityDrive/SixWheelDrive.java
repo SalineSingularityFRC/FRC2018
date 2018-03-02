@@ -13,6 +13,9 @@ public class SixWheelDrive extends SingDrive{
 	double leftVelocity;
 	double rightVelocity;
 	
+	double translationVelocity;
+	double rotationVelocity;
+	
 	public SixWheelDrive(int leftVictor1, int leftVictor2, int leftVictor3, int leftTalon,
 			int rightVictor1, int rightVictor2, int rightVictor3, int rightTalon) {
 		super(leftVictor1, leftVictor2, leftVictor3, leftTalon,
@@ -23,7 +26,8 @@ public class SixWheelDrive extends SingDrive{
 	//TODO gradual acceleration
 
 	public void drive(double vertical, double horizontal, double rotation, double inputExponent, SpeedMode speedMode) {
-		double translationVelocity = vertical, rotationVelocity = rotation;
+		translationVelocity = vertical;
+		rotationVelocity = rotation;
 		
 		translationVelocity = threshold(translationVelocity);
 		rotationVelocity = threshold(rotationVelocity);
