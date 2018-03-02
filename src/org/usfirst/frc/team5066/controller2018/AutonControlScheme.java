@@ -126,9 +126,9 @@ public abstract class AutonControlScheme {
 		//while the position is less than what we want to travel
 		while (this.getAverage() - initialEncoderPos < 
 				(distance - 2)  * encoderTicks / DistancePerRevolution &&
-				DriverStation.getInstance().isAutonomous()
-				&& distanceTimer.get() < distance * 2.2 / 48
-				&& !(Math.abs(gyro.getRawAccelX()) > accelInGs && impactTimer.get() > 0.5)) {
+				DriverStation.getInstance().isAutonomous()) {
+				//&& distanceTimer.get() < distance * 2.2 / 48) {
+				//&& !(Math.abs(gyro.getRawAccelX()) > accelInGs && impactTimer.get() > 0.5)) {
 			
 			/*
 			//Move the arm towards the preferred position
