@@ -39,9 +39,9 @@ public class Arm {
 	
 	public Arm(int tal, double s, int forwardChannel, int reverseChannel) {
 		talonMotor = new TalonSRX (tal);
-		talonMotor.setNeutralMode(NeutralMode.Brake);
+		//talonMotor.setNeutralMode(NeutralMode.Brake);
 		
-		this.setIntitialEncoderPosition();
+		//this.setIntitialEncoderPosition();
 		/*
 		//figure out if this is the right feedback device
 		talonMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, 10);
@@ -77,7 +77,7 @@ public class Arm {
 		speedConstant = s;
 		}
 	
-	public void controlArm (double armStick, double exponent) {
+	public void controlArm (boolean lowerArm) {
 		/*
 		if (talonMotor.getSensorCollection().getQuadraturePosition() < LOWERLIMIT && armStick < 0) {
 			speed = 0.0;
@@ -88,13 +88,14 @@ public class Arm {
 		}
 		else {
 			*/
-			speed = armStick;
-			speed *= Math.abs(Math.pow(speed, exponent - 1));
-			speed *= speedConstant;
+			
 		//}
 		
-		talonMotor.set(ControlMode.PercentOutput, speed);
-		System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
+		if (lowerArm)
+			talonMotor.set(ControlMode.PercentOutput, speed);
+		else
+			talonMotor.set(ControlMode.PercentOutput, 0.0);
+		//System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
 	}
 	
 	

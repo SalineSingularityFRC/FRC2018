@@ -218,7 +218,7 @@ public class TankDrive implements ControlScheme {
 		
 		previousX = currentX;
 		*/
-		arm.controlArm(logitechSystems.getLS_Y() * 0.8, 2.0);
+		arm.controlArm(logitechSystems.getAButton());
 		
 		
 		

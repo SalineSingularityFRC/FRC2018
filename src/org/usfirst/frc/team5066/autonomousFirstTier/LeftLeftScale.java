@@ -9,6 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 public class LeftLeftScale extends AutonControlScheme {
 
+	//not used
 	public LeftLeftScale(SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
 		super(drive, gyro, arm, intake);
 	}
