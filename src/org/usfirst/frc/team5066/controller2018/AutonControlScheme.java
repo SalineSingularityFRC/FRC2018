@@ -44,6 +44,8 @@ public abstract class AutonControlScheme {
 	
 	static double initialEncoderPos;
 	static double initialAngle;
+	
+	boolean ramped;
 
 	
 	public AutonControlScheme (SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
@@ -52,6 +54,8 @@ public abstract class AutonControlScheme {
 		this.gyro = gyro;
 		this.arm = arm;
 		this.intake = intake;
+		
+		ramped = true;
 		
 		//creates new AHRS gyro object that takes the port located on the roborio
 		//gyro = new AHRS(gyroPort);
@@ -63,6 +67,7 @@ public abstract class AutonControlScheme {
 	//if ur code isn't working for reverse, set vertspeed to negative
 	public void vertical(double verticalSpeed, double distance) {
 		drive.rampVoltage();
+		ramped = true;
 		
 		initialEncoderPos = drive.getRightPosition();
 		initialAngle = gyro.getAngle();
@@ -77,8 +82,9 @@ public abstract class AutonControlScheme {
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
 			
-			if (Math.abs(drive.getRightPosition() - initialEncoderPos) > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+			if (ramped && Math.abs(drive.getRightPosition() - initialEncoderPos) > 0.5 * distance * encoderTicks / DistancePerRevolution) {
 				drive.rampVoltage(0.0);
+				ramped = false;
 			}
 			
 			//drive.encoderDriveStraight(verticalSpeed);
@@ -95,6 +101,7 @@ public abstract class AutonControlScheme {
 		((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
 		
 		drive.rampVoltage();
+		ramped = true;
 	}
 	
 	/**
@@ -109,6 +116,7 @@ public abstract class AutonControlScheme {
 		
 		//ramp voltage to accelerate smoothly
 		drive.rampVoltage(0.8);
+		ramped = true;
 		
 		drive.resetEncoders();
 		
@@ -116,11 +124,11 @@ public abstract class AutonControlScheme {
 		initialEncoderPos = this.getAverage();
 		initialAngle = gyro.getAngle();
 		
-		Timer distanceTimer = new Timer();
-		distanceTimer.start();
+		//Timer distanceTimer = new Timer();
+		//distanceTimer.start();
 		
-		Timer impactTimer = new Timer();
-		impactTimer.start();
+		//Timer impactTimer = new Timer();
+		//impactTimer.start();
 			
 		//normal speed 3072
 		//while the position is less than what we want to travel
@@ -147,8 +155,9 @@ public abstract class AutonControlScheme {
 			System.out.println(drive.getRightPosition());
 			
 			//unramp the voltage once we get halfway to avoid rolling through the stop
-			if (this.getAverage() - initialEncoderPos > 0.5 * distance * encoderTicks / DistancePerRevolution) {
+			if (ramped && this.getAverage() - initialEncoderPos > 0.5 * distance * encoderTicks / DistancePerRevolution) {
 				drive.rampVoltage(0.0);
+				ramped = false;
 			}
 			
 			//drive.encoderDriveStraight(verticalSpeed);
@@ -169,7 +178,8 @@ public abstract class AutonControlScheme {
 		
 		//ramp the voltage again and turn off the intake
 		drive.rampVoltage();
-		this.intake.controlIntake(false, false, false, false);
+		ramped = true;
+		//this.intake.controlIntake(false, false, false, false);
 		Timer.delay(0.25);
 	}
 	
@@ -211,6 +221,8 @@ public abstract class AutonControlScheme {
 	//TODO Figure out AHRS gyro to get this method to work
 	public void rotate(double rotationSpeed, double angle, boolean counterClockwise) {
 		drive.rampVoltage();
+		ramped = true;
+		
 		initialAngle = gyro.getAngle();
 		
 		System.out.println(gyro.getAngle());
@@ -224,8 +236,9 @@ public abstract class AutonControlScheme {
 
 			System.out.println(gyro.getAngle());
 			
-			if (Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
+			if (ramped && Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
 				drive.rampVoltage(0.0);
+				ramped = false;
 			}
 			
 			((SixWheelDrive)drive).tankDrive(-rotationSpeed, rotationSpeed, 1.0, SpeedMode.FAST);
@@ -234,6 +247,7 @@ public abstract class AutonControlScheme {
 		drive.drive(0.0, 0.0, 0.0, 1.0, SpeedMode.FAST);
 		
 		drive.rampVoltage();
+		ramped = true;
 		
 	}
 	
@@ -250,6 +264,7 @@ public abstract class AutonControlScheme {
 		
 		//ramp voltage to accelerate smoothly
 		drive.rampVoltage();
+		ramped = true;
 		
 		//record the initial angle
 		initialAngle = gyro.getAngle();
@@ -267,11 +282,12 @@ public abstract class AutonControlScheme {
 			//set the arm to the desired position
 			arm.setArm(armPosition);
 			*/
-			System.out.println(gyro.getAngle());
+			//System.out.println(gyro.getAngle());
 			
 			//stop ramping voltage once halfway there
-			if (Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
+			if (ramped && Math.abs(gyro.getAngle() - initialAngle) > 0.5 * angle) {
 				drive.rampVoltage(0.0);
+				ramped = false;
 			}
 			
 			//drive the motors the proper way
@@ -283,6 +299,8 @@ public abstract class AutonControlScheme {
 		
 		//ramp the motors again for the future
 		drive.rampVoltage();
+		ramped = true;
+		
 		Timer.delay(0.25);
 		
 	}

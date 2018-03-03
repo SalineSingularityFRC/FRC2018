@@ -4,6 +4,7 @@ import org.usfirst.frc.team5066.controller2018.LogitechController;
 import org.usfirst.frc.team5066.library.RangeFinder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -40,14 +41,16 @@ public class Lift {
 			int rightReleasePort, int leftReleasePort, int rightFinishedPort, int leftFinishedPort) {
 		
 		this.right1 = new VictorSPX(right1);
+		this.right1.setNeutralMode(NeutralMode.Brake);
 		//this.right2 = new TalonSRX(right2);
 		this.left1 = new VictorSPX(left1);
+		this.left1.setNeutralMode(NeutralMode.Brake);
 		//this.left2 = new TalonSRX(left2);
 		
 		//this.ultraRight = new Ultrasonic(ultraRightInput, ultraRightOutput);
-		//ultraRight.setAutomaticMode(true);
+		//this.ultraRight.setAutomaticMode(true);
 		//this.ultraLeft = new Ultrasonic(ultraLeftInput, ultraLeftOutput);
-		//ultraLeft.setAutomaticMode(true);
+		//this.ultraLeft.setAutomaticMode(true);
 		/*
 		this.rightRelease = new DigitalInput(rightReleasePort);
 		this.leftRelease = new DigitalInput(leftReleasePort);
@@ -148,7 +151,7 @@ public class Lift {
 			ctrl /= 4;
 		}
 		*/
-		right1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
+		right1.set(ControlMode.PercentOutput,  ctrl * Math.abs(ctrl));
 		
 		/*
 		//raise or lower lift with controls
@@ -204,7 +207,7 @@ public class Lift {
 			ctrl /= 4;
 		}
 		*/
-		left1.set(ControlMode.PercentOutput,  Math.pow(ctrl, 3.0));
+		left1.set(ControlMode.PercentOutput, ctrl * Math.abs(ctrl));
 		
 		/*
 		//raise or lower lift with controls

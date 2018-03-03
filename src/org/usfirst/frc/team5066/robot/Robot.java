@@ -43,6 +43,9 @@ import javafx.scene.Camera;
 
 public class Robot extends IterativeRobot {
 	
+	Timer autonTimer;
+	double initialAngle;
+	
 	int leftVictor1, leftVictor2, leftVictor3, leftTalon, rightVictor1, rightVictor2, rightVictor3, rightTalon;
 	int drivePneuForward, drivePneuReverse;
 	
@@ -176,7 +179,7 @@ public class Robot extends IterativeRobot {
 			currentScheme = new TankDrive(BIG_JOYSTICK_PORT, XBOX_PORT);
 			/*
 			new Thread(() -> {
-				*/
+				
 				//Next two lines are the normal way to instantiate a camera
 				front = CameraServer.getInstance().startAutomaticCapture();
 				front.setResolution(320, 240);
@@ -269,13 +272,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
+		
 		//TODO figure out if setReverse = slow gear
 		dPneumatics.setReverse();
 		drive.setControlMode(false);
 		
+		//AutonControlScheme driveForward = new DriveForward(drive, gyro, arm, intake);
+		//driveForward.moveAuton();
+			
+		autonTimer = new Timer();
+		autonTimer.start();
+		initialAngle = gyro.getAngle();
+		
 		///////////////////////////////////////////////////////////////////////////////
 		//NEW AUTON CODE WITH FIRST AND SECOND TIERS///////////////////////////////////
-		this.chooseAutonNew();/////////////////////////////////////////////////////////
+		//this.chooseAutonNew();/////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////
 		
 		//OLD AUTON LOGIC::::::
@@ -308,6 +320,10 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	private void testAuton() {
+		AutonControlScheme test1 = new MiddleLeftLightningBolt(drive, gyro, arm, intake);
+		test1.moveAuton();
+	}
 	
 	public void chooseAutonNew() {
 		
@@ -541,6 +557,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
+		if (autonTimer.get() < 4.0) {
+			((SixWheelDrive)drive).tankDrive(-0.4 + 0.07 * (gyro.getAngle() - initialAngle),
+					-0.4, 1.0, SpeedMode.FAST);
+		}
+		else
+			((SixWheelDrive)drive).tankDrive(0.0, 0.0, 1.0, SpeedMode.FAST);
 	}
 	/**
 	 * This function is called once each time the robot enters tele-operated
@@ -611,7 +633,7 @@ public class Robot extends IterativeRobot {
 		compressor.start();
 
 		//Code to test the port numbers of cantalons 
-		 
+		 /*
 		if (testMode == TestMode.TALON) {
 
 			currentRb = xbox.getRB();
@@ -658,7 +680,7 @@ public class Robot extends IterativeRobot {
 		 * This currently tests with SingleSolenoids,
 		 * which will probably still work for testing DoubleSolenoids
 		 */
-		
+		/*
 		else if (testMode == TestMode.PNEUMATIC) {
 			
 			currentRb = xbox.getRB();
@@ -675,7 +697,7 @@ public class Robot extends IterativeRobot {
 				port--;
 				solenoid = new DoubleSolenoid(0, port);
 			}
-*/
+
 			prevRb = currentRb;
 			prevLb = currentLb;
 			
@@ -690,8 +712,8 @@ public class Robot extends IterativeRobot {
 			// log information to keep track of port number
 			SmartDashboard.putString("DB/String 0", "Current CANTalon: " + port);
 			//SmartDashboard.putString("DB/String 1", "solenoid value: " + solenoid.get());
-		
-		}
+		*/
+		//}
 	}
 	@Override
 	public void disabledInit() {

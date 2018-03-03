@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TankDrive implements ControlScheme {
 	
 	//XboxController logitechDrive;
-	LogitechController stickDrive;
+	XboxController stickDrive;
 	XboxController logitechSystems;
 	SpeedMode speedMode;
 	boolean on, prevY;
@@ -35,6 +35,8 @@ public class TankDrive implements ControlScheme {
 	
 	
 	boolean speed;
+	boolean currentTrigger, previousTrigger;
+	boolean reverse;
 	
 	boolean safetyDisabled;
 	boolean leftLowLimit;
@@ -42,12 +44,13 @@ public class TankDrive implements ControlScheme {
 	
 	Arm.Position lastPressed;
 	
-	final double rotateMultiplier = 0.4;
+	final double rotateMultiplier = 0.5;
+	final double sideMultiplier = 0.8;
 	
 	public TankDrive(int logitechJoyPort, int logitechSystemsPort) {
 		//logitechDrive = new XboxController(logitechDrivePort);
 		logitechSystems = new XboxController(logitechSystemsPort);
-		stickDrive = new LogitechController(logitechJoyPort);
+		stickDrive = new XboxController(logitechJoyPort);
 		
 		rBCurrent = false;
 		rBPrevious = false;
@@ -62,14 +65,18 @@ public class TankDrive implements ControlScheme {
 		previousX = false;
 		currentX = false;
 		
+		reverse = false;
+		currentTrigger = false;
+		previousTrigger = false;
+		
 	}
 	
 	@Override
 	public void drive(SingDrive sd, DrivePneumatics dPneu) {
 
-		if (stickDrive.getStickBackRight())
+		if (stickDrive.getRB())
 			speed = true;
-		else if (stickDrive.getStickBackLeft())
+		else if (stickDrive.getLB())
 			speed = false;
 
 		if (speed)
@@ -78,22 +85,38 @@ public class TankDrive implements ControlScheme {
 		else
 			dPneu.setReverse();
 		
-		//((SixWheelDrive) sd).tankDrive(logitechSystems.getLS_Y(), logitechSystems.getRS_Y(), 2.0, speedMode.FAST);
-		sd.drive(stickDrive.getStickY(), 0, stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2.0, speedMode);
+		currentTrigger = stickDrive.getAButton();
+		if (currentTrigger && !previousTrigger) {
+			
+			if (reverse)
+				reverse = false;
+			else
+				reverse = true;
+			
+		}
+		previousTrigger = currentTrigger;
+		
+		if (!reverse) {
+			((SixWheelDrive) sd).tankDrive(stickDrive.getLS_Y(),stickDrive.getRS_Y(), 2.0, speedMode.FAST);
+		}
+		else
+			((SixWheelDrive) sd).tankDrive(-stickDrive.getRS_Y(), -stickDrive.getLS_Y(), 2.0, speedMode.FAST);
+		
+		//sd.drive(reverse * stickDrive.getStickY(), 0, sideMultiplier * stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2.0, speedMode);
 	}
 
 	@Override
 	public void lift(Lift lift, Timer timer) {
 		
-		if (!safetyDisabled && stickDrive.getBaseBackLeft() && stickDrive.getBaseBackRight() && stickDrive.getBaseFrontLeft() 
-				&& stickDrive.getBaseFrontRight() && stickDrive.getBaseMiddleLeft() && stickDrive.getBaseMiddleRight()) {
+		if (!safetyDisabled && stickDrive.getYButton() && stickDrive.getPOVUp()) {
 			safetyDisabled = true;
-			DriverStation.reportError("SAFETY DISABLED", true);
+			DriverStation.reportWarning("SAFETY DISABLED", true);
 		}
 		
 		//test to see if safety is on
 		if (timer.get() >= 105.0 || safetyDisabled) {
 			
+			/*
 			//release left lift until lower limit switch is pressed
 			if (!leftLowLimit) {
 				if (lift.releaseLiftLeft(logitechSystems.getL3())) {
@@ -112,8 +135,15 @@ public class TankDrive implements ControlScheme {
 				DriverStation.reportError("right lower limit reached", true);
 				}
 			}
+			*/
+			
+			lift.controlLeftLift(-logitechSystems.getRS_Y());
+			lift.controlRightLift(-logitechSystems.getLS_Y());
+			
+			
 		}
 		
+		/*
 		//lifts right lift. When reached upper limit switch, ping driver
 		if (rightLowLimit) {
 			if (lift.controlRightLift(-logitechSystems.getRS_Y())) {
@@ -129,6 +159,8 @@ public class TankDrive implements ControlScheme {
 			DriverStation.reportError("left upper limit reached", true);
 			}
 		}
+		*/
+		
 		
 		
 		//lift.resetLeft(logitechDrive.getBackButton());

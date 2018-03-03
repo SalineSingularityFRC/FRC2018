@@ -53,12 +53,12 @@ public class SixWheelDrive extends SingDrive{
 
 
 		// Set the motors
-		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
+		m_leftTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-translationVelocity + rotationVelocity) / maximum));
 		m_rightTalon.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		
-		m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
-		m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
-		m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * (-(translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-translationVelocity + rotationVelocity) / maximum));
+		m_leftVictor3.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((-translationVelocity + rotationVelocity) / maximum));
 		
 		m_rightVictor1.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
 		m_rightVictor2.set(ControlMode.PercentOutput, this.getSendableSpeed() * ((translationVelocity + rotationVelocity) / maximum));
