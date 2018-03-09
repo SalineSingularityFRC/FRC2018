@@ -15,6 +15,7 @@ public class LeftSwitchFrontLeftScale extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		/*
 		super.verticalReverse(super.CenterRobotCorner+5, Arm.Position.SWITCH, false);
 		super.rotate(90, true,Arm.Position.TRAVEL);
 		super.vertical(30+super.CenterRobotWidth, Arm.Position.TRAVEL, false);
@@ -31,7 +32,7 @@ public class LeftSwitchFrontLeftScale extends AutonControlScheme {
 		super.vertical(103);
 		super.rotate(90, false, Arm.Position.HIGHSCALE);
 		super.vertical(12, Arm.Position.HIGHSCALE, false);
-		intake.autonOuttake();
+		intake.autonOuttake();*/
 	}
 
 }

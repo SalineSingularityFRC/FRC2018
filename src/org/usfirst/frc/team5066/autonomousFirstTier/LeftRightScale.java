@@ -15,13 +15,13 @@ public class LeftRightScale extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(261 - super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(182+super.CenterRobotLengthWithArm, Arm.Position.HIGHSCALE, false);
-		super.rotate(90, false, Arm.Position.HIGHSCALE);
-		super.verticalReverse(38, Arm.Position.HIGHSCALE, false);
-		super.rotate(90, true, Arm.Position.HIGHSCALE);
-		super.verticalReverse(super.CenterRobotLength, Arm.Position.HIGHSCALE, false);
+		super.vertical(261 - super.CenterRobotLength, true, false);
+		super.rotate(90, false, true);
+		super.vertical(182+super.CenterRobotLengthWithArm, true, false);
+		super.rotate(90, false, true);
+		super.verticalReverse(38, true, false);
+		super.rotate(90, true, true);
+		super.verticalReverse(super.CenterRobotLength, true, false);
 		intake.autonOuttake();
 
 	}

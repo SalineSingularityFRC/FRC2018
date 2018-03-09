@@ -15,13 +15,16 @@ public class RightLeftHook extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(221+super.CenterRobotWidth);//go out around the switch
-		super.rotate(90, true);
-		super.vertical(215.06-super.CenterRobotWidth+super.CenterRobotLength);//cross over the switch
-		super.rotate(90, false);
-		super.vertical(53);// come back around
-		super.rotate(90, false);
-		super.vertical(12);
+		// go around behind the switch to get to left switch
+		super.vertical(229 + super.CenterRobotLength, true, false);
+		super.rotate(90, true, true);
+		// TODO check the following distance
+		super.vertical(264 - super.CenterRobotWidth, true, false);
+		super.rotate(90, true, true);
+		// lift arm
+		// TODO check the following distance
+		super.vertical(45, true, false);
+		// release PC
 		intake.autonOuttake();
 	}
 

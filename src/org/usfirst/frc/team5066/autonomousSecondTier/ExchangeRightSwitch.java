@@ -16,11 +16,11 @@ public class ExchangeRightSwitch extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
-		super.vertical(super.CenterRobotLength/2, Arm.Position.PICKUP, false);
-		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(80, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.SWITCH);
-		super.vertical(42 + super.CenterRobotLength/2, Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotLength/2, false, false);
+		super.rotate(90, false, true);
+		super.vertical(80, true, false);
+		super.rotate(90, true, true);
+		super.vertical(42 + super.CenterRobotLength/2, true, false);
 		intake.autonOuttake();
 		
 	}

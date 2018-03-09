@@ -17,7 +17,7 @@ public class DriveForward extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		super.vertical(140, Arm.Position.TRAVEL, false);
+		super.vertical(140, true, false);
 		
 	}
 

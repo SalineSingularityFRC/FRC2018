@@ -17,19 +17,19 @@ public class RightSwitchSideOpponentLeft extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		super.verticalReverse(super.CenterRobotCorner + 10, Arm.Position.SWITCH, false);
-		super.rotate(90.0, false, Arm.Position.PICKUP);
-		super.vertical(30 + super.CenterRobotLength + 23, Arm.Position.PICKUP, false);
-		super.rotate(90.0, true, Arm.Position.PICKUP);
-		super.vertical(super.CenterRobotCorner + 10 + 13, Arm.Position.PICKUP, false);
-		super.rotate(90.0, true, Arm.Position.PICKUP);
+		super.verticalReverse(super.CenterRobotCorner + 10, true, false);
+		super.rotate(90.0, false, false);
+		super.vertical(30 + super.CenterRobotLength + 23, false, false);
+		super.rotate(90.0, true, false);
+		super.vertical(super.CenterRobotCorner + 10 + 13, false, false);
+		super.rotate(90.0, true, false);
 		super.vertical(23 - super.CenterRobotLengthWithArm + super.CenterRobotLength,
-				Arm.Position.PICKUP, true);
-		super.verticalReverse(super.CenterRobotCorner, Arm.Position.TRAVEL, false);
-		super.rotate(90.0, false, Arm.Position.TRAVEL);
-		super.vertical(15 * 12 + 20, Arm.Position.TRAVEL, false);
-		super.rotate(90.0, false, Arm.Position.TRAVEL);
-		super.vertical(100.0, Arm.Position.TRAVEL, false);
+				false, true);
+		super.verticalReverse(super.CenterRobotCorner, true, false);
+		super.rotate(90.0, false, true);
+		super.vertical(15 * 12 + 20, true, false);
+		super.rotate(90.0, false, true);
+		super.vertical(100.0, true, false);
 		
 	}
 	

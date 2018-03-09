@@ -15,6 +15,7 @@ public class RightScaleOpponentRight extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
+		/*
 		super.vertical(super.CenterRobotCorner, Arm.Position.HIGHSCALE, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(36.825-super.CenterRobotLength, Arm.Position.TRAVEL, false);
@@ -23,7 +24,7 @@ public class RightScaleOpponentRight extends AutonControlScheme{
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(36.825, Arm.Position.PICKUP, true);
 		super.rotate(45, true, Arm.Position.TRAVEL);
-		super.verticalReverse(146, Arm.Position.TRAVEL, false);
+		super.verticalReverse(146, Arm.Position.TRAVEL, false);*/
 	}
 
 }

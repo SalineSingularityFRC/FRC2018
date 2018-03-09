@@ -15,15 +15,15 @@ public class Exchange extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.verticalReverse(super.CenterRobotLengthWithArm, Arm.Position.START, false);
-		super.verticalReverse(12, Arm.Position.EXCHANGE, false);
-		super.vertical(12+super.CenterRobotLengthWithArm, Arm.Position.EXCHANGE, false);
+		super.verticalReverse(super.CenterRobotLengthWithArm, true, false);
+		super.verticalReverse(12, false, false);
+		super.vertical(12+super.CenterRobotLengthWithArm, false, false);
 		intake.autonOuttake();
-		super.verticalReverse(50.1-super.CenterRobotLengthWithArm, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(30);//THIS NEEDS TO BE CHANGED
-		super.rotate(90, true, Arm.Position.PICKUP);
-		super.vertical(50.1-super.CenterRobotLengthWithArm/2, Arm.Position.PICKUP, true);
+		super.verticalReverse(50.1-super.CenterRobotLengthWithArm, false, false);
+		super.rotate(90, true, false);
+		super.vertical(30, false, false);//THIS NEEDS TO BE CHANGED
+		super.rotate(90, true, false);
+		super.vertical(50.1-super.CenterRobotLengthWithArm/2, false, true);
 	}
 
 }

@@ -16,12 +16,12 @@ public class MiddleLeftLightningBolt extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.vertical(48, Arm.Position.TRAVEL, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(72 - super.CenterRobotWidth, Arm.Position.TRAVEL, false);
+		super.vertical(48, true, false);
+		super.rotate(90, true, true);
+		super.vertical(72 - super.CenterRobotWidth, true, false);
 		//rotate so robot is facing switch
-		super.rotate(90, false, Arm.Position.SWITCH);
-		super.vertical(95 - (super.CenterRobotLength), Arm.Position.SWITCH, false);
+		super.rotate(90, false, true);
+		super.vertical(95 - (super.CenterRobotLength), true, false);
 		intake.autonOuttake();
 	}
 

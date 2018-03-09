@@ -15,20 +15,20 @@ public class LeftSwitchFrontOpponetLeft extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
-		super.verticalReverse(super.CenterRobotCorner+5, Arm.Position.SWITCH, false);
-		super.rotate(90, true,Arm.Position.TRAVEL);
-		super.vertical(30+super.CenterRobotWidth, Arm.Position.TRAVEL, false);
-		super.rotate(90, false);
-		super.vertical(86+super.CenterRobotCorner+super.CenterRobotLengthWithArm);
-		super.rotate(90, false);
-		super.vertical(18.5);
-		super.rotate(90, false, Arm.Position.PICKUP);
-		super.vertical(25, Arm.Position.PICKUP, true);
-		super.verticalReverse(25, Arm.Position.TRAVEL, false);
-		super.rotate(90, false, Arm.Position.TRAVEL);
-		super.vertical(31.75);
-		super.rotate(90, false);
-		super.vertical(154-super.CenterRobotLengthWithArm);
+		super.verticalReverse(super.CenterRobotCorner+5, true, false);
+		super.rotate(90, true, true);
+		super.vertical(30+super.CenterRobotWidth, true, false);
+		super.rotate(90, false, true);
+		super.vertical(86+super.CenterRobotCorner+super.CenterRobotLengthWithArm, true, false);
+		super.rotate(90, false, true);
+		super.vertical(18.5, false, false);
+		super.rotate(90, false, false);
+		super.vertical(25, false, true);
+		super.verticalReverse(25, false, false);
+		super.rotate(90, false, true);
+		super.vertical(31.75, true, false);
+		super.rotate(90, false, true);
+		super.vertical(154-super.CenterRobotLengthWithArm, true, false);
 	}
 
 }

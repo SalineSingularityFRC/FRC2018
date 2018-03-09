@@ -17,11 +17,11 @@ public class LeftLeftLightningBolt extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		
-		super.vertical(70.0 - 0.5 * super.CenterRobotLength, Arm.Position.TRAVEL, false);
-		super.rotate(90.0, false, Arm.Position.TRAVEL);
-		super.vertical(72.31, Arm.Position.TRAVEL, false);
-		super.rotate(90.0, true, Arm.Position.SWITCH);
-		super.vertical(70 - 0.5 * super.CenterRobotLength, Arm.Position.SWITCH, false);
+		super.vertical(70.0 - 0.5 * super.CenterRobotLength, true, false);
+		super.rotate(90.0, false, true);
+		super.vertical(72.31, true, false);
+		super.rotate(90.0, true, true);
+		super.vertical(70 - 0.5 * super.CenterRobotLength, true, false);
 		intake.autonOuttake();
 		
 	}

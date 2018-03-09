@@ -17,15 +17,15 @@ public class RightSwitchSideRightSwitchWorking extends AutonControlScheme {
 	public void moveAuton() {
 		// TODO Auto-generated method stub
 		
-		super.verticalReverse(super.CenterRobotCorner+1, Arm.Position.SWITCH, false);
+		super.verticalReverse(super.CenterRobotCorner+1, true, false);
 		super.rotate(90, true);
 		super.vertical(56/2+super.CenterRobotLength);
-		super.rotate(90, false,Arm.Position.PICKUP);
-		super.vertical((153.5/2)-(45/2)+(13/2),Arm.Position.PICKUP,true);
-		super.verticalReverse((153.5/2)-(45/2)+(13/2), Arm.Position.TRAVEL, false);
+		super.rotate(90, false,false);
+		super.vertical((153.5/2)-(45/2)+(13/2),false,true);
+		super.verticalReverse((153.5/2)-(45/2)+(13/2), true, false);
 		super.rotate(90, false);
-		super.vertical(56/2+super.CenterRobotLength,Arm.Position.SWITCH, false);
-		super.rotate(90, true,Arm.Position.SWITCH);
+		super.vertical(56/2+super.CenterRobotLength,true, false);
+		super.rotate(90, true,true);
 		super.vertical(super.CenterRobotCorner);
 		intake.autonOuttake();
 	}

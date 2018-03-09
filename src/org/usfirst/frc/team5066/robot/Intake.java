@@ -143,7 +143,7 @@ public class Intake {
 		
 		while (timer.get() < AUTONOUTTAKE && DriverStation.getInstance().isAutonomous()) {
 			right.set(ControlMode.PercentOutput, OUTSPEED);
-			left.set(ControlMode.PercentOutput, OUTSPEED);
+			left.set(ControlMode.PercentOutput, -OUTSPEED);
 		}
 		
 		right.set(ControlMode.PercentOutput, 0.0);

@@ -18,8 +18,8 @@ public class DriveForwardSlow extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		// TODO Auto-generated method stub
-		super.rotate(20, true, Position.TRAVEL);
-		super.vertical(0.2, 120, Position.TRAVEL, false);
+		super.rotate(20, true, true);
+		super.vertical(0.2, 120, true, false);
 		
 	}
 

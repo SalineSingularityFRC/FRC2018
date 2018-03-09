@@ -16,12 +16,12 @@ public class RightSwitchFrontRightSwitch extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		// TODO Auto-generated method stub
-		super.verticalReverse(super.CenterRobotLengthWithArm+1,Arm.Position.SWITCH, false);
-		super.rotate(90, true,Arm.Position.PICKUP);
-		super.vertical((153.5/2)-18-(45/2)+(13/2),Arm.Position.PICKUP, true);
-		super.verticalReverse((153.5/2)-18-(45/2)+(13/2),Arm.Position.SWITCH, false);
-		super.rotate(90, false);
-		super.vertical(super.CenterRobotLengthWithArm+1);
+		super.verticalReverse(super.CenterRobotLengthWithArm+1, true, false);
+		super.rotate(90, true, false);
+		super.vertical((153.5/2)-18-(45/2)+(13/2), false, true);
+		super.verticalReverse((153.5/2)-18-(45/2)+(13/2), true, false);
+		super.rotate(90, false, true);
+		super.vertical(super.CenterRobotLengthWithArm+1, true, false);
 		intake.autonOuttake();
 	}
 

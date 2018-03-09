@@ -31,7 +31,7 @@ public class TankDrive implements ControlScheme {
 	
 	//arm
 	boolean armNew;
-	boolean goSwitch, goPickup;
+	boolean goSwitch;
 	
 	
 	boolean speed;
@@ -62,8 +62,8 @@ public class TankDrive implements ControlScheme {
 		rightLowLimit = false;
 		
 		armNew = true;
-		previousX = false;
-		currentX = false;
+		
+		goSwitch = true;
 		
 		reverse = false;
 		currentTrigger = false;

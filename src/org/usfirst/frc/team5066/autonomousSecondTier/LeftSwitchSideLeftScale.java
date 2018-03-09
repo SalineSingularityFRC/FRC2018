@@ -16,6 +16,7 @@ public class LeftSwitchSideLeftScale extends AutonControlScheme{
 
 	@Override
 	public void moveAuton() {
+		/*
 		super.verticalReverse(super.CenterRobotCorner, Arm.Position.SWITCH, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(93.47, Arm.Position.TRAVEL, false);
@@ -24,7 +25,7 @@ public class LeftSwitchSideLeftScale extends AutonControlScheme{
 		super.rotate(90, false, Arm.Position.PICKUP);
 		super.vertical(65.47 - CenterRobotLength, Arm.Position.PICKUP, true);
 		super.verticalReverse(103.65, Arm.Position.HIGHSCALE, false);
-		intake.autonOuttake();
+		intake.autonOuttake();*/
 	}
 
 }

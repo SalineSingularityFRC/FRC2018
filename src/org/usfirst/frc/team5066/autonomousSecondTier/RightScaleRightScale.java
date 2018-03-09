@@ -15,6 +15,7 @@ public class RightScaleRightScale extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		/*
 		super.vertical(super.CenterRobotCorner, Arm.Position.HIGHSCALE, false);
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(36.825-super.CenterRobotLength, Arm.Position.TRAVEL, false);
@@ -23,7 +24,7 @@ public class RightScaleRightScale extends AutonControlScheme {
 		super.rotate(90, false, Arm.Position.TRAVEL);
 		super.vertical(36.825, Arm.Position.PICKUP, true);
 		super.verticalReverse(73.65, Arm.Position.TRAVEL, false);
-		intake.autonOuttake();
+		intake.autonOuttake();*/
 
 	}
 

@@ -15,6 +15,7 @@ public class LeftScaleOpponetRight extends AutonControlScheme {
 
 	@Override
 	public void moveAuton() {
+		/*
 		super.vertical(12, Arm.Position.HIGHSCALE, false);
 		super.rotate(90, true, Arm.Position.TRAVEL);
 		super.vertical(65.75-super.CenterRobotWidth, Arm.Position.TRAVEL, false);
@@ -26,7 +27,7 @@ public class LeftScaleOpponetRight extends AutonControlScheme {
 		super.rotate(90, true);
 		super.vertical(31.75+super.CenterRobotLength);
 		super.rotate(90, true);
-		super.vertical(89.75-super.CenterRobotWidth-super.CenterRobotLength);
+		super.vertical(89.75-super.CenterRobotWidth-super.CenterRobotLength);*/
 	}
 
 }

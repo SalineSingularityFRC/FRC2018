@@ -18,11 +18,11 @@ public class LeftLeftDogLeg extends AutonControlScheme {
 	public void moveAuton() {
 		
 		// dog leg to left switch
-		super.vertical(168 - super.CenterRobotLength, Arm.Position.TRAVEL, false);
+		super.vertical(168 - super.CenterRobotLength, true, false);
 		// rotate so robot is facing the switch
-		super.rotate(90, false, Arm.Position.SWITCH);
+		super.rotate(90, false, true);
 		// lift arm
-		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.vertical(super.CenterRobotWidth, true, false);
 		intake.autonOuttake();
 		
 	}

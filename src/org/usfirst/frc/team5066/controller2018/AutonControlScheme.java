@@ -29,6 +29,8 @@ public abstract class AutonControlScheme {
 	
 	private final double accelInGs = 0.15;
 	
+	private final double armSpeed = 0.25;
+	
 	
 	//PIDController turnController;
 	/*TODO Add PID Controller
@@ -104,6 +106,7 @@ public abstract class AutonControlScheme {
 		ramped = true;
 	}
 	
+	
 	/**
 	 * The preferred method of moving in a straight line for 2018
 	 * 
@@ -112,7 +115,7 @@ public abstract class AutonControlScheme {
 	 * @param armPosition the position of the arm we should move to while traveling
 	 * @param intakeOn write true if we want to intake while traveling
 	 */
-	public void vertical(double verticalSpeed, double distance, Arm.Position armPosition, boolean intakeOn) {
+	public void vertical(double verticalSpeed, double distance, boolean armPosition, boolean intakeOn) {
 		
 		//ramp voltage to accelerate smoothly
 		drive.rampVoltage(0.8);
@@ -138,18 +141,18 @@ public abstract class AutonControlScheme {
 				//&& distanceTimer.get() < distance * 2.2 / 48) {
 				//&& !(Math.abs(gyro.getRawAccelX()) > accelInGs && impactTimer.get() > 0.5)) {
 			
-			/*
+			
 			//Move the arm towards the preferred position
-			arm.setArm(armPosition);
+			arm.setArmNew(armPosition, armSpeed);
 			
 			//intake if wanted
 			if (intakeOn) {
-				this.intake.controlIntake(true, false, true, false);
+				this.intake.booleanIntake(true, false);
 			}
 			else {
-				this.intake.controlIntake(false, false, false, false);
+				this.intake.booleanIntake(false, false);
 			}
-			*/
+			
 			
 			SmartDashboard.putString("DB/String 4", ""+drive.getRightPosition());
 			System.out.println(drive.getRightPosition());
@@ -179,7 +182,7 @@ public abstract class AutonControlScheme {
 		//ramp the voltage again and turn off the intake
 		drive.rampVoltage();
 		ramped = true;
-		//this.intake.controlIntake(false, false, false, false);
+		this.intake.booleanIntake(false, false);
 		Timer.delay(0.25);
 	}
 	
@@ -195,7 +198,7 @@ public abstract class AutonControlScheme {
 	 * @param armPosition the position of the arm we should move to while traveling
 	 * @param intakeOn write true if we want to intake while traveling
 	 */
-	public void vertical(double distance, Arm.Position armPosition, boolean intakeOn) {
+	public void vertical(double distance, boolean armPosition, boolean intakeOn) {
 		vertical(speed, distance, armPosition, intakeOn);
 	}
 	
@@ -207,7 +210,7 @@ public abstract class AutonControlScheme {
 	 * @param armPosition the position of the arm we should move to while traveling
 	 * @param intakeOn write true if we want to intake while traveling
 	 */
-	public void verticalReverse(double distance, Arm.Position armPosition, boolean intakeOn) {
+	public void verticalReverse(double distance, boolean armPosition, boolean intakeOn) {
 		
 		vertical(-speed, distance, armPosition, intakeOn);
 	}
@@ -260,7 +263,7 @@ public abstract class AutonControlScheme {
 	 * @param armPosition the arm position to set to while moving
 	 */
 	public void rotate(double rotationSpeed, double angle, boolean counterClockwise, 
-			Arm.Position armPosition) {
+			boolean armPosition) {
 		
 		//ramp voltage to accelerate smoothly
 		drive.rampVoltage();
@@ -278,10 +281,10 @@ public abstract class AutonControlScheme {
 		while(Math.abs(gyro.getAngle() - initialAngle) < angle - 15 &&
 				DriverStation.getInstance().isAutonomous()) {
 			
-			/*
+			
 			//set the arm to the desired position
-			arm.setArm(armPosition);
-			*/
+			arm.setArmNew(armPosition, armSpeed);
+			
 			//System.out.println(gyro.getAngle());
 			
 			//stop ramping voltage once halfway there
@@ -316,8 +319,18 @@ public abstract class AutonControlScheme {
 	 * @param counterClockwise true if we want to turn counterclockwise
 	 * @param armPosition the arm position to set to while moving
 	 */
-	public void rotate(double angle, boolean counterClockwise, Arm.Position armPosition) {
+	public void rotate(double angle, boolean counterClockwise, boolean armPosition) {
 		rotate(speed, angle, counterClockwise, armPosition);
+	}
+	
+	public void vertical(double distance, Arm.Position armPosition, boolean intakeOn) {
+		System.out.println("YOU ARE USING THE WRONG VERTICAL METHOD");
+	}
+	public void verticalReverse(double distance, Arm.Position armPosition, boolean intakeOn) {
+		System.out.println("YOU ARE USING THE WRONG VERTICAL METHOD");
+	}
+	public void rotate(double ange, boolean counterClockwise, Arm.Position armPosition) {
+		System.out.println("YOU ARE USING THE WRONG ROTATE METHOD");
 	}
 
 }

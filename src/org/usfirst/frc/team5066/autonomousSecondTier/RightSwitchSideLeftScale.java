@@ -15,13 +15,14 @@ public class RightSwitchSideLeftScale extends AutonControlScheme {
 	}
 	@Override
 	public void moveAuton() {
+		/*
 		// TODO Auto-generated method stub
 		super.vertical(166-super.CenterRobotLength);
 		super.rotate(90, true, Arm.Position.SWITCH);
 		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
 		intake.autonOuttake();
 		super.verticalReverse(super.CenterRobotCorner, Arm.Position.SWITCH, false);
-		super.rotate(90, false);
+		super.rotate(90, false);*/
 	}
 
 }

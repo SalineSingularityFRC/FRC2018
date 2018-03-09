@@ -14,11 +14,11 @@ public class RightSwitchFrontVault extends AutonControlScheme {
 	}
 	@Override
 	public void moveAuton() {
-		super.verticalReverse(32.5, Arm.Position.SWITCH, false);
-		super.rotate(90, true, Arm.Position.TRAVEL);
-		super.vertical(60.5+super.CenterFieldPortal);//162-(85.25-29.69+18) + 12+(48/2));
-		super.rotate(90, true, Arm.Position.EXCHANGE);
-		super.vertical(107.5-super.CenterRobotLengthWithArm, Arm.Position.EXCHANGE, false);
+		super.verticalReverse(32.5, true, false);
+		super.rotate(90, true, true);
+		super.vertical(60.5+super.CenterFieldPortal, false, false);//162-(85.25-29.69+18) + 12+(48/2));
+		super.rotate(90, true, false);
+		super.vertical(107.5-super.CenterRobotLengthWithArm, false, false);
 	}
 
 }

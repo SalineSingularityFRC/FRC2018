@@ -16,9 +16,9 @@ public class RightRightDogLeg extends AutonControlScheme {
 	@Override
 	public void moveAuton() {
 		//dog leg to switch
-		super.vertical(166-super.CenterRobotLength);
-		super.rotate(90, true, Arm.Position.SWITCH);
-		super.vertical(super.CenterRobotWidth, Arm.Position.SWITCH, false);
+		super.vertical(166-super.CenterRobotLength, true, false);
+		super.rotate(90, true, true);
+		super.vertical(super.CenterRobotWidth, true, false);
 		intake.autonOuttake();
 	}
 
