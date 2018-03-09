@@ -92,7 +92,7 @@ public class Arm {
 		//}
 		
 		if (lowerArm)
-			talonMotor.set(ControlMode.PercentOutput, speed);
+			talonMotor.set(ControlMode.PercentOutput, speedConstant);
 		else
 			talonMotor.set(ControlMode.PercentOutput, 0.0);
 		//System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));

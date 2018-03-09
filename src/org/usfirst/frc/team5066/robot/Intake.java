@@ -24,14 +24,14 @@ public class Intake {
 
 	private final double INSPEED = 1.0;
 	private final double OUTSPEED = -1.0;
-	private final double ROTATESPEED = 0.5;
+	private final double ROTATESPEED = 0.25;
 
 	public Intake(int leftPort, int rightPort, int inputPort) {
 
 		left = new VictorSPX(leftPort);
 		right = new VictorSPX(rightPort);
 		
-		input = new DigitalInput(inputPort);
+		//input = new DigitalInput(inputPort);
 		
 		timer = new Timer();
 		
@@ -54,8 +54,8 @@ public class Intake {
 		}
 
 		if (leftIn && rightOut) {
-			left.set(ControlMode.PercentOutput, ROTATESPEED);
-			right.set(ControlMode.PercentOutput, ROTATESPEED);
+			left.set(ControlMode.PercentOutput, -ROTATESPEED);
+			right.set(ControlMode.PercentOutput, -ROTATESPEED);
 		}
 
 		else if (rightIn && leftOut) {
@@ -105,6 +105,21 @@ public class Intake {
 		lastInput = currentInput;
 		return input.get();
 
+	}
+	
+	public void booleanIntake(boolean intake, boolean outtake) {
+		if (intake) {
+			left.set(ControlMode.PercentOutput, -INSPEED);
+			right.set(ControlMode.PercentOutput, INSPEED);
+		}
+		else if (outtake){
+			left.set(ControlMode.PercentOutput, -OUTSPEED);
+			right.set(ControlMode.PercentOutput, OUTSPEED);
+		}
+		else {
+			left.set(ControlMode.PercentOutput, 0.0);
+			right.set(ControlMode.PercentOutput, 0.0);
+		}
 	}
 	
 	public void manualIntake(double leftStick, double rightStick, double exponent){

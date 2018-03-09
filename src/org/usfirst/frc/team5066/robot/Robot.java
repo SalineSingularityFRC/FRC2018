@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 	int intakeRight, intakeLeft;
 	int intakeSensorPort;
 	
-	final double ARMSPEEDCONSTANT = 1.0;
+	final double ARMSPEEDCONSTANT = 0.25;
 	int armPneumaticsForward;
 	int armPneumaticsReverse;
 	
@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot {
 	int port;
 	
 	//cantalons
-	TalonSRX[] cantalon;
+	VictorSPX[] cantalon;
 	double speed;
 	
 	//pneumatics
@@ -172,10 +172,10 @@ public class Robot extends IterativeRobot {
 			lift = new Lift(liftRight1,	liftLeft1, LIFT_SPEED,
 					ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput, 
 					limitRightDown, limitLeftDown, limitRightUp, limitLeftUp);
-			/*
-			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
+			
+			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			intake = new Intake(intakeLeft, intakeRight, intakeSensorPort);
-			*/
+			
 			currentScheme = new TankDrive(BIG_JOYSTICK_PORT, XBOX_PORT);
 			/*
 			new Thread(() -> {
@@ -586,7 +586,7 @@ public class Robot extends IterativeRobot {
 		currentScheme.drive(drive, dPneumatics);
 		currentScheme.lift(lift, timer);
 		//currentScheme.arm(arm);
-		//currentScheme.intake(intake);
+		currentScheme.intake(intake);
 		
 	}
 	
@@ -602,16 +602,16 @@ public class Robot extends IterativeRobot {
 		prevLb = false;
 		xbox = new XboxController(XBOX_PORT);
 
-		cantalon = new TalonSRX[15];
-		for (int i = 0; i < 15; i++) {
-			cantalon[i] = new TalonSRX(i);
+		cantalon = new VictorSPX[30];
+		for (int i = 0; i < 30; i++) {
+			cantalon[i] = new VictorSPX(i);
 		}
 		
 		//solenoidDrive = new DoubleSolenoid(0, 1);
 		//solenoidArm = new DoubleSolenoid(2, 3);
 		
 		compressor.getPressureSwitchValue();
-		port = 0;
+		port = 21;
 		
 		dPneumatics.setOff();
 		
@@ -630,10 +630,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		
-		compressor.start();
+		//compressor.start();
 
 		//Code to test the port numbers of cantalons 
-		 /*
+		 
 		if (testMode == TestMode.TALON) {
 
 			currentRb = xbox.getRB();
@@ -805,8 +805,8 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		
-		properties.addDefaultProp("intakeRight", 18);
-		properties.addDefaultProp("intakeLeft",17);
+		properties.addDefaultProp("intakeRight", 22);
+		properties.addDefaultProp("intakeLeft", 21);
 		properties.addDefaultProp("intakeSensorPort", 5);
 		
 	}
