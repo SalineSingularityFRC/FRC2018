@@ -31,7 +31,7 @@ public class TankDrive implements ControlScheme {
 	
 	//arm
 	boolean armNew;
-	boolean previousX, currentX;
+	boolean goSwitch, goPickup;
 	
 	
 	boolean speed;
@@ -203,22 +203,19 @@ public class TankDrive implements ControlScheme {
 		arm.setArm(lastPressed);
 		*/
 		//man. control arm
+		arm.testEncoderValue(logitechSystems.getTriggerRight()-logitechSystems.getTriggerLeft());
 		
-		/*
-		currentX = logitechSystems.getXButton();
-		
-		if(currentX && !previousX) {
-			if (armNew)
-				armNew = false;
-			else
-				armNew = true;
+		//actual control arm
+		if(logitechSystems.getPOVUp()){
+			goSwitch = true;
 		}
 		
-		arm.setArmNew(armNew, 0.3);
+		else if(logitechSystems.getPOVDown()) {
+			goSwitch = false;
+		}
 		
-		previousX = currentX;
-		*/
-		arm.controlArm(logitechSystems.getAButton());
+		//arm.setArmNew(goSwitch, 0.3);
+	
 		
 		
 		

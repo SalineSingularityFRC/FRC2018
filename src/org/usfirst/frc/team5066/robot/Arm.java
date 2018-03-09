@@ -15,7 +15,8 @@ public class Arm {
 
 	private TalonSRX talonMotor;
 	//for new arm code
-	private final double armDistance = 1000;
+	private final double upDistance = 0;
+	private final double downDistance = 1000;
 	private final double LOWERLIMIT = 10;
 	private final double UPPERLIMIT = 100;
 	
@@ -41,7 +42,7 @@ public class Arm {
 		talonMotor = new TalonSRX (tal);
 		//talonMotor.setNeutralMode(NeutralMode.Brake);
 		
-		//this.setIntitialEncoderPosition();
+		this.setIntitialEncoderPosition();
 		/*
 		//figure out if this is the right feedback device
 		talonMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, 10);
@@ -77,31 +78,27 @@ public class Arm {
 		speedConstant = s;
 		}
 	
-	public void controlArm (boolean lowerArm) {
-		/*
-		if (talonMotor.getSensorCollection().getQuadraturePosition() < LOWERLIMIT && armStick < 0) {
-			speed = 0.0;
-		}
-		else if (talonMotor.getSensorCollection().getQuadraturePosition() > UPPERLIMIT && armStick > 0) {
-			
-			speed = 0.0;
-		}
-		else {
-			*/
-			
-		//}
-		
-		if (lowerArm)
-			talonMotor.set(ControlMode.PercentOutput, speedConstant);
-		else
-			talonMotor.set(ControlMode.PercentOutput, 0.0);
-		//System.out.println("        Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
-	}
-	
 	
 	//Method to control new arm
 	public void setArmNew(boolean armPosSwitch, double speed) {
+		if (armPosSwitch){
+			if(Math.abs(Math.abs(initialEncoderPosition - getArmEncoderPos()) - upDistance) > 50) {
+				talonMotor.set(ControlMode.PercentOutput, speed);
+			}
+			else
+				talonMotor.set(ControlMode.PercentOutput, 0.0);
+		}
 		
+		else{
+			if(Math.abs(Math.abs(initialEncoderPosition - getArmEncoderPos()) - downDistance) > 50){
+				talonMotor.set(ControlMode.PercentOutput, -speed);
+			}
+			else
+				talonMotor.set(ControlMode.PercentOutput, 0.0);
+		}
+		
+		
+		/*
 		//switch direction of motor if going for pickup/vault
 		if (armPosSwitch) {
 			this.speed=speed;
@@ -116,9 +113,10 @@ public class Arm {
 		else {
 			talonMotor.set(ControlMode.PercentOutput, 0.0);
 		}
+		*/
 	}
 	
-	
+	/*
 	public void setArm(Position setTo) {
 		if(setTo == Position.PICKUP) {
 			talonMotor.set(ControlMode.Position, degreesToPosition(0) - initialEncoderPosition);
@@ -149,7 +147,11 @@ public class Arm {
 		System.out.println("Arm:" + (talonMotor.getSensorCollection().getPulseWidthPosition()  - initialEncoderPosition));
 		
 	}
-	
+	*/
+	public void testEncoderValue(double speed){
+		this.talonMotor.set(ControlMode.PercentOutput, speed);
+		System.out.println("Arm Encoder: " + this.talonMotor.getSensorCollection().getPulseWidthPosition());
+	}
 	public void resetEncoder() {
 		this.talonMotor.getSensorCollection().setPulseWidthPosition(0, 0);
 	}
@@ -164,7 +166,6 @@ public class Arm {
 	
 	public double getArmEncoderPos() {
 		return this.talonMotor.getSensorCollection().getPulseWidthPosition();
-		
 	}
 
 }
