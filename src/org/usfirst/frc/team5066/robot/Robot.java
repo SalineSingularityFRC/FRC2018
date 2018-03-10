@@ -585,7 +585,7 @@ public class Robot extends IterativeRobot {
 		
 		currentScheme.drive(drive, dPneumatics);
 		currentScheme.lift(lift, timer);
-		//currentScheme.arm(arm);
+		currentScheme.arm(arm);
 		currentScheme.intake(intake);
 		
 	}

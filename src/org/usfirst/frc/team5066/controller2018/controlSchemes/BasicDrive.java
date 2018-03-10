@@ -34,6 +34,8 @@ public class BasicDrive implements ControlScheme {
 	
 	boolean leftLowLimit;
 	boolean rightLowLimit;
+	
+	boolean goSwitch;
 
 	// SpeedMode speedMode;
 
@@ -57,6 +59,8 @@ public class BasicDrive implements ControlScheme {
 		
 		leftLowLimit = false;
 		rightLowLimit = false;
+		
+		goSwitch = true;
 
 		/*
 		 * rBCurrent = false; rBPrevious = false; lBCurrent = false; lBPrevious = false;
@@ -136,6 +140,19 @@ public class BasicDrive implements ControlScheme {
 
 	@Override
 	public void arm(Arm arm) {
+		
+		arm.testEncoderValue(xbox.getTriggerRight()-xbox.getTriggerLeft());
+		
+		//actual control arm
+			if(xbox.getPOVUp()){
+				goSwitch = true;
+			}
+		
+			else if(xbox.getPOVDown()) {
+				goSwitch = false;
+			}
+			
+		//arm.setArmNew(goSwitch, 0.3);
 		/*
 		arm.controlArm(logitech.getStickY(), 2.0);
 		if(logitech.getStickFrontRight()) {
