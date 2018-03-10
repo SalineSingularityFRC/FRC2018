@@ -29,7 +29,7 @@ public abstract class AutonControlScheme {
 	
 	private final double accelInGs = 0.15;
 	
-	private final double armSpeed = 0.25;
+	private final double armSpeed = 0.5;
 	
 	
 	//PIDController turnController;

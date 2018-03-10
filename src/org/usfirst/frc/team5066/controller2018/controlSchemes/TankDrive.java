@@ -88,19 +88,23 @@ public class TankDrive implements ControlScheme {
 		currentTrigger = stickDrive.getAButton();
 		if (currentTrigger && !previousTrigger) {
 			
-			if (reverse)
-				reverse = false;
-			else
-				reverse = true;
+			reverse = !reverse;
 			
 		}
 		previousTrigger = currentTrigger;
 		
 		if (!reverse) {
-			((SixWheelDrive) sd).tankDrive(stickDrive.getLS_Y(),stickDrive.getRS_Y(), 2.0, speedMode.FAST);
+			((SixWheelDrive) sd).tankDrive(stickDrive.getLS_Y(), stickDrive.getRS_Y(), 2.0, speedMode.FAST);
+			//sd.drive(stickDrive.getLS_Y(), 0.0, stickDrive.getRS_X(), 2.0, SpeedMode.FAST);
 		}
-		else
+		else {
 			((SixWheelDrive) sd).tankDrive(-stickDrive.getRS_Y(), -stickDrive.getLS_Y(), 2.0, speedMode.FAST);
+			//sd.drive(-stickDrive.getLS_Y(), 0.0, stickDrive.getRS_Y(), 2.0, SpeedMode.FAST);
+		}
+		
+		
+		
+		
 		
 		//sd.drive(reverse * stickDrive.getStickY(), 0, sideMultiplier * stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2.0, speedMode);
 	}
@@ -213,8 +217,8 @@ public class TankDrive implements ControlScheme {
 		else if(logitechSystems.getPOVDown()) {
 			goSwitch = false;
 		}
-		
-		//arm.setArmNew(goSwitch, 0.3);
+		//to be uncommented after testing encoder:
+		//arm.setArmNew(goSwitch, 0.5);
 	
 		
 		
