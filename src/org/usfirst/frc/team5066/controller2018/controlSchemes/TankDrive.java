@@ -94,12 +94,12 @@ public class TankDrive implements ControlScheme {
 		previousTrigger = currentTrigger;
 		
 		if (!reverse) {
-			((SixWheelDrive) sd).tankDrive(stickDrive.getLS_Y(), stickDrive.getRS_Y(), 2.0, speedMode.FAST);
-			//sd.drive(stickDrive.getLS_Y(), 0.0, stickDrive.getRS_X(), 2.0, SpeedMode.FAST);
+			//((SixWheelDrive) sd).tankDrive(stickDrive.getLS_Y(), stickDrive.getRS_Y(), 2.0, speedMode.FAST);
+			sd.drive(stickDrive.getLS_Y(), 0.0, stickDrive.getRS_X(), 2.0, SpeedMode.FAST);
 		}
 		else {
-			((SixWheelDrive) sd).tankDrive(-stickDrive.getRS_Y(), -stickDrive.getLS_Y(), 2.0, speedMode.FAST);
-			//sd.drive(-stickDrive.getLS_Y(), 0.0, stickDrive.getRS_Y(), 2.0, SpeedMode.FAST);
+			//((SixWheelDrive) sd).tankDrive(-stickDrive.getRS_Y(), -stickDrive.getLS_Y(), 2.0, speedMode.FAST);
+			sd.drive(-stickDrive.getLS_Y(), 0.0, stickDrive.getRS_X(), 2.0, SpeedMode.FAST);
 		}
 		
 		
@@ -141,8 +141,8 @@ public class TankDrive implements ControlScheme {
 			}
 			*/
 			
-			lift.controlLeftLift(-logitechSystems.getRS_Y());
-			lift.controlRightLift(-logitechSystems.getLS_Y());
+			lift.controlLeftLift(logitechSystems.getRS_Y());
+			lift.controlRightLift(logitechSystems.getLS_Y());
 			
 			
 		}

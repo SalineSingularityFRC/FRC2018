@@ -173,7 +173,7 @@ public class Robot extends IterativeRobot {
 					ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput, 
 					limitRightDown, limitLeftDown, limitRightUp, limitLeftUp);
 			
-			//arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
+			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
 			intake = new Intake(intakeLeft, intakeRight, intakeSensorPort);
 			
 			currentScheme = new TankDrive(BIG_JOYSTICK_PORT, XBOX_PORT);
@@ -777,7 +777,7 @@ public class Robot extends IterativeRobot {
 	private void setDefaultProperties() {
 		
 		properties.addDefaultProp("rightTalon", 14);
-		properties.addDefaultProp("leftTalon",11);
+		properties.addDefaultProp("leftTalon",15);
 		properties.addDefaultProp("rightVictor1", 5);
 		properties.addDefaultProp("leftVictor1", 2);
 		properties.addDefaultProp("rightVictor2", 7);
@@ -801,7 +801,7 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("limitLeftDown", 8);
 		properties.addDefaultProp("limitLeftUp", 9);
 		
-		properties.addDefaultProp("talonArmMotor", 13);
+		properties.addDefaultProp("talonArmMotor", 11);
 		properties.addDefaultProp("armPneumaticsForward", 2);
 		properties.addDefaultProp("armPneumaticsReverse", 3);
 		

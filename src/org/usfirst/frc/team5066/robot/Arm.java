@@ -150,7 +150,7 @@ public class Arm {
 	*/
 	public void testEncoderValue(double speed){
 		this.talonMotor.set(ControlMode.PercentOutput, speed);
-		System.out.println("Arm Encoder: " + this.talonMotor.getSensorCollection().getPulseWidthPosition());
+		System.out.println("Arm Encoder: " + (Math.abs(initialEncoderPosition - getArmEncoderPos())));
 	}
 	public void resetEncoder() {
 		this.talonMotor.getSensorCollection().setPulseWidthPosition(0, 0);
