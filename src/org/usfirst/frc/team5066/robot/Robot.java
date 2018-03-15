@@ -281,13 +281,13 @@ public class Robot extends IterativeRobot {
 		//AutonControlScheme driveForward = new DriveForward(drive, gyro, arm, intake);
 		//driveForward.moveAuton();
 			
-		autonTimer = new Timer();
-		autonTimer.start();
-		initialAngle = gyro.getAngle();
+		//autonTimer = new Timer();
+		//autonTimer.start();
+		//initialAngle = gyro.getAngle();
 		
 		///////////////////////////////////////////////////////////////////////////////
 		//NEW AUTON CODE WITH FIRST AND SECOND TIERS///////////////////////////////////
-		//this.chooseAutonNew();/////////////////////////////////////////////////////////
+		this.chooseAutonNew();/////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////
 		
 		//OLD AUTON LOGIC::::::
