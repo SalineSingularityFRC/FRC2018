@@ -49,26 +49,9 @@ public class Robot extends IterativeRobot {
 	int leftVictor1, leftVictor2, leftVictor3, leftTalon, rightVictor1, rightVictor2, rightVictor3, rightTalon;
 	int drivePneuForward, drivePneuReverse;
 	
-	int liftLeft1, liftRight1;
-	int ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput;
-	int limitRightDown, limitRightUp, limitLeftDown, limitLeftUp;
-	
-	int talonArmMotor;
-	
-	int intakeRight, intakeLeft;
-	int intakeSensorPort;
-	
-	final double ARMSPEEDCONSTANT = 0.25;
-	int armPneumaticsForward;
-	int armPneumaticsReverse;
-	
-	final double LIFT_SPEED = 0.5;
-	
 	SingDrive drive;
 	DrivePneumatics dPneumatics;
-	Lift lift;
-	Arm arm;
-	Intake intake;
+	
 	UsbCamera front, rear;
 	
 	Preferences prefs;
@@ -169,13 +152,6 @@ public class Robot extends IterativeRobot {
 			
 			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
-			lift = new Lift(liftRight1,	liftLeft1, LIFT_SPEED,
-					ultraRightInput, ultraRightOutput, ultraLeftInput, ultraLeftOutput, 
-					limitRightDown, limitLeftDown, limitRightUp, limitLeftUp);
-			
-			arm = new Arm(talonArmMotor, ARMSPEEDCONSTANT, armPneumaticsForward, armPneumaticsReverse);
-			intake = new Intake(intakeLeft, intakeRight, intakeSensorPort);
-			
 			currentScheme = new TankDrive(BIG_JOYSTICK_PORT, XBOX_PORT);
 			/*
 			new Thread(() -> {
@@ -239,13 +215,6 @@ public class Robot extends IterativeRobot {
 			LFirst.addObject("Exchange", "Exchange");
 			SmartDashboard.putData("LFirst:", LFirst);
 			
-			LSecond = new SendableChooser<String>();
-			LSecond.addObject("LSecond", "LSecond");
-			LSecond.addDefault("Nothing", "Nothing");
-			LSecond.addObject("Switch", "Switch");
-			LSecond.addObject("Vault", "Vault");
-			LSecond.addObject("Opponent", "Opponent");
-			SmartDashboard.putData("LSecond:", LSecond);
 			
 			RFirst = new SendableChooser<String>();
 			RFirst.addObject("RFirst", "RFirst");
@@ -253,16 +222,6 @@ public class Robot extends IterativeRobot {
 			RFirst.addObject("Forward", "Forward");
 			RFirst.addObject("Exchange", "Exchange");
 			SmartDashboard.putData("RFirst:", RFirst);
-			
-			RSecond = new SendableChooser<String>();
-			RSecond.addObject("RSecond", "RSecond");
-			RSecond.addDefault("Nothing", "Nothing");
-			RSecond.addObject("Switch", "Switch");
-			RSecond.addObject("Vault", "Vault");
-			RSecond.addObject("Opponent", "Opponent");
-			SmartDashboard.putData("RSecond:", RSecond);
-			
-			
 			
 		}
 	}
@@ -290,28 +249,7 @@ public class Robot extends IterativeRobot {
 		//this.chooseAutonNew();/////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////
 		
-		//OLD AUTON LOGIC::::::
 		/*
-		AutonControlScheme[][][] autonPrograms = 
-			
-			{{{new LLSLS(drive, gyro, arm, intake), new LLSV(drive, gyro, arm, intake),
-				new LLSOL(drive, gyro, arm, intake), new LLSOR(drive, gyro, arm, intake)},
-			{new LRSRS(drive, gyro, arm, intake), new LRSV(drive, gyro, arm, intake), 
-				new LRSOL(drive, gyro, arm, intake), new LRSOR(drive, gyro, arm, intake)},
-			{new LLT(drive, gyro, arm, intake), new LRT(drive, gyro, arm, intake)}},
-					
-			{{new RLSLS(drive, gyro, arm, intake), new RLSV(drive, gyro, arm, intake), 
-				new RLSOL(drive, gyro, arm, intake), new RLSOR(drive, gyro, arm, intake)},
-			{new RRSRS(drive, gyro, arm, intake), new RRSV(drive, gyro, arm, intake), 
-				new RRSOL(drive, gyro, arm, intake), new RRSOR(drive, gyro, arm, intake)},
-			{new RRT(drive, gyro, arm, intake), new RLT(drive, gyro, arm, intake)}},
-			
-			{{new MLSLS(drive, gyro, arm, intake), new MLSV(drive, gyro, arm, intake),
-				new MLSOL(drive, gyro, arm, intake), new MLSOR(drive, gyro, arm, intake)},
-			{new MRSRS(drive, gyro, arm, intake), new MRSV(drive, gyro, arm, intake),
-				new MRSOL(drive, gyro, arm, intake), new MRSOL(drive, gyro, arm, intake)}}};
-		
-		
 		//(new SideStraight(drive, gyro)).moveAuton();
 		this.chooseAuton();	
 		autonPrograms[(int) a][(int) b][(int) c].moveAuton();
@@ -320,237 +258,9 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
-	private void testAuton() {
-		AutonControlScheme test1 = new MiddleLeftLightningBolt(drive, gyro, arm, intake);
-		test1.moveAuton();
-	}
-	
-	public void chooseAutonNew() {
-		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		SmartDashboard.putString("Game Data: ", gameData);
-		
-		AutonControlScheme autonFirstTier;
-		AutonControlScheme autonSecondTier;
-		
-		double startingPosition = side.getSelected();
-		String firstOption, secondOption;
-		
-		//if the switch is on the left
-		if (gameData.startsWith("L")) {
-			
-			firstOption = LFirst.getSelected();
-			secondOption = LSecond.getSelected();
-		}
-		else {
-			
-			firstOption = RFirst.getSelected();
-			secondOption = RSecond.getSelected();
-		}
-		
-		
-
-		// if we're on the left
-		if (startingPosition == 0.0) {
-			
-			if (firstOption.equals("Forward")) {
-				autonFirstTier = new DriveForward(drive, gyro, arm, intake);
-				autonSecondTier = null;
-			}
-
-			// The first option must be Switch
-			else {
-				
-				//if the switch is on the left
-				if (gameData.startsWith("L")) {
-					if (secondOption.equals("Switch")) {
-						autonFirstTier = new LeftLeftLightningBolt(drive, gyro, arm, intake);
-						autonSecondTier = new LeftSwitchFrontLeftSwitch(drive, gyro, arm, intake);
-					}
-					else if (secondOption.equals("Vault")) {
-						autonFirstTier = new LeftLeftLightningBolt(drive, gyro, arm, intake);
-						autonSecondTier = new LeftSwitchFrontVault(drive, gyro, arm, intake);
-					}
-					else if (secondOption.equals("Opponent")) {
-						autonFirstTier = new LeftLeftDogLeg(drive, gyro, arm, intake);
-						if (gameData.charAt(2) == 'L')
-							autonSecondTier = new LeftSwitchsideOpponentLeft(drive, gyro, arm, intake);
-						else
-							autonSecondTier = new LeftSwitchSideOpponentRight(drive, gyro, arm, intake);
-					} 
-					else {
-						autonFirstTier = new LeftLeftDogLeg(drive, gyro, arm, intake);
-						autonSecondTier = null;
-					}
-				}
-				
-				//the switch must be on the right
-				else {
-					autonFirstTier = new LeftRightHook(drive, gyro, arm, intake);
-					autonSecondTier = null;
-				}
-			}//switch
-			
-		}//left starting position
-		
-		//if we're on the right
-		else if (startingPosition == 1.0) {
-			
-			if (firstOption.equals("Forward")) {
-				autonFirstTier = new DriveForward(drive, gyro, arm, intake);
-				autonSecondTier = null;
-			}
-
-			// The first option must be Switch
-			else {
-				
-				//if the switch is on the left
-				if (gameData.startsWith("R")) {
-					if (secondOption.equals("Switch")) {
-						autonFirstTier = new RightRightLightningBolt(drive, gyro, arm, intake);
-						autonSecondTier = new RightSwitchFrontRightSwitch(drive, gyro, arm, intake);
-					}
-					else if (secondOption.equals("Vault")) {
-						autonFirstTier = new RightRightLightningBolt(drive, gyro, arm, intake);
-						autonSecondTier = new RightSwitchFrontVault(drive, gyro, arm, intake);
-					}
-					else if (secondOption.equals("Opponent")) {
-						autonFirstTier = new RightRightDogLeg(drive, gyro, arm, intake);
-						if (gameData.charAt(2) == 'L')
-							autonSecondTier = new RightSwitchSideOpponentLeft(drive, gyro, arm, intake);
-						else
-							autonSecondTier = new RightSwitchSideOpponentRight(drive, gyro, arm, intake);
-					} 
-					else {
-						autonFirstTier = new RightRightDogLeg(drive, gyro, arm, intake);
-						autonSecondTier = null;
-					}
-				}
-				
-				//the switch must be on the left
-				else {
-					autonFirstTier = new RightLeftHook(drive, gyro, arm, intake);
-					autonSecondTier = null;
-				}
-			}//switch
-			
-		}//right starting position
-		
-		//if we're in the middle
-		else if (startingPosition == 2.0){
-			
-			if (firstOption.equals("Switch")) {
-				
-				//if the switch is on the left
-				if (gameData.charAt(0) == 'L') {
-					autonFirstTier = new MiddleLeftLightningBolt(drive, gyro, arm, intake);
-					
-					if (secondOption.equals("Switch"))
-						autonSecondTier = new LeftSwitchFrontLeftSwitch(drive, gyro, arm, intake);
-					else if (secondOption.equals("Vault"))
-						autonSecondTier = new LeftSwitchFrontVault(drive, gyro, arm, intake);
-					else
-						autonSecondTier = null;
-				}
-				//if the switch is on the right
-				else {
-					autonFirstTier = new MiddleRightSwitchLightningBolt(drive, gyro, arm, intake);
-					
-					if (secondOption.equals("Switch"))
-						autonSecondTier = new RightSwitchFrontRightSwitch(drive, gyro, arm, intake);
-					else if (secondOption.equals("Vault"))
-						autonSecondTier = new RightSwitchFrontVault(drive, gyro, arm, intake);
-					else
-						autonSecondTier = null;
-				}
-			
-			}//first option is switch
-			
-			//probably won't be used, but if we want to drive straight ahead
-			else {
-				
-				autonFirstTier = new DriveForward(drive, gyro, arm, intake);
-				autonSecondTier = null;
-				
-			}
-		}//in the middle
-		
-		//in the exchange
-		else {
-			autonFirstTier = new Exchange(drive, gyro, arm, intake);
-			
-			if (gameData.startsWith("L"))
-				autonSecondTier = new ExchangeLeftSwitch(drive, gyro, arm, intake);
-			else
-				autonSecondTier = new ExchangeRightSwitch(drive, gyro, arm, intake);
-		}
-		
-		autonFirstTier.moveAuton();
-		if (autonSecondTier != null)
-			autonSecondTier.moveAuton();
-		
-	}
 	
 	
-	private void chooseAuton() {
-		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();		
-		
-		this.a = side.getSelected();
-		
-		/*
-		if(side.getSelected().equals("Right")){
-			a=1;
-			SmartDashboard.putString("Starting Position", "Starting Right");
-		}
-		else if(side.getSelected().equals("Middle")){
-			a=2;
-			SmartDashboard.putString("Starting Position", "Starting Middle");
-		}
-		else SmartDashboard.putString("Starting Position", "Starting Left");*/
-		
-		
-		
-		if (priority.getSelected().equals("Our Vault")){
-			c = 1.0;
-			SmartDashboard.putString("Priorities", "The robot is going toward the vault");
-		}
-		
-		else if(priority.getSelected().equals("Opponent Switch")){
-			if(gameData.charAt(2) == 'R') {
-				c = 3.0;
-				SmartDashboard.putString("Priorities", "The robot is going toward the opponents Right Switch");
-			}
-			else {
-				c = 2.0;
-				SmartDashboard.putString("Priorities", "The robot is going toward the opponents Left Switch");
-			}
-		}
-		
-		else if (priority.getSelected().equals("Scale") && a != 2.0) {
-			b = 2.0;
-			if (gameData.charAt(1) == 'L') {
-				c = 0.0;
-			}
-			else {
-				c = 1.0;
-			}
-			return;
-		}
-		
-		else SmartDashboard.putString("Priorities", "The robot is going toward the switch again");
-		
-		
-		if(gameData.charAt(0) == 'R'){
-			b = 1.0;
-			SmartDashboard.putString("Switch", "Our Switch is on the right");
-		}
-		else SmartDashboard.putString("Switch", "Our Switch is on the left");
-		
-	}
-
+	
 	/**
 	 * This function is called periodically during autonomous
 	 */
@@ -746,25 +456,6 @@ public class Robot extends IterativeRobot {
 			drivePneuForward = properties.getInt("drivePneuForward");
 			drivePneuReverse = properties.getInt("drivePneuReverse");
 			
-			liftLeft1 = properties.getInt("liftLeft1");
-			liftRight1 = properties.getInt("liftRight1");
-			
-			ultraRightInput = properties.getInt("ultraRightInput");
-			ultraRightOutput = properties.getInt("ultraRightOutput");
-			ultraLeftInput = properties.getInt("ultraLeftInput");
-			ultraLeftOutput = properties.getInt("ultraLeftOutput");
-			
-			limitRightDown = properties.getInt("limitRightDown");
-			limitRightUp = properties.getInt("limitRightUp");
-			limitLeftDown = properties.getInt("limitLeftDown");
-			limitLeftUp = properties.getInt("limitLeftUp");
-			
-			talonArmMotor = properties.getInt("talonArmMotor");
-			
-			intakeRight = properties.getInt("intakeRight");
-			intakeLeft = properties.getInt("intakeLeft");
-			intakeSensorPort = properties.getInt("intakeSensorPort");
-			
 		} catch (SingularityPropertyNotFoundException e) {
 			DriverStation.reportError("The property \"" + e.getPropertyName()
 				+ "was not found --> CODE SPLINTERED(CRASHED)!!!!!! \n _POSSIBLE CAUSES:\n - Property missing in file and defaults"
@@ -787,27 +478,6 @@ public class Robot extends IterativeRobot {
 		
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
-		
-		properties.addDefaultProp("liftLeft1", 4);
-		properties.addDefaultProp("liftRight1", 8);
-		
-		properties.addDefaultProp("ultraRightInput", 1);
-		properties.addDefaultProp("ultraRightOutput", 2);
-		properties.addDefaultProp("ultraLeftInput", 3);
-		properties.addDefaultProp("ultraLeftOutput", 4);
-		
-		properties.addDefaultProp("limitRightDown", 1);
-		properties.addDefaultProp("limitRightUp", 2);
-		properties.addDefaultProp("limitLeftDown", 8);
-		properties.addDefaultProp("limitLeftUp", 9);
-		
-		properties.addDefaultProp("talonArmMotor", 11);
-		properties.addDefaultProp("armPneumaticsForward", 2);
-		properties.addDefaultProp("armPneumaticsReverse", 3);
-		
-		properties.addDefaultProp("intakeRight", 22);
-		properties.addDefaultProp("intakeLeft", 21);
-		properties.addDefaultProp("intakeSensorPort", 5);
 		
 	}
 }
