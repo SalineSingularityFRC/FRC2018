@@ -2,13 +2,12 @@ package org.usfirst.frc.team5066.robot;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team5066.autonomous2018.*;
+
 import org.usfirst.frc.team5066.controller2018.*;
 import org.usfirst.frc.team5066.controller2018.controlSchemes.*;
 import org.usfirst.frc.team5066.library.*;
 import org.usfirst.frc.team5066.singularityDrive.*;
-import org.usfirst.frc.team5066.autonomousFirstTier.*;
-import org.usfirst.frc.team5066.autonomousSecondTier.*;
+
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;

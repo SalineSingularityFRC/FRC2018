@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5066.controller2018;
 
 import org.usfirst.frc.team5066.library.SpeedMode;
-import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.robot.Intake;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
@@ -41,7 +40,6 @@ public abstract class AutonControlScheme {
 	*/
 	protected AHRS gyro;
 	protected SingDrive drive;
-	protected Arm arm;
 	protected Intake intake;
 	
 	static double initialEncoderPos;
@@ -50,11 +48,10 @@ public abstract class AutonControlScheme {
 	boolean ramped;
 
 	
-	public AutonControlScheme (SingDrive drive, AHRS gyro, Arm arm, Intake intake) {
+	public AutonControlScheme (SingDrive drive, AHRS gyro, Intake intake) {
 		
 		this.drive = drive;
 		this.gyro = gyro;
-		this.arm = arm;
 		this.intake = intake;
 		
 		ramped = true;
@@ -143,7 +140,7 @@ public abstract class AutonControlScheme {
 			
 			
 			//Move the arm towards the preferred position
-			arm.setArmNew(armPosition, armSpeed);
+			//arm.setArmNew(armPosition, armSpeed);
 			
 			//intake if wanted
 			if (intakeOn) {
@@ -283,7 +280,7 @@ public abstract class AutonControlScheme {
 			
 			
 			//set the arm to the desired position
-			arm.setArmNew(armPosition, armSpeed);
+			//arm.setArmNew(armPosition, armSpeed);
 			
 			//System.out.println(gyro.getAngle());
 			
@@ -323,14 +320,5 @@ public abstract class AutonControlScheme {
 		rotate(speed, angle, counterClockwise, armPosition);
 	}
 	
-	public void vertical(double distance, Arm.Position armPosition, boolean intakeOn) {
-		System.out.println("YOU ARE USING THE WRONG VERTICAL METHOD");
-	}
-	public void verticalReverse(double distance, Arm.Position armPosition, boolean intakeOn) {
-		System.out.println("YOU ARE USING THE WRONG VERTICAL METHOD");
-	}
-	public void rotate(double ange, boolean counterClockwise, Arm.Position armPosition) {
-		System.out.println("YOU ARE USING THE WRONG ROTATE METHOD");
-	}
 
 }

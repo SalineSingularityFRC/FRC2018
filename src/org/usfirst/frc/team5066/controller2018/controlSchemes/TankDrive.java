@@ -5,10 +5,8 @@ import org.usfirst.frc.team5066.controller2018.LogitechController;
 import org.usfirst.frc.team5066.controller2018.XboxController;
 import org.usfirst.frc.team5066.library.SingularityDrive;
 import org.usfirst.frc.team5066.library.SpeedMode;
-import org.usfirst.frc.team5066.robot.Arm;
 import org.usfirst.frc.team5066.robot.DrivePneumatics;
 import org.usfirst.frc.team5066.robot.Intake;
-import org.usfirst.frc.team5066.robot.Lift;
 import org.usfirst.frc.team5066.singularityDrive.SingDrive;
 import org.usfirst.frc.team5066.singularityDrive.SixWheelDrive;
 
@@ -38,11 +36,8 @@ public class TankDrive implements ControlScheme {
 	boolean currentTrigger, previousTrigger;
 	boolean reverse;
 	
-	boolean safetyDisabled;
-	boolean leftLowLimit;
-	boolean rightLowLimit;
 	
-	Arm.Position lastPressed;
+	
 	
 	final double rotateMultiplier = 0.5;
 	final double sideMultiplier = 0.8;
@@ -57,9 +52,6 @@ public class TankDrive implements ControlScheme {
 		lBCurrent = false;
 		lBPrevious = false;
 		
-		safetyDisabled = false;
-		leftLowLimit = false;
-		rightLowLimit = false;
 		
 		armNew = true;
 		
