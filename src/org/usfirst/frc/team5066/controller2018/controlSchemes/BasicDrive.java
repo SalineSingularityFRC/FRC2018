@@ -99,74 +99,10 @@ public class BasicDrive implements ControlScheme {
 		 */
 
 	}
-
-	public void lift(Lift lift, Timer timer) {
-		
-		//override safety timer
-		if (logitech.getStickBackLeft()) {
-			safetyDisabled = true;
-			DriverStation.reportError("SAFETY DISABLED", true);
-		}
-		
-		//test to see if safety is on
-		/*if (timer.get() >= 105.0 || safetyDisabled) {
-			
-			//release left lift until lower limit switch is pressed
-			/*if (!leftLowLimit && lift.releaseLiftLeft(logitech.getBaseFrontLeft())) {
-				leftLowLimit = true;
-				DriverStation.reportError("left lower limit reached", true);
-			}
-			
-			//release right lift until lower limit switch is pressed
-			if (!rightLowLimit && lift.releaseLiftRight(logitech.getBaseFrontRight())) {
-				rightLowLimit = true;
-				DriverStation.reportError("right lower limit reached", true);
-			
-			}
-			
-		}
-		
-		//lifts right lift. When reached upper limit switch, ping driver
-		if (rightLowLimit && lift.controlRightLift(logitech.getBaseMiddleRight(), logitech.getBaseBackRight())) {
-			DriverStation.reportError("right upper limit reached", true);
-		}
-		
-		//lifts left lift. When reached upper limit switch, ping driver
-		if (leftLowLimit && lift.controlLeftLift(logitech.getBaseMiddleLeft(), logitech.getBaseBackLeft())) {
-			DriverStation.reportError("left upper limit reached", true);
-		}
-		*/
-	}
-
-	@Override
-	public void arm(Arm arm) {
-		
-		arm.testEncoderValue(xbox.getTriggerRight()-xbox.getTriggerLeft());
-		
-		//actual control arm
-			if(xbox.getPOVUp()){
-				goSwitch = true;
-			}
-		
-			else if(xbox.getPOVDown()) {
-				goSwitch = false;
-			}
-			
-		//arm.setArmNew(goSwitch, 0.3);
-		/*
-		arm.controlArm(logitech.getStickY(), 2.0);
-		if(logitech.getStickFrontRight()) {
-			arm.setArmForward();
-		}
-		
-		else if(logitech.getStickBackRight()) {
-			arm.setArmReverse();
-		}*/
-	}
-
+/*
 	@Override
 	public void intake(Intake intake) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 }

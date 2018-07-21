@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
 public interface ControlScheme {
 	
 	public void drive(SingDrive drive, DrivePneumatics dPneu);
-	public void lift(Lift lift, Timer timer);
-	public void arm(Arm arm);
-	public void intake(Intake intake);
+	//public void lift(Lift lift, Timer timer);
+	//public void arm(Arm arm);
+	//public void intake(Intake intake);
 }

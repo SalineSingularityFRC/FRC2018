@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		compressor = new Compressor();
-		
+		compressor.start();
 	
 		//SmartDashboard Preferences code to change port value
 		/*
@@ -340,7 +340,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		
-		//compressor.start();
+		compressor.start();
 
 		//Code to test the port numbers of cantalons 
 		 

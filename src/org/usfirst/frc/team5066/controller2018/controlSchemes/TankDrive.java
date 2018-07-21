@@ -85,6 +85,8 @@ public class TankDrive implements ControlScheme {
 		else
 			dPneu.setReverse();
 		
+		
+		
 		currentTrigger = stickDrive.getAButton();
 		if (currentTrigger && !previousTrigger) {
 			
@@ -109,128 +111,7 @@ public class TankDrive implements ControlScheme {
 		//sd.drive(reverse * stickDrive.getStickY(), 0, sideMultiplier * stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2.0, speedMode);
 	}
 
-	@Override
-	public void lift(Lift lift, Timer timer) {
-		
-		if (!safetyDisabled && stickDrive.getYButton() && stickDrive.getPOVUp()) {
-			safetyDisabled = true;
-			DriverStation.reportWarning("SAFETY DISABLED", true);
-		}
-		
-		//test to see if safety is on
-		if (timer.get() >= 105.0 || safetyDisabled) {
-			
-			/*
-			//release left lift until lower limit switch is pressed
-			if (!leftLowLimit) {
-				if (lift.releaseLiftLeft(logitechSystems.getL3())) {
-			
-					leftLowLimit = true;
-					DriverStation.reportError("left lower limit reached", true);
-			
-				}
-			}
-			
-			//release right lift until lower limit switch is pressed
-			if (!rightLowLimit) {
-				if (lift.releaseLiftRight(logitechSystems.getR3())) {
-			
-				rightLowLimit = true;
-				DriverStation.reportError("right lower limit reached", true);
-				}
-			}
-			*/
-			
-			lift.controlLeftLift(logitechSystems.getRS_Y());
-			lift.controlRightLift(logitechSystems.getLS_Y());
-			
-			
-		}
-		
-		/*
-		//lifts right lift. When reached upper limit switch, ping driver
-		if (rightLowLimit) {
-			if (lift.controlRightLift(-logitechSystems.getRS_Y())) {
-		
-				DriverStation.reportError("right upper limit reached", true);
-			}
-		}
-				
-		//lifts left lift. When reached upper limit switch, ping driver
-		if (leftLowLimit) {
-			if (lift.controlLeftLift(-logitechSystems.getLS_Y())) {
-		
-			DriverStation.reportError("left upper limit reached", true);
-			}
-		}
-		*/
-		
-		
-		
-		//lift.resetLeft(logitechDrive.getBackButton());
-		//lift.resetRight(logitechDrive.getStartButton());
-		
-		
-	}
-
-	@Override
-	public void arm(Arm arm) {
-		/*
-		if(logitechSystems.getAButton()){
-			lastPressed = Arm.Position.PICKUP;
-		}
-		else if (logitechSystems.getBButton()) {
-			lastPressed = Arm.Position.TRAVEL;
-		}
-		else if (logitechSystems.getXButton()){
-			lastPressed = Arm.Position.EXCHANGE;
-		}
-		else if (logitechSystems.getYButton()){
-			lastPressed = Arm.Position.SWITCH;
-		}
-		else if (logitechSystems.getStartButton()){
-			lastPressed = Arm.Position.START;
-		}
-		else if (logitechSystems.getBackButton()){
-			lastPressed = Arm.Position.PORTAL;
-		}
-		else if (logitechSystems.getPOVLeft()){
-			lastPressed = Arm.Position.LOWSCALE;
-		}
-		else if (logitechSystems.getPOVUp()){
-			lastPressed = Arm.Position.LEVELSCALE;
-		}
-		else if (logitechSystems.getPOVRight()){
-			lastPressed = Arm.Position.HIGHSCALE;
-		}
-		
-		arm.setArm(lastPressed);
-		*/
-		//man. control arm
-		arm.testEncoderValue(logitechSystems.getTriggerRight()-logitechSystems.getTriggerLeft());
-		
-		//actual control arm
-		if(logitechSystems.getPOVUp()){
-			goSwitch = true;
-		}
-		
-		else if(logitechSystems.getPOVDown()) {
-			goSwitch = false;
-		}
-		//to be uncommented after testing encoder:
-		//arm.setArmNew(goSwitch, 0.5);
-	
-		
-		
-		
-		/*
-		if (logitechSystems.getAButton())
-			arm.setArmForward();
-		else if (logitechSystems.getBButton())
-			arm.setArmReverse();*/
-		
-	}
-
+	/*
 	@Override
 	public void intake(Intake intake) {
 		
@@ -242,6 +123,6 @@ public class TankDrive implements ControlScheme {
 		intake.booleanIntake(logitechSystems.getLB(), logitechSystems.getRB());
 		
 	}
-	
+	*/
 
 }
