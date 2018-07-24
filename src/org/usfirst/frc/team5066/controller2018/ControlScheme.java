@@ -19,4 +19,7 @@ public interface ControlScheme {
 	//public void lift(Lift lift, Timer timer);
 	//public void arm(Arm arm);
 	//public void intake(Intake intake);
+
+	//for without controlling pneumatics
+	void drive(SingDrive sd);
 }

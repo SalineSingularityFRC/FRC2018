@@ -103,4 +103,10 @@ public class BasicDrive implements ControlScheme {
 		// TODO Auto-generated method stub
 		
 	}*/
+
+	@Override
+	public void drive(SingDrive sd) {
+		// TODO Auto-generated method stub
+		
+	}
 }

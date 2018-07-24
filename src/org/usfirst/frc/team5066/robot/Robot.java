@@ -149,7 +149,7 @@ public class Robot extends IterativeRobot {
 			//drive = new TankDrive(0, 1);
 			drive.rampVoltage();
 			
-			dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
+			//dPneumatics = new DrivePneumatics(drivePneuForward, drivePneuReverse);
 			
 			currentScheme = new TankDrive(BIG_JOYSTICK_PORT, XBOX_PORT);
 			/*
@@ -292,7 +292,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		currentScheme.drive(drive, dPneumatics);
+		currentScheme.drive(drive);
+		//currentScheme.drive(drive, dPneumatics);
 		//currentScheme.lift(lift, timer);
 		//currentScheme.arm(arm);
 		//currentScheme.intake(intake);
@@ -320,9 +321,9 @@ public class Robot extends IterativeRobot {
 		//solenoidArm = new DoubleSolenoid(2, 3);
 		
 		compressor.getPressureSwitchValue();
-		port = 21;
+		port = 1;
 		
-		dPneumatics.setOff();
+		//dPneumatics.setOff();
 		
 
 	}
@@ -452,8 +453,8 @@ public class Robot extends IterativeRobot {
 			rightVictor3 = properties.getInt("rightVictor3");
 			leftVictor3 = properties.getInt("leftVictor3");
 			
-			drivePneuForward = properties.getInt("drivePneuForward");
-			drivePneuReverse = properties.getInt("drivePneuReverse");
+			//drivePneuForward = properties.getInt("drivePneuForward");
+			//drivePneuReverse = properties.getInt("drivePneuReverse");
 			
 		} catch (SingularityPropertyNotFoundException e) {
 			DriverStation.reportError("The property \"" + e.getPropertyName()
@@ -472,11 +473,11 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("leftVictor1", 2);
 		properties.addDefaultProp("rightVictor2", 7);
 		properties.addDefaultProp("leftVictor2", 4);
-		properties.addDefaultProp("rightVictor3", 10);
-		properties.addDefaultProp("leftVictor3", 8);
+		properties.addDefaultProp("rightVictor3", 8);
+		properties.addDefaultProp("leftVictor3", 10);
 		
-		properties.addDefaultProp("drivePneuForward", 0);
-		properties.addDefaultProp("drivePneuReverse", 1);
+		//properties.addDefaultProp("drivePneuForward", 0);
+		//properties.addDefaultProp("drivePneuReverse", 1);
 		
 	}
 }

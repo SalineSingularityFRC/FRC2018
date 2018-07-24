@@ -167,10 +167,10 @@ public abstract class SingDrive {
 		this.resetAll();
 		
 		speedChooser = new SendableChooser<Double>();
-		speedChooser.addDefault("1.0", 1.0);
-		speedChooser.addObject("0.8", 0.8);
-		speedChooser.addObject("0.6", 0.6);
-		speedChooser.addObject("0.4", 0.4);
+		speedChooser.addDefault("0.2", 1.0);
+		speedChooser.addObject("0.2", 0.8);
+		speedChooser.addObject("0.2", 0.6);
+		speedChooser.addObject("0.2", 0.4);
 		speedChooser.addObject("0.2", 0.2);
 		
 		SmartDashboard.putData("Speed Chooser:", speedChooser);

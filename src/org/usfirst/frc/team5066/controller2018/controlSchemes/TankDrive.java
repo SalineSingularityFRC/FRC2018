@@ -102,6 +102,33 @@ public class TankDrive implements ControlScheme {
 		
 		//sd.drive(reverse * stickDrive.getStickY(), 0, sideMultiplier * stickDrive.getStickX() + rotateMultiplier * stickDrive.getStickZ(), 2.0, speedMode);
 	}
+	
+	//FOR DRIVING WITHOUT PNEUMATIC CONTROL ONLY!!!!
+	@Override
+	public void drive(SingDrive sd){
+		if (stickDrive.getRB())
+			speed = true;
+		else if (stickDrive.getLB())
+			speed = false;
+		
+		currentTrigger = stickDrive.getAButton();
+		if (currentTrigger && !previousTrigger) {
+			
+			reverse = !reverse;
+			
+		}
+		previousTrigger = currentTrigger;
+		
+		if (!reverse) {
+			//((SixWheelDrive) sd).tankDrive(stickDrive.getLS_Y(), stickDrive.getRS_Y(), 2.0, speedMode.FAST);
+			sd.drive(stickDrive.getLS_Y(), 0.0, stickDrive.getRS_X(), 2.0, SpeedMode.FAST);
+		}
+		else {
+			//((SixWheelDrive) sd).tankDrive(-stickDrive.getRS_Y(), -stickDrive.getLS_Y(), 2.0, speedMode.FAST);
+			sd.drive(-stickDrive.getLS_Y(), 0.0, stickDrive.getRS_X(), 2.0, SpeedMode.FAST);
+		}
+		
+	}
 
 	/*
 	@Override
