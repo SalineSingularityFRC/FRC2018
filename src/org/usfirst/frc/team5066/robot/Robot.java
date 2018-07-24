@@ -471,9 +471,9 @@ public class Robot extends IterativeRobot {
 		properties.addDefaultProp("rightVictor1", 5);
 		properties.addDefaultProp("leftVictor1", 2);
 		properties.addDefaultProp("rightVictor2", 7);
-		properties.addDefaultProp("leftVictor2", 3);
+		properties.addDefaultProp("leftVictor2", 4);
 		properties.addDefaultProp("rightVictor3", 10);
-		properties.addDefaultProp("leftVictor3", 6);
+		properties.addDefaultProp("leftVictor3", 8);
 		
 		properties.addDefaultProp("drivePneuForward", 0);
 		properties.addDefaultProp("drivePneuReverse", 1);
